@@ -6,17 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-package "imagemagick" do
+package 'imagemagick' do
   action :install
-end
-
-case node[:platform]
-when "ubuntu","debian"
-  package "imagemagick" do
-    action :install
-  end
-when "centos"
-  package "imagemagick" do
-    action :install
-  end
 end
