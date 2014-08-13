@@ -16,8 +16,15 @@ when "ubuntu","debian"
   package "libmagickwand-dev" do
     action :install
   end
+  package "libsqlite3-dev" do
+    action :install
+  end
 when "centos"
   package "ImageMagick-devel" do
     action :install
   end
+  package "sqlite-devel" do
+    action :install
+  end
 end
+
