@@ -1,6 +1,6 @@
 name             'personal-cloud-cookbooks'
-maintainer       'YOUR_NAME'
-maintainer_email 'YOUR_EMAIL'
+maintainer       'Huei-Horng Yo @ Ecowork Inc.'
+maintainer_email 'hiroshiyui@ecoworkinc.com'
 license          'All rights reserved'
 description      'Installs/Configures personal-cloud-cookbooks'
 long_description 'Installs/Configures personal-cloud-cookbooks'
