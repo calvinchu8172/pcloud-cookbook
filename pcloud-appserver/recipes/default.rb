@@ -11,6 +11,13 @@ package "imagemagick" do
   action :install
 end
 
-package "libmagickwand-dev" do
-  action :install
+case node[:platform]
+when "ubuntu","debian"
+  package "libmagickwand-dev" do
+    action :install
+  end
+when "centos"
+  package "ImageMagick-devel" do
+    action :install
+  end
 end
