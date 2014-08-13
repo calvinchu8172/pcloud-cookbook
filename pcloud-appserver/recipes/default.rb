@@ -35,3 +35,9 @@ end
 package "npm" do
   action :install
 end
+
+cookbook_file "/srv/www/personal_cloud_portal/current/config/mailer.yml" do
+  source "mailer.yml"
+  mode 0644
+  action :create_if_missing
+end
