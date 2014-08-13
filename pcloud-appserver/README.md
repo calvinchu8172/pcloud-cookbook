@@ -1,4 +1,4 @@
-# personal-cloud-cookbooks-cookbook
+# pcloud-appserver-cookbook
 
 TODO: Enter the cookbook description here.
 
@@ -16,7 +16,7 @@ TODO: List your supported platforms.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['personal-cloud-cookbooks']['bacon']</tt></td>
+    <td><tt>['pcloud-appserver']['bacon']</tt></td>
     <td>Boolean</td>
     <td>whether to include bacon</td>
     <td><tt>true</tt></td>
@@ -25,14 +25,14 @@ TODO: List your supported platforms.
 
 ## Usage
 
-### personal-cloud-cookbooks::default
+### pcloud-appserver::default
 
-Include `personal-cloud-cookbooks` in your node's `run_list`:
+Include `pcloud-appserver` in your node's `run_list`:
 
 ```json
 {
   "run_list": [
-    "recipe[personal-cloud-cookbooks::default]"
+    "recipe[pcloud-appserver::default]"
   ]
 }
 ```
