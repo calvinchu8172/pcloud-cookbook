@@ -10,6 +10,7 @@ include_recipe "deploy"
 
 node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
+  Chef::Log.debug("#{deploy.inspect}")
 
   execute "restart Rails app #{application}" do
     cwd deploy[:current_path]
