@@ -24,7 +24,7 @@ node[:deploy].each do |application, deploy|
     group deploy[:group]
     owner deploy[:user]
 
-    notifies :run, "execute[restart Rails app #{application}]"
+    #notifies :run, "execute[restart Rails app #{application}]"
 
     only_if do
       File.directory?("#{deploy[:deploy_to]}/shared/config/")
