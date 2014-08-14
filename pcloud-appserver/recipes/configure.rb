@@ -25,8 +25,7 @@ node[:deploy].each do |application, deploy|
 
   template "#{deploy[:deploy_to]}/shared/config/mailer.yml" do
     source "mailer.yml.erb"
-    #cookbook 'pcloud-appserver'
-    cookbook 'rails'
+    cookbook 'pcloud-appserver'
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
