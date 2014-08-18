@@ -14,7 +14,7 @@ node[:deploy].each do |application, deploy|
 
   template "#{deploy[:deploy_to]}/shared/config/mailer.yml" do
     source "mailer.yml.erb"
-    cookbook 'rails'
+    cookbook 'portalapp'
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
