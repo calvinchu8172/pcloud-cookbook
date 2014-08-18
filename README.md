@@ -18,4 +18,11 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 * 實務上每個 layer 至少會開兩個 instances，如此輪流開關機可保證跑過一整套部署流程，確保我們的 cookbooks 是正常的
 
 # OpsWorks Configurations
-
+## Stack
+## Layers
+## Instances
+## Apps
+## Deployments
+## Monitoring
+## Resources
+## Permissions
