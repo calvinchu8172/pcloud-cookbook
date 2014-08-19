@@ -33,6 +33,15 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 ## Layers
 
 1. Rails App Server
+  * Ruby version => 2.1
+  * Rails stack => nginx and Unicorn
+  * RubyGems version => 2.2.1
+  * Install and manage Bundler => Yes
+  * Bundler version => 1.5.1
+  * Auto healing enabled => Yes
+  * Custom Chef Recipes
+    * Setup => ['server::install\_packages']
+    * Configure => ['portalapp::configure']
 2. RDS
 3. (Custom) ejabberd
 4. (Custom) Bot
