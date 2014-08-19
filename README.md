@@ -40,8 +40,8 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
   * Bundler version => 1.5.1
   * Auto healing enabled => Yes
   * Custom Chef Recipes
-    * Setup => ['server::install\_packages']
-    * Configure => ['portalapp::configure']
+      * Setup => ['server::install\_packages']
+      * Configure => ['portalapp::configure']
 2. RDS
 3. (Custom) ejabberd
 4. (Custom) Bot
