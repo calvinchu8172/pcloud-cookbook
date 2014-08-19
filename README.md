@@ -18,17 +18,26 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 * 實務上每個 layer 至少會開兩個 instances，如此輪流開關機可保證跑過一整套部署流程，確保我們的 cookbooks 是正常的
 
 # OpsWorks Configurations
+
 ## Stack
+
 * 建議規劃一個專用的 VPC 與之下的 subnet 供此 stack 使用
 * SSH key 務必妥善保留
 * Chef 版本使用 11.10
 * **Use custom Chef cookbooks** => Yes
   * **Repository type** => Git
-  * **Repository URL** => 指向自訂 cookbooks 的公司 GitLab repository，例如 git@gitlab.ecoworkinc.com:hiroshiyui/personal-cloud-cookbooks.git，並建議為了安全起見不要直接使用開發版本，而是特別為部署獨立出一份專用 repository 
+  * **Repository URL** => 指向自訂 cookbooks 的公司 GitLab repository，例如 `git@gitlab.ecoworkinc.com:hiroshiyui/personal-cloud-cookbooks.git`，並建議為了安全起見不要直接使用開發版本，而是特別為部署獨立出一份專用 repository 
   * **Repository SSH key** => 同上，建議請獨立產生一把 SSH key 供此 repository 使用
   * **Branch/Revision** => 請指向部署專用的 branch/revision
 
 ## Layers
+
+1. Rails App Server
+2. RDS
+3. (Custom) ejabberd
+4. (Custom) Bot
+5. (Custom) Docker
+
 ## Instances
 ## Apps
 ## Deployments
