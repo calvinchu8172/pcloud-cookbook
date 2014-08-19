@@ -42,9 +42,9 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
       * Auto healing enabled => Yes
   * Recipes
       * Custom Chef Recipes
+          * 目前使用的這兩份自訂 recipes 的主要作用是自動安裝必要的軟體套件，以及把專屬設定檔放到該放的地方
           * Setup => `server::install\_packages`
           * Configure => `portalapp::configure`
-        目前使用的這兩份自訂 recipes 的主要作用是自動安裝必要的軟體套件，以及把專屬設定檔放到該放的地方
   * Network
       * Elastic Load Balancer => 新增一個 ELB，若設定正確，則 OpsWorks 會自動將 Rails instances 掛上此 ELB
       * Public IP addresses => Yes
