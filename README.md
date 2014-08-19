@@ -33,15 +33,22 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 ## Layers
 
 1. Rails App Server
-  * Ruby version => 2.1
-  * Rails stack => nginx and Unicorn
-  * RubyGems version => 2.2.1
-  * Install and manage Bundler => Yes
-  * Bundler version => 1.5.1
-  * Auto healing enabled => Yes
-  * Custom Chef Recipes
-      * Setup => ['server::install\_packages']
-      * Configure => ['portalapp::configure']
+  * General Settings
+      * Ruby version => 2.1
+      * Rails stack => nginx and Unicorn
+      * RubyGems version => 2.2.1
+      * Install and manage Bundler => Yes
+      * Bundler version => 1.5.1
+      * Auto healing enabled => Yes
+  * Recipes
+      * Custom Chef Recipes
+          * Setup => `server::install\_packages`
+          * Configure => `portalapp::configure`
+        目前使用的這兩份自訂 recipes 的主要作用是自動安裝必要的軟體套件，以及把專屬設定檔放到該放的地方
+  * Network
+      * Elastic Load Balancer => 新增一個 ELB，若設定正確，則 OpsWorks 會自動將 Rails instances 掛上此 ELB
+      * Public IP addresses => Yes
+      * Elastic IP addresses => 視是否需要固定 IP addr. 而定
 2. RDS
 3. (Custom) ejabberd
 4. (Custom) Bot
