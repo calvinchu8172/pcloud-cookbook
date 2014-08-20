@@ -43,6 +43,8 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
   * Recipes
       * Custom Chef Recipes
           * 目前使用的這兩份自訂 recipes 的主要作用是自動安裝必要的軟體套件，以及把專屬設定檔放到該放的地方
+              * `server::install\_packages`: 安裝必要的套件
+              * `portalapp::configure`: 當前任務是將 `mailer.yml` 生出來，並搭配 `deploy/attributes/customize.rb` 的 `symlink_before_migrate` 自訂值，讓 Chef 幫我們自動做 symbolic link 到當前部署的 portal 版本的 `config/` 裡。
           * Setup => `server::install\_packages`
           * Configure => `portalapp::configure`
   * Network
@@ -50,12 +52,28 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
       * Public IP addresses => Yes
       * Elastic IP addresses => 視是否需要固定 IP addr. 而定
 2. RDS
+  * Add Layer 時選擇右邊分頁的 RDS，依據實際需求建立一台
+  * 設定完成後，於後述的 Apps 處若設定妥當，則 Rails App 會自動生出一個對應的 `config/database.yml` 配置檔
 3. (Custom) ejabberd
 4. (Custom) Bot
 5. (Custom) Docker
 
 ## Instances
 ## Apps
+
+新增 Personal Could Portal app：
+  * Name => Personal Cloud Portal
+  * Rails environment => ?
+  * Enable auto bundle => Yes
+  * Document root => public
+  * Repository type => Git
+  * Repository URL => 如 Stack 一節所述，指向一份部署專用的 repository
+  * Repository SSH key => 如 Stack 一節所述，指向一把部屬專用的 key
+  * Branch/Revision => ?
+  * Data source type => RDS
+  * Domain name => ?
+  * Enable SSL => ?
+
 ## Deployments
 ## Monitoring
 ## Resources
