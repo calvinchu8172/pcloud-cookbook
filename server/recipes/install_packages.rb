@@ -45,4 +45,5 @@ bash 'alias_nodejs' do
   code <<-EOH
     ln -s /usr/bin/nodejs /usr/bin/node
   EOH
+  not_if { ::File.exists?('/usr/bin/node') }
 end
