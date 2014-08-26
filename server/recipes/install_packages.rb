@@ -6,6 +6,9 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
+#include_recipe 'mysql::client_install'
+
 package "imagemagick" do
   action :install
 end
