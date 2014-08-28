@@ -4,6 +4,7 @@ node[:deploy].each do |application, deploy|
   deploy = node[:deploy][application]
 
   execute "restart Rails app #{application}" do
+    user 'deploy'
     cwd deploy[:current_path]
     command node[:opsworks][:rails_stack][:restart_command]
     action :nothing
