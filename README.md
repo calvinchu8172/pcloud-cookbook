@@ -69,15 +69,16 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
   * Subnet => 指定使用同一 Stack 的子網路
   * Advanced
       * Operating system => Use custom AMI
-      * Custom AMI => `ami-1ec41e76 – Bot-instance-201408271223`
+      * Custom AMI => `ami-8cc463e4 – Bot-Instance-201409011516`
   * 目前因為 Bot Jabber ID 設定值是寫死的，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分
       * `cd ~/personal-cloud-bots/`
       * 修改 `config/god_config.yml` 將 `xmpp_config` 內的 bots 調到未用的帳號
       * 重啟 God monitor `god terminate && god -c bot.god`
+      * 目前預設的 `bot99@xmpp.pcloud.ecoworkinc.com/robot` 與 `bot100@xmpp.pcloud.ecoworkinc.com/robot` 皆為臨時調撥、避免搶佔情況的「臨時帳號」，請務必改為正式運作服務的帳號。
 
 ## Apps
 
-新增 Personal Could Portal app：
+1. Personal Could Portal
   * Name => Personal Cloud Portal
   * Rails environment => ?
   * Enable auto bundle => Yes
