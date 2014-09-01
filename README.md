@@ -73,9 +73,7 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
   * 目前因為 Bot Jabber ID 設定值是寫死的，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分
       * `cd ~/personal-cloud-bots/`
       * 修改 `config/god_config.yml` 將 `xmpp_config` 內的 bots 調到未用的帳號
-      * 重啟 God monitor
-          1. `god terminate`
-          2. `god -c bot.god`
+      * 重啟 God monitor `god terminate && god -c bot.god`
 
 ## Apps
 
