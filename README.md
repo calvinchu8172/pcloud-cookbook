@@ -56,9 +56,27 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
   * 設定完成後，於後述的 Apps 處若設定妥當，則 Rails App 會自動生出一個對應的 `config/database.yml` 配置檔
 3. (Custom) ejabberd
 4. (Custom) Bot
-5. (Custom) Docker
+  * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'Bot'，並使用 AMI 來配置系統（參見以下 Instances 一節敘述）
+  * Auto healing enabled => yes
+  * Recipes 此處暫不使用任何自訂的 recipes
+  * Network
+      * Public IP addresses => yes
 
 ## Instances
+
+1. Bot
+  * Size => c3.large
+  * Subnet => 指定使用同一 Stack 的子網路
+  * Advanced
+      * Operating system => Use custom AMI
+      * Custom AMI => `ami-1ec41e76 – Bot-instance-201408271223`
+  * 目前因為 Bot Jabber ID 設定值是寫死的，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分
+      * `cd ~/personal-cloud-bots/`
+      * 修改 `config/god_config.yml` 將 `xmpp_config` 內的 bots 調到未用的帳號
+      * 重啟 God monitor
+          1. `god terminate`
+          2. `god -c bot.god`
+
 ## Apps
 
 新增 Personal Could Portal app：
