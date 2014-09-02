@@ -10,4 +10,5 @@
 
 ## SDK
 
+* [AWS OpsWorks API Reference](http://docs.aws.amazon.com/opsworks/latest/APIReference/Welcome.html)
 * [Class: AWS::OpsWorks::Client — AWS SDK for Ruby](http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/OpsWorks/Client.html)
