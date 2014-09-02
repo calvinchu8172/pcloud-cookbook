@@ -26,7 +26,8 @@ http://aws.amazon.com/documentation/opsworks/
 
 ### In OpsWorks
 
-在 instance 生命週期的各個關鍵階段，可配置對應的 recipes 來自訂它
+* https://github.com/aws/opsworks-cookbooks
+* 在 instance 生命週期的各個關鍵階段，可配置對應的 recipes 來自訂它
 
 ## API & SDK
 
