@@ -6,6 +6,11 @@ http://docs.aws.amazon.com/opsworks/latest/APIReference/Welcome.html
 http://aws.amazon.com/documentation/opsworks/
 > AWS OpsWorks provides a simple and flexible way to create and manage stacks and applications. With AWS OpsWorks, you can provision AWS resources, manage their configuration, deploy applications to those resources, and monitor their health.
 
+## Why
+
+* 套用框架，有規則可循，避免專案部署時的各種資源發散
+* 盡可能自動化處理，節省人力資源
+
 ## 層級
 
 * Stack

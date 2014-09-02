@@ -54,13 +54,13 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 2. RDS
   * Add Layer 時選擇右邊分頁的 RDS，依據實際需求建立一台
   * 設定完成後，於後述的 Apps 處若設定妥當，則 Rails App 會自動生出一個對應的 `config/database.yml` 配置檔
-3. (Custom) ejabberd
-4. (Custom) Bot
+3. (Custom) Bot
   * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'Bot'，並使用 AMI 來配置系統（參見以下 Instances 一節敘述）
   * Auto healing enabled => yes
   * Recipes 此處暫不使用任何自訂的 recipes
   * Network
       * Public IP addresses => yes
+4. (Custom) ejabberd
 
 ## Instances
 
