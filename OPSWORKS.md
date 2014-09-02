@@ -18,11 +18,15 @@ http://aws.amazon.com/documentation/opsworks/
 * Layers
     * 定義如何建立、配置一群相同用途的 instances
     * 除了預設提供的 layers，也可透過自訂 layer、覆寫預設設定值、配置自訂 Chef recipes 來設計專用 layer
+    * 當 instance 啟動後，OpsWorks 會安裝 agent 來監控其狀態
+    * 根據不同的使用需求，有不同的 instance 啟用方式：隨時上線、依負載啟用、依時間啟用
 * Apps
 
 ## Chef
 
 ### Overview
+
+* http://www.getchef.com/chef/
 
 ### In OpsWorks
 
