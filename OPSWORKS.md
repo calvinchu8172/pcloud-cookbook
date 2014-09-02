@@ -1,7 +1,9 @@
 # 關於 OpsWorks
 
+http://docs.aws.amazon.com/opsworks/latest/APIReference/Welcome.html
 > AWS OpsWorks is an application management service that provides an integrated experience for overseeing the complete application lifecycle.
 
+http://aws.amazon.com/documentation/opsworks/
 > AWS OpsWorks provides a simple and flexible way to create and manage stacks and applications. With AWS OpsWorks, you can provision AWS resources, manage their configuration, deploy applications to those resources, and monitor their health.
 
 ## 層級
