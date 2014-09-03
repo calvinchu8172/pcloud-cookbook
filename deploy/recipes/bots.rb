@@ -3,6 +3,7 @@ include_recipe 'deploy'
 node[:deploy].each do |application, deploy|
   Chef::Log.info("#{application.inspect}")
   Chef::Log.info("#{deploy.inspect}")
+  Chef::Log.info("#{node.inspect}")
 
   # NOTICE: Remember to set your App's name exactly to 'Personal Cloud Bots'
   if deploy[:application] != 'personal_cloud_bots'
@@ -16,6 +17,11 @@ node[:deploy].each do |application, deploy|
     path deploy[:deploy_to]
   end
 
+  opsworks_deploy do
+    deploy_data deploy
+    app application
+  end
+
   opsworks_deploy_bots do
     # send application & deploy object as parameters to 
     # ../definitions/opsworks_deploy_bots.rb
@@ -23,8 +29,4 @@ node[:deploy].each do |application, deploy|
     app application
   end
 
-  opsworks_deploy do
-    deploy_data deploy
-    app application
-  end
 end
