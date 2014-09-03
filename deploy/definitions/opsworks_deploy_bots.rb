@@ -1,6 +1,8 @@
 define :opsworks_deploy_bots do
   application = params[:app]
   deploy = params[:deploy_data]
+
+  # Setting-up & Running fluentd
   fluentd_s3 = deploy['fluentd']['s3']
 
   template "/etc/fluent/fluent.conf" do
