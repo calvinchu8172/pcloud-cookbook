@@ -3,6 +3,7 @@
 ## $ echo <json> | fluent-cat <tag>
 <source>
   type forward
+  port 24224
 </source>
 
 ## built-in UNIX socket input
@@ -55,17 +56,17 @@
 </match>
 
 # match tag=system.** and forward to another fluent server
-<match system.**>
-  type forward
-  <server>
-    host 192.168.0.11
-  </server>
-  <secondary>
-    <server>
-      host 192.168.0.12
-    </server>
-  </secondary>
-</match>
+#<match system.**>
+#  type forward
+#  <server>
+#    host 192.168.0.11
+#  </server>
+#  <secondary>
+#    <server>
+#      host 192.168.0.12
+#    </server>
+#  </secondary>
+#</match>
 
 ## match tag=myapp.** and forward and write to file
 #<match myapp.**>
@@ -113,8 +114,3 @@
   buffer_path /var/log/td-agent/s3
   buffer_chunk_limit 256m
 </match>
-
-<source>
-  type forward
-  port 24224
-</source>
