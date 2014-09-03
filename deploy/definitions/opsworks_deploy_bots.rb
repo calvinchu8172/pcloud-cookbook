@@ -16,4 +16,8 @@ define :opsworks_deploy_bots do
       :s3_log_path => fluentd_s3['log_path']
     })
   end
+
+  execute "fluentd -d /var/run/fluentd.pid" do
+    user 'root'
+  end
 end
