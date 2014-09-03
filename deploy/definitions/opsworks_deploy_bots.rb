@@ -1,8 +1,7 @@
 define :opsworks_deploy_bots do
   application = params[:app]
   deploy = params[:deploy_data]
-
-  Chef::Log.info("#{deploy['fluentd']}")
+  fluentd_s3 = deploy['fluentd']['s3']
 
   template "/etc/fluent/fluent.conf" do
     source "fluent.conf.erb"
@@ -11,10 +10,10 @@ define :opsworks_deploy_bots do
     group 'root'
     owner 'root'
     variables({
-      :s3_key => '',
-      :s3_secret_key => '',
-      :s3_bucket => '',
-      :s3_log_path => ''
+      :s3_key => fluentd_s3['key_id'], 
+      :s3_secret_key => fluentd_s3['secret_key'],
+      :s3_bucket => fluentd_s3['bucket'],
+      :s3_log_path => fluentd_s3['log_path']
     })
   end
 end
