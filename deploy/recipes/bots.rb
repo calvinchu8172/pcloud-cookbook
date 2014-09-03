@@ -6,6 +6,8 @@ node[:deploy].each do |application, deploy|
   Chef::Log.info("#{node.inspect}")
 
   # NOTICE: Remember to set your App's name exactly to 'Personal Cloud Bots'
+  #
+  # Ensure if we are dealing with Personal Cloud Bots app:
   if deploy[:application] != 'personal_cloud_bots'
     # skip it
     next
