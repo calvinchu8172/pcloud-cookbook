@@ -2,6 +2,8 @@ define :opsworks_deploy_bots do
   application = params[:app]
   deploy = params[:deploy_data]
 
+  Chef::Log.info("#{deploy['fluentd']}")
+
   template "/etc/fluent/fluent.conf" do
     source "fluent.conf.erb"
     cookbook 'deploy'
