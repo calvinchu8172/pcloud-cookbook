@@ -31,3 +31,7 @@ normal[:deploy]['personal_cloud_bots']['queue']['name'] = 'personal_cloud1'
 #normal[:deploy]['personal_cloud_bots']['route']
 # God monitor
 #normal[:deploy]['personal_cloud_bots']['god']
+# Make symbolic links
+normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_db_config.yml'] = 'config/bot_db_config.yml'
+normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_mail_config.yml'] = 'config/bot_mail_config.yml'
+normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_queue_config.yml'] = 'config/bot_queue_config.yml'
