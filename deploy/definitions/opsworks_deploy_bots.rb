@@ -100,7 +100,7 @@ define :opsworks_deploy_bots do
     owner deploy[:user]
     variables({
       :god_path => "#{deploy[:current_path]}/",
-      :god_xmpp_config => bots_config_god['xmpp_config'],
+      :god_xmpp_config => node['xmpp_config'] ||= bots_config_god['xmpp_config'],
       :god_mail_domain => bots_config_god['mail_domain'],
       :god_mail_user => bots_config_god['mail_user'],
       :god_mail_pw => bots_config_god['mail_pw'],
