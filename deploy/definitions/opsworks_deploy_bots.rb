@@ -109,10 +109,10 @@ define :opsworks_deploy_bots do
   end
 
   # Run God monitor & Bots
+  Chef::Log.info("Run: god terminate; god -c #{deploy[:current_path]}/bot.god")
   execute "launch bots" do
     user deploy[:user]
     cwd "#{deploy[:current_path]}"
-    Chef::Log.info("Run: god terminate; god -c #{deploy[:current_path]}/bot.god")
     command "god terminate; god -c #{deploy[:current_path]}/bot.god"
   end
 
