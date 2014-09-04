@@ -1,10 +1,12 @@
-path: xxx
+path: <%= @god_path %>
 xmpp_config:
-  - {jid: 'xxx', pw: 'xxx'}
-
-mail_domain: xxx
-mail_user: xxx
-mail_pw: xxx
+<% @god_xmpp_config.each do |xmpp| %>
+  - {jid: <%= xmpp['jid'] %>, pw: <%= xmpp['pw'] %>}
+<% end %>
+mail_domain: <%= @god_mail_domain %>
+mail_user: <%= @god_mail_user %>
+mail_pw: <%= @god_mail_pw %>
 notify_list:
-  - {name: 'xxx', email: 'xxx'}
-
+<% @god_notify_list.each do |notify| %>
+  - {name: <%= notify['name'] %>, email: <%= notify['email'] %>}
+<% end %>

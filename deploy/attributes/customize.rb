@@ -35,8 +35,19 @@ normal[:deploy]['personal_cloud_bots']['route']['zones'] = [
   {'id' => 'Z1SL2C2LT75LT2', 'name' => 'demo.ecoworkinc.com.'}
 ]
 # God monitor
-#normal[:deploy]['personal_cloud_bots']['god']
+normal[:deploy]['personal_cloud_bots']['god']['xmpp_config'] = [
+  {'jid' => 'bot99@xmpp.pcloud.ecoworkinc.com/robot', 'pw' => '12345'},
+  {'jid' => 'bot100@xmpp.pcloud.ecoworkinc.com/robot', 'pw' => '12345'}
+]
+normal[:deploy]['personal_cloud_bots']['god']['mail_domain'] = 'pcloud.ecoworkinc.com'
+normal[:deploy]['personal_cloud_bots']['god']['mail_user'] = 'AKIAIN64R4K6P6VHET5A'
+normal[:deploy]['personal_cloud_bots']['god']['mail_pw'] = 'Atccdco0f1YKXFNtMHJfFe23C5ZXdihlea3OL66AQBEF'
+normal[:deploy]['personal_cloud_bots']['god']['notify_list'] = [
+  {'name' => 'clshang', 'email' => 'clshang@ecoworkinc.com'}
+]
 # Make symbolic links
 normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_db_config.yml'] = 'config/bot_db_config.yml'
 normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_mail_config.yml'] = 'config/bot_mail_config.yml'
 normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_queue_config.yml'] = 'config/bot_queue_config.yml'
+normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_route_config.yml'] = 'config/bot_route_config.yml'
+normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/god_config.yml'] = 'config/god_config.yml'

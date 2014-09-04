@@ -88,4 +88,22 @@ define :opsworks_deploy_bots do
       :route_zones => bots_config_route['zones']
     })
   end
+
+  bots_config_god = deploy['god']
+
+  template "#{deploy[:deploy_to]}/shared/config/god_config.yml" do
+    source "god_config.yml.erb"
+    cookbook 'deploy'
+    mode "0644"
+    group deploy[:group]
+    owner deploy[:user]
+    variables({
+      :god_path => "#{deploy[:deploy_to]}/current/",
+      :god_xmpp_config => bots_config_god['xmpp_config'],
+      :god_mail_domain => bots_config_god['mail_domain'],
+      :god_mail_user => bots_config_god['mail_user'],
+      :god_mail_pw => bots_config_god['mail_pw'],
+      :god_notify_list => bots_config_god['notify_list']
+    })
+  end
 end
