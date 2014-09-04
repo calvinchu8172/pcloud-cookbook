@@ -28,7 +28,12 @@ normal[:deploy]['personal_cloud_bots']['queue']['access_key'] = 'vaCdIwOTtYbTFVw
 normal[:deploy]['personal_cloud_bots']['queue']['region'] = 'us-east-1'
 normal[:deploy]['personal_cloud_bots']['queue']['name'] = 'personal_cloud1'
 # Route 53
-#normal[:deploy]['personal_cloud_bots']['route']
+normal[:deploy]['personal_cloud_bots']['route']['key_id'] = 'AKIAIFBA53YARL2VHDWQ'
+normal[:deploy]['personal_cloud_bots']['route']['access_key'] = 'vaCdIwOTtYbTFVwoSyXpVAzfexg63pndLwZmsXQe'
+normal[:deploy]['personal_cloud_bots']['route']['reserved_hosts'] = ['api', 'www', 'dns', 'ddns', 'upnp', 'blog', 'zyxel', 'store', 'host', 'support', 'service', 'services']
+normal[:deploy]['personal_cloud_bots']['route']['zones'] = [
+  {'id' => 'Z1SL2C2LT75LT2', 'name' => 'demo.ecoworkinc.com.'}
+]
 # God monitor
 #normal[:deploy]['personal_cloud_bots']['god']
 # Make symbolic links

@@ -72,4 +72,20 @@ define :opsworks_deploy_bots do
       :queue_name => bots_config_queue['name']
     })
   end
+
+  bots_config_route = deploy['route']
+
+  template "#{deploy[:deploy_to]}/shared/config/bot_route_config.yml" do
+    source "bot_route_config.yml.erb"
+    cookbook 'deploy'
+    mode "0644"
+    group deploy[:group]
+    owner deploy[:user]
+    variables({
+      :route_key_id => bots_config_route['key_id'],
+      :route_access_key => bots_config_route['access_key'],
+      :route_reserved_hosts => bots_config_route['reserved_hosts'],
+      :route_zones => bots_config_route['zones']
+    })
+  end
 end

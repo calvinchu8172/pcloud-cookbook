@@ -1,5 +1,7 @@
-access_key_id: xxx
-secret_access_key: xxx
-reserved_host_name: []
+access_key_id: <%= @route_key_id %>
+secret_access_key: <%= @route_access_key %>
+reserved_host_name: <%= @route_reserved_hosts %>
 zones_info:
-  - {id: xxx, name: xxx}
+<% @route_zones.each do |zone| %>
+  - {id: <%= zone['id']%>, name: <%= zone['name'] %>}
+<% end %>
