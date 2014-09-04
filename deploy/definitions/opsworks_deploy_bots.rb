@@ -5,6 +5,13 @@ define :opsworks_deploy_bots do
   # Setting-up & Running fluentd
   fluentd_s3 = deploy['fluentd']['s3']
 
+  # initialize fluentd config
+  execute "fluentd -s" do
+    user 'root'
+    not_if 'test -d /etc/fluent'
+  end
+
+  # generate our own fluent.conf
   template "/etc/fluent/fluent.conf" do
     source "fluent.conf.erb"
     cookbook 'deploy'
@@ -19,6 +26,7 @@ define :opsworks_deploy_bots do
     })
   end
 
+  # start fluentd
   execute "fluentd -d /var/run/fluentd.pid" do
     user 'root'
     not_if 'test -f /var/run/fluentd.pid'
