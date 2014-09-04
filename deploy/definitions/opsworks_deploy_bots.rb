@@ -108,14 +108,11 @@ define :opsworks_deploy_bots do
     })
   end
 
-  # Run bots
+  # Run God monitor & Bots
   execute "launch bots" do
-    cwd "#{deploy[:current_path]}"
     user deploy[:user]
-    command <<-EOH
-      god terminate \
-      god -c bot.god
-    EOH
+    cwd "#{deploy[:current_path]}"
+    command "god terminate; god -c bot.god"
   end
 
 end
