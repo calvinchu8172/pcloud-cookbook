@@ -99,7 +99,7 @@ define :opsworks_deploy_bots do
     group deploy[:group]
     owner deploy[:user]
     variables({
-      :god_path => "#{deploy[:deploy_to]}/current/",
+      :god_path => "#{deploy[:current_path]}",
       :god_xmpp_config => bots_config_god['xmpp_config'],
       :god_mail_domain => bots_config_god['mail_domain'],
       :god_mail_user => bots_config_god['mail_user'],
@@ -107,4 +107,15 @@ define :opsworks_deploy_bots do
       :god_notify_list => bots_config_god['notify_list']
     })
   end
+
+  # Run bots
+  execute "launch bots" do
+    cwd "#{deploy[:current_path]}"
+    user deploy[:user]
+    command <<-EOH
+      god terminate \
+      god -c bot.god
+    EOH
+  end
+
 end
