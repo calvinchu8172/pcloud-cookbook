@@ -21,6 +21,7 @@ define :opsworks_deploy_bots do
 
   execute "fluentd -d /var/run/fluentd.pid" do
     user 'root'
+    not_if 'test -f /var/run/fluentd.pid'
   end
 
   # Bots Configurations
