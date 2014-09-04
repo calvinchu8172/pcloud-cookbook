@@ -22,4 +22,54 @@ define :opsworks_deploy_bots do
   execute "fluentd -d /var/run/fluentd.pid" do
     user 'root'
   end
+
+  # Bots Configurations
+  bots_config_db = deploy['db']
+
+  template "#{deploy[:deploy_to]}/shared/config/bot_db_config.yml" do
+    source "bot_db_config.yml.erb"
+    cookbook 'deploy'
+    mode "0644"
+    group deploy[:group]
+    owner deploy[:user]
+    variables({
+      :db_host => bots_config_db['host'],
+      :db_socket => bots_config_db['socket'],
+      :db_name => bots_config_db['name'],
+      :db_userid => bots_config_db['userid'],
+      :db_userpw => bots_config_db['userpw']
+    })
+  end
+
+  bots_config_mail = deploy['mail']
+
+  template "#{deploy[:deploy_to]}/shared/config/bot_mail_config.yml" do
+    source "bot_mail_config.yml.erb"
+    cookbook 'deploy'
+    mode "0644"
+    group deploy[:group]
+    owner deploy[:user]
+    variables({
+      :mail_key_id => bots_config_mail['key_id'],
+      :mail_access_key => bots_config_mail['access_key'],
+      :mail_region => bots_config_mail['region'],
+      :mail_domain => bots_config_mail['domain']
+    })
+  end
+
+  bots_config_queue = deploy['queue']
+
+  template "#{deploy[:deploy_to]}/shared/config/bot_queue_config.yml" do
+    source "bot_queue_config.yml.erb"
+    cookbook 'deploy'
+    mode "0644"
+    group deploy[:group]
+    owner deploy[:user]
+    variables({
+      :queue_key_id => bots_config_queue['key_id'],
+      :queue_access_key => bots_config_queue['access_key'],
+      :queue_region => bots_config_queue['region'],
+      :queue_domain => bots_config_queue['domain']
+    })
+  end
 end
