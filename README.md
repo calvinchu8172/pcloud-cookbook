@@ -95,10 +95,11 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 
 1. Personal Cloud Bots
   * 目前 Bot Jabber ID 設定值是寫死的，配予兩組「臨時調撥用帳號」，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分，或是在 deploy 時，於 Advanced -> Custom Chef JSON 處，指定如下格式的 Jabber IDs 指派設定：
-    > {"xmpp_config": [
-    >   {"jid": "bot1@xmpp.pcloud.ecoworkinc.com/robot", "pw": "12345"},
-    >   {"jid": "bot2@xmpp.pcloud.ecoworkinc.com/robot", "pw": "12345"}
-    > ]}
+
+> {"xmpp_config": [
+>   {"jid": "bot1@xmpp.pcloud.ecoworkinc.com/robot", "pw": "12345"},
+>   {"jid": "bot2@xmpp.pcloud.ecoworkinc.com/robot", "pw": "12345"}
+> ]}
 
 ## Monitoring
 ## Resources
