@@ -41,6 +41,11 @@ default[:deploy]['personal_cloud_bots']['god']['xmpp_config'] = [
 ]
 unless node['xmpp_config'].nil?
   override[:deploy]['personal_cloud_bots']['god']['xmpp_config'] = node['xmpp_config']
+else
+  default[:deploy]['personal_cloud_bots']['god']['xmpp_config'] = [
+    {'jid' => 'bot99@xmpp.pcloud.ecoworkinc.com/robot', 'pw' => '12345'},
+    {'jid' => 'bot100@xmpp.pcloud.ecoworkinc.com/robot', 'pw' => '12345'}
+  ]
 end
 normal[:deploy]['personal_cloud_bots']['god']['mail_domain'] = 'pcloud.ecoworkinc.com'
 normal[:deploy]['personal_cloud_bots']['god']['mail_user'] = 'AKIAIN64R4K6P6VHET5A'
