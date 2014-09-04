@@ -69,7 +69,7 @@ define :opsworks_deploy_bots do
       :queue_key_id => bots_config_queue['key_id'],
       :queue_access_key => bots_config_queue['access_key'],
       :queue_region => bots_config_queue['region'],
-      :queue_domain => bots_config_queue['domain']
+      :queue_name => bots_config_queue['name']
     })
   end
 end

@@ -26,7 +26,7 @@ normal[:deploy]['personal_cloud_bots']['mail']['domain'] = 'pcloud.ecoworkinc.co
 normal[:deploy]['personal_cloud_bots']['queue']['key_id'] = 'AKIAIFBA53YARL2VHDWQ'
 normal[:deploy]['personal_cloud_bots']['queue']['access_key'] = 'vaCdIwOTtYbTFVwoSyXpVAzfexg63pndLwZmsXQe'
 normal[:deploy]['personal_cloud_bots']['queue']['region'] = 'us-east-1'
-normal[:deploy]['personal_cloud_bots']['queue']['domain'] = 'personal_cloud1'
+normal[:deploy]['personal_cloud_bots']['queue']['name'] = 'personal_cloud1'
 # Route 53
 #normal[:deploy]['personal_cloud_bots']['route']
 # God monitor
