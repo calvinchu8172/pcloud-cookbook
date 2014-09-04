@@ -3,6 +3,7 @@ xmpp_config:
 <% @god_xmpp_config.each do |xmpp| %>
   - {jid: <%= xmpp['jid'] %>, pw: <%= xmpp['pw'] %>}
 <% end %>
+
 mail_domain: <%= @god_mail_domain %>
 mail_user: <%= @god_mail_user %>
 mail_pw: <%= @god_mail_pw %>
