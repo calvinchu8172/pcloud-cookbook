@@ -1,6 +1,6 @@
 access_key_id: <%= @route_key_id %>
 secret_access_key: <%= @route_access_key %>
-reserved_host_name: <%= @route_reserved_hosts %>
+reserved_host_name: [<%= @route_reserved_hosts.join(", ") %>]
 zones_info:
 <% @route_zones.each do |zone| %>
   - {id: <%= zone['id']%>, name: <%= zone['name'] %>}
