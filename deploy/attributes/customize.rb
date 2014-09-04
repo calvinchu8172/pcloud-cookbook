@@ -35,7 +35,7 @@ normal[:deploy]['personal_cloud_bots']['route']['zones'] = [
   {'id' => 'Z1SL2C2LT75LT2', 'name' => 'demo.ecoworkinc.com.'}
 ]
 # God monitor
-normal[:deploy]['personal_cloud_bots']['god']['xmpp_config'] = [
+normal[:deploy]['personal_cloud_bots']['god']['xmpp_config'] = node['xmpp_config'] ||= [
   {'jid' => 'bot99@xmpp.pcloud.ecoworkinc.com/robot', 'pw' => '12345'},
   {'jid' => 'bot100@xmpp.pcloud.ecoworkinc.com/robot', 'pw' => '12345'}
 ]
