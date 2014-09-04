@@ -33,6 +33,10 @@ define :opsworks_deploy_bots do
   end
 
   # Bots Configurations
+  unless node['xmpp_config'].nil?
+    override[:deploy]['personal_cloud_bots']['god']['xmpp_config'] = node['xmpp_config']
+  end
+
   bots_config_db = deploy['db']
 
   template "#{deploy[:deploy_to]}/shared/config/bot_db_config.yml" do
