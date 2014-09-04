@@ -100,6 +100,12 @@ define :opsworks_deploy_bots do
 
   bots_config_god = deploy['god']
 
+  unless node['xmpp_config'].nil?
+    xmpp_config = node['xmpp_config']
+  else
+    xmpp_config = bots_config_god['xmpp_config']
+  end
+
   template "#{deploy[:deploy_to]}/shared/config/god_config.yml" do
     source "god_config.yml.erb"
     cookbook 'deploy'
@@ -108,7 +114,7 @@ define :opsworks_deploy_bots do
     owner deploy[:user]
     variables({
       :god_path => "#{deploy[:current_path]}/",
-      :god_xmpp_config => bots_config_god['xmpp_config'],
+      :god_xmpp_config => xmpp_config,
       :god_mail_domain => bots_config_god['mail_domain'],
       :god_mail_user => bots_config_god['mail_user'],
       :god_mail_pw => bots_config_god['mail_pw'],
