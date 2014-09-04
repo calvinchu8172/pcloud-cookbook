@@ -55,30 +55,20 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
   * Add Layer 時選擇右邊分頁的 RDS，依據實際需求建立一台
   * 設定完成後，於後述的 Apps 處若設定妥當，則 Rails App 會自動生出一個對應的 `config/database.yml` 配置檔
 3. (Custom) Bot
-  * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'Bot'，並使用 AMI 來配置系統（參見以下 Instances 一節敘述）
+  * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'Bot'
   * Auto healing enabled => yes
-  * Recipes 此處暫不使用任何自訂的 recipes
+  * Recipes
+      * Custom Chef Recipes
+          * Deploy => `deploy::bots`
   * Network
       * Public IP addresses => yes
 4. (Custom) ejabberd
 
 ## Instances
 
-1. Bot
-  * Size => c3.large
-  * Subnet => 指定使用同一 Stack 的子網路
-  * Advanced
-      * Operating system => Use custom AMI
-      * Custom AMI => `ami-8cc463e4 – Bot-Instance-201409011516`
-  * 目前因為 Bot Jabber ID 設定值是寫死的，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分
-      * `cd ~/personal-cloud-bots/`
-      * 修改 `config/god_config.yml` 將 `xmpp_config` 內的 bots 調到未用的帳號
-      * 重啟 God monitor `god terminate && god -c bot.god`
-      * 目前預設的 `bot99@xmpp.pcloud.ecoworkinc.com/robot` 與 `bot100@xmpp.pcloud.ecoworkinc.com/robot` 皆為臨時調撥、避免搶佔情況的「臨時帳號」，請務必改為正式運作服務的帳號。
-
 ## Apps
 
-1. Personal Could Portal
+1. Personal Cloud Portal
   * Name => Personal Cloud Portal
   * Rails environment => ?
   * Enable auto bundle => Yes
@@ -91,7 +81,25 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
   * Domain name => ?
   * Enable SSL => ?
 
+2. Personal Cloud Bots
+  * Name => Personal Cloud Bots （因為 `deploy::bots` 會比對 App 名稱，故請注意不要使用其他命名）
+  * Type => Other
+  * Repository type => Git
+  * Repository URL => 如 Stack 一節所述，指向一份部署專用的 repository
+  * Repository SSH key => 如 Stack 一節所述，指向一把部屬專用的 key
+  * Branch/Revision => develop
+  * Data source type => None
+
+
 ## Deployments
+
+1. Personal Cloud Bots
+  * 目前 Bot Jabber ID 設定值是寫死的，配予兩組「臨時調撥用帳號」，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分，或是在 deploy 時，於 Advanced -> Custom Chef JSON 處，指定如下格式的 Jabber IDs 指派設定：
+    > {"xmpp_config": [
+    >   {"jid": "bot1@xmpp.pcloud.ecoworkinc.com/robot", "pw": "12345"},
+    >   {"jid": "bot2@xmpp.pcloud.ecoworkinc.com/robot", "pw": "12345"}
+    > ]}
+
 ## Monitoring
 ## Resources
 ## Permissions
