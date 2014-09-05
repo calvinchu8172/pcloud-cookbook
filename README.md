@@ -3,12 +3,13 @@
 https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 
 各項子目錄作用：
+
 * `/bot`: Bot servers
 * `/deploy`:
-  * `/attributes/customize.rb`: Customized attributes for Personal Cloud
-  * `/definitions`: Customized definitions for Personal Cloud
-  * `/recipes`: Customized deploy recipes for Personal Cloud
-  * `/templates`: Customized templates for Personal Cloud
+    * `/attributes/customize.rb`: Customized attributes for Personal Cloud
+    * `/definitions`: Customized definitions for Personal Cloud
+    * `/recipes`: Customized deploy recipes for Personal Cloud
+    * `/templates`: Customized templates for Personal Cloud
 * `/ejabberd`: ejabberd servers
 * `/portalapp`: Personal Cloud Portal Rails application
 * `/server`: Ubuntu 14.04 server
