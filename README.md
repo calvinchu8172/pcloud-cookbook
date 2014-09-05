@@ -15,7 +15,7 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 * Recipes 會照列表順序跑
 * 遇到同名的 recipe，OpsWorks 會以我們自訂的版本取代預設的，所以請注意 cookbook 與 recipe 的命名
 * 亦請避免使用「直接覆蓋」AWS 預設版本的暴力法
-* 實務上每個 layer 至少會開兩個 instances，如此輪流開關機可保證跑過一整套部署流程，確保我們的 cookbooks 是正常的
+* 實務上每個 layer 至少會開兩個 instances，如此輪流開關機可保證跑過一整套部署流程，確保我們的 cookbooks 在 instance 的整個 life cycle 中運作是正常的
 
 # OpsWorks Configurations
 
@@ -26,7 +26,7 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 * Chef 版本使用 11.10
 * **Use custom Chef cookbooks** => Yes
   * **Repository type** => Git
-  * **Repository URL** => 指向自訂 cookbooks 的公司 GitLab repository，例如 `git@gitlab.ecoworkinc.com:hiroshiyui/personal-cloud-cookbooks.git`，並建議為了安全起見不要直接使用開發版本，而是特別為部署獨立出一份專用 repository 
+  * **Repository URL** => 指向自訂 cookbooks 的公司 GitLab repository，例如 `git@gitlab.ecoworkinc.com:hiroshiyui/personal-cloud-cookbooks.git`，並建議為了安全起見，**不要**直接使用開發版本，而是特別為部署獨立出一份專用 repository 
   * **Repository SSH key** => 同上，建議請獨立產生一把 SSH key 供此 repository 使用
   * **Branch/Revision** => 請指向部署專用的 branch/revision
 
@@ -63,6 +63,7 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
   * Network
       * Public IP addresses => yes
 4. (Custom) ejabberd
+  * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'ejabberd'
 
 ## Instances
 
@@ -90,16 +91,17 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
   * Branch/Revision => develop
   * Data source type => None
 
-
 ## Deployments
 
 1. Personal Cloud Bots
-  * 目前 Bot Jabber ID 設定值是寫死的，配予兩組「臨時調撥用帳號」，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分，或是在 deploy 時，於 Advanced -> Custom Chef JSON 處，指定如下格式的 Jabber IDs 指派設定：
+  * 目前 Bot Jabber ID 設定值是寫死的，配予兩組「臨時調撥用帳號」，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分。請在 deploy 時，於 Advanced -> Custom Chef JSON 處，輸入如下格式的 Jabber IDs 指派設定：
 
     > {"xmpp_config": [
     >   {"jid": "botno1@xmpp.pcloud.ecoworkinc.com/robot", "pw": "YOUR_BOTNO1_PASSWORD"},
     >   {"jid": "botno2@xmpp.pcloud.ecoworkinc.com/robot", "pw": "YOUR_BOTNO2_PASSWORD"}
     > ]}
+
+  * 另可參考 *ZyXEL Personal Cloud - Bot Deploy Guide For Create Instance Manually* 文件
 
 ## Monitoring
 ## Resources
