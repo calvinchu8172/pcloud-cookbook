@@ -100,11 +100,7 @@ define :opsworks_deploy_bots do
 
   bots_config_god = deploy['god']
 
-  unless node['xmpp_config'].nil?
-    xmpp_config = node['xmpp_config']
-  else
-    xmpp_config = bots_config_god['xmpp_config']
-  end
+  xmpp_config = node['xmpp_config'].nil? ? bots_config_god['xmpp_config'] : node['xmpp_config']
 
   template "#{deploy[:deploy_to]}/shared/config/god_config.yml" do
     source "god_config.yml.erb"
