@@ -6,6 +6,9 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 * `/bot`: Bot servers
 * `/deploy`:
   * `/attributes/customize.rb`: Customized attributes for Personal Cloud
+  * `/definitions`: Customized definitions for Personal Cloud
+  * `/recipes`: Customized deploy recipes for Personal Cloud
+  * `/templates`: Customized templates for Personal Cloud
 * `/ejabberd`: ejabberd servers
 * `/portalapp`: Personal Cloud Portal Rails application
 * `/server`: Ubuntu 14.04 server
@@ -26,7 +29,7 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 * Chef 版本使用 11.10
 * **Use custom Chef cookbooks** => Yes
     * **Repository type** => Git
-    * **Repository URL** => 指向自訂 cookbooks 的公司 GitLab repository，例如 `git@gitlab.ecoworkinc.com:hiroshiyui/personal-cloud-cookbooks.git`，並建議為了安全起見，**不要**直接使用開發版本，而是特別為部署獨立出一份專用 repository 
+    * **Repository URL** => 指向自訂 cookbooks 的公司 GitLab repository，例如 `git@gitlab.ecoworkinc.com:hiroshiyui/personal-cloud-cookbooks.git`，並建議為了安全起見，不要直接使用開發版本，而是為部署獨立出一份專用 repository 
     * **Repository SSH key** => 同上，建議請獨立產生一把 SSH key 供此 repository 使用
     * **Branch/Revision** => 請指向部署專用的 branch/revision
 
