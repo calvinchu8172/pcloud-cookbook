@@ -68,6 +68,8 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
         * Public IP addresses => yes
 4. (Custom) ejabberd
     * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'ejabberd'
+    * Security
+        * Custom groups => 請依據 *ejabberd Server Operation Cheat Sheet* 文件設定一組對應的 Security Group
 
 ## Instances
 
