@@ -1,15 +1,3 @@
-require 'resolv'
-
-template '/etc/hosts' do
-  cookbook 'ejabberd'
-  source "hosts.erb"
-  mode "0644"
-  variables(
-    :localhost_name => node[:opsworks][:instance][:hostname],
-    :nodes => search(:node, "name:*")
-  )
-end
-
 template '/etc/ejabberd/ejabberdctl.cfg' do
   cookbook 'ejabberd'
   source "ejabberdctl.cfg.erb"
