@@ -27,6 +27,7 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 
 * 建議規劃一個專用的 VPC 與之下的 subnet 供此 stack 使用
 * SSH key 務必妥善保留
+* Hostname theme => Layer Dependent
 * Chef 版本使用 11.10
 * **Use custom Chef cookbooks** => Yes
     * **Repository type** => Git
@@ -75,6 +76,10 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
         * Custom groups => 請依據 *ejabberd Server Operation Cheat Sheet* 文件設定一組對應的 Security Group
 
 ## Instances
+
+1. ejabberd
+    * 目前因為 ejabberd 較難獨立分出成為 App 層次來部署，故使用自訂 AMI 來建立 instance
+    * Operating system => Use custom AMI
 
 ## Apps
 
