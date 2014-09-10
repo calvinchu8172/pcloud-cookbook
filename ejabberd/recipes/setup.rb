@@ -1,4 +1,4 @@
-Chef::Log.info("Node: #{node}")
+Chef::Log.info("Node: #{node.inspect}")
 
 template '/etc/security/limits.conf' do
   source 'limits.conf.erb'
