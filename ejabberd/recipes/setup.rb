@@ -15,7 +15,8 @@ template '/etc/ejabberd/ejabberdctl.cfg' do
   source "ejabberdctl.cfg.erb"
   mode "0640"
   variables(
-    :nodes => search(:node, "name:*")
+    :private_ip => node[:opsworks][:instance][:private_ip],
+    :aws_instance_id => node[:opsworks][:instance][:aws_instance_id]
   )
 end
 

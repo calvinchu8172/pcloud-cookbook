@@ -1,4 +1,3 @@
-<% @nodes.each do |node| -%>
 #
 # In this file you can configure options that are passed by ejabberdctl
 # to the erlang runtime system when starting ejabberd
@@ -59,7 +58,7 @@ FIREWALL_WINDOW=4200-4210
 #
 # Default: 127.0.0.1
 #
-INET_DIST_INTERFACE=<%= node.attributes.private_ip %>
+INET_DIST_INTERFACE=<%= @private_ip %>
 
 #.
 #' ERL_EPMD_ADDRESS: IP addresses where epmd listens for connections
@@ -135,7 +134,7 @@ ERL_MAX_ETS_TABLES=200000
 #
 # Default: ejabberd@localhost
 #
-ERLANG_NODE=ejabberd@<%= node.aws_instance_id %>
+ERLANG_NODE=ejabberd@<%= @aws_instance_id %>
 
 #.
 #' EJABBERD_PID_PATH: ejabberd PID file
@@ -152,4 +151,3 @@ ERLANG_NODE=ejabberd@<%= node.aws_instance_id %>
 #.
 #'
 # vim: foldmarker=#',#. foldmethod=marker:
-<% end -%>
