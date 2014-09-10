@@ -4,7 +4,8 @@ template '/etc/ejabberd/ejabberdctl.cfg' do
   mode "0640"
   variables(
     :private_ip => node[:opsworks][:instance][:private_ip],
-    :hostname => node[:opsworks][:instance][:hostname]
+    :hostname => node[:opsworks][:instance][:hostname],
+    :aws_instance_id => node[:opsworks][:instance][:aws_instance_id]
   )
 end
 
