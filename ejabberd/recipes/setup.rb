@@ -30,3 +30,17 @@ ruby_block "ejabberd_files_cleaned_flag" do
   end
   action :nothing
 end
+
+execute "ejabberdctl start" do
+  user 'root'
+  notifies :create, "ruby_block[ejabberd_started_flag]", :immediately
+  not_if { node.attribute?("ejabberd_started") }
+end
+
+ruby_block "ejabberd_started_flag" do
+  block do
+    node.set['ejabberd_started'] = true
+    node.save
+  end
+  action :nothing
+end
