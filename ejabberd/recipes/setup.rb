@@ -10,6 +10,12 @@ template '/etc/hosts' do
   )
 end
 
+template '/etc/ejabberd/ejabberdctl.cfg' do
+  cookbook 'ejabberd'
+  source "ejabberdctl.cfg.erb"
+  mode "0640"
+end
+
 template '/etc/security/limits.conf' do
   cookbook 'ejabberd'
   source 'limits.conf.erb'
