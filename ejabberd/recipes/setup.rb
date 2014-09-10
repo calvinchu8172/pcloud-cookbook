@@ -16,3 +16,17 @@ template '/etc/security/limits.conf' do
   group 'root'
   mode '0644'
 end
+
+execute "rm /var/lib/ejabberd/*" do
+  user 'root'
+  notifies :create, "ruby_block[ejabberd_files_cleaned_flag]", :immediately
+  not_if { node.attribute?("ejabberd_files_cleaned") }
+end
+
+ruby_block "ejabberd_files_cleaned_flag" do
+  block do
+    node.set['ejabberd_files_cleaned'] = true
+    node.save
+  end
+  action :nothing
+end
