@@ -14,6 +14,9 @@ template '/etc/ejabberd/ejabberdctl.cfg' do
   cookbook 'ejabberd'
   source "ejabberdctl.cfg.erb"
   mode "0640"
+  variables(
+    :nodes => search(:node, "name:*")
+  )
 end
 
 template '/etc/security/limits.conf' do
