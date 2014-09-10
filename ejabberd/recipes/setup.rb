@@ -1,6 +1,7 @@
 require 'resolv'
 
 template '/etc/hosts' do
+  cookbook 'ejabberd'
   source "hosts.erb"
   mode "0644"
   variables(
@@ -10,9 +11,9 @@ template '/etc/hosts' do
 end
 
 template '/etc/security/limits.conf' do
+  cookbook 'ejabberd'
   source 'limits.conf.erb'
   owner 'root'
   group 'root'
   mode '0644'
-  cookbook 'ejabberd'
 end
