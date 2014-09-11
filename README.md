@@ -2,7 +2,7 @@
 
 https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 
-* 依照本文件操作時如果遭遇任何不確定的問題、疑難、錯誤，請即刻向 OpsWorks 部署工作負責人（現：Hiroshi）反應，以便即時排除並將文件敘述改寫更精確
+依照本文件操作時如果遭遇任何不確定的問題、疑難、錯誤，請即刻向 OpsWorks 部署工作負責人（現：Hiroshi）反應，以便即時排除並將文件敘述改寫更精確
 
 各項子目錄作用：
 
