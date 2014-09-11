@@ -2,6 +2,8 @@
 
 https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 
+* 依照本文件操作時如果遭遇任何不確定的問題、疑難、錯誤，請即刻向 OpsWorks 部署工作負責人（現：Hiroshi）反應，以便即時排除並將文件敘述改寫更精確
+
 各項子目錄作用：
 
 * `/bot`: Bot servers
@@ -59,6 +61,7 @@ https://gitlab.ecoworkinc.com/hiroshiyui/personal-cloud-cookbooks
 2. RDS
     * Add Layer 時選擇右邊分頁的 RDS，依據實際需求建立一台
     * 設定完成後，於後述的 Apps 處若設定妥當，則 Rails App 會自動生出一個對應的 `config/database.yml` 配置檔
+    * 不同的 Apps 可以規劃使用不同的 RDS
 3. (Custom) Bot
     * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'Bot'
     * Auto healing enabled => yes
