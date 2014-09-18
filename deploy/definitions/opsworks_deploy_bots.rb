@@ -2,6 +2,12 @@ define :opsworks_deploy_bots do
   application = params[:app]
   deploy = params[:deploy_data]
 
+  execute "install gems" do
+    user deploy[:user]
+    cwd "#{deploy[:current_path]}"
+    command "bundle install"
+  end
+
   # Setting-up & Running fluentd
   fluentd_s3 = deploy['fluentd']['s3']
 

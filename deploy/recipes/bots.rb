@@ -1,8 +1,8 @@
 include_recipe 'deploy'
 
 node[:deploy].each do |application, deploy|
-  Chef::Log.info("#{deploy.inspect}")
-  Chef::Log.info("#{node.inspect}")
+  #Chef::Log.info("#{deploy.inspect}")
+  #Chef::Log.info("#{node.inspect}")
 
   # NOTICE: Remember to set your App's name exactly to 'Personal Cloud Bots'
   #
