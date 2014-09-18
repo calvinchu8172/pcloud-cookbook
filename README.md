@@ -1,7 +1,5 @@
 # ZyXEL Personal Cloud Chef Cookbooks on AWS OpsWorks
 
-https://gitlab.ecoworkinc.com/zyxel/personal-cloud-cookbooks
-
 依照本文件操作時如果遭遇任何不確定的問題、疑難、錯誤，請即刻向 OpsWorks 部署工作負責人（現：Hiroshi）反應，以便即時排除並將文件敘述改寫更精確
 
 各項子目錄作用：
@@ -33,7 +31,7 @@ https://gitlab.ecoworkinc.com/zyxel/personal-cloud-cookbooks
 * Chef 版本使用 11.10
 * **Use custom Chef cookbooks** => Yes
     * **Repository type** => Git
-    * **Repository URL** => 指向自訂 cookbooks 的公司 GitLab repository，例如 `git@gitlab.ecoworkinc.com:hiroshiyui/personal-cloud-cookbooks.git`，並建議為了安全起見，不要直接使用開發版本，而是為部署獨立出一份專用 repository 
+    * **Repository URL** => 指向自訂 cookbooks 的公司 GitLab repository，例如 `git@gitlab.ecoworkinc.com:zyxel/personal-cloud-cookbooks.git`，並建議為了安全起見，不要直接使用開發版本，而是為部署獨立出一份專用 repository 
     * **Repository SSH key** => 同上，建議請獨立產生一把 SSH key 供此 repository 使用
     * **Branch/Revision** => 請指向部署專用的 branch/revision
 
