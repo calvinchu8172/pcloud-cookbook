@@ -119,3 +119,10 @@
 ## Monitoring
 ## Resources
 ## Permissions
+## 問題診斷
+1. 如果開機出問題，而 Web console 顯示大量 log 又會造成瀏覽器死機，我可以進到機器內去哪邊看 log？
+
+    `/var/lib/aws/opsworks/chef/`
+2. 部署的相關程式、設定檔案放在哪邊？
+
+    `/srv/`
