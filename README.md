@@ -23,7 +23,20 @@
 
 # OpsWorks Configurations
 
-## Stack
+## Environments
+
+Personal Cloud 依據不同任務需求，分為四種環境：
+1. Production
+2. Staging
+3. Beta
+4. Alpha
+
+## Stacks
+
+因為 Personal Cloud Portal 與 REST API Server 在 OpsWorks 中同為 Rails App Server layer 所轄，在部署時很多設定檔、資源會互相搶佔，為了管理上的方便，我們需將它們規劃在不同 Stack 中。所以每個環境當中至少需要兩份 Stack 如下：
+
+1. Portal Stack
+2. REST API Server Stack
 
 * 建議規劃一個專用的 VPC 與之下的 subnet 供此 stack 使用
 * SSH key 務必妥善保留
@@ -36,6 +49,8 @@
     * **Branch/Revision** => 請指向部署專用的 branch/revision
 
 ## Layers
+
+### Portal Stack
 
 1. Rails App Server
     * General Settings
@@ -76,13 +91,21 @@
     * Security
         * Custom groups => 請依據 *ejabberd Server Operation Cheat Sheet* 文件設定一組對應的 Security Group
 
+### REST API Server Stack
+
 ## Instances
+
+### Portal Stack
 
 1. ejabberd
     * 目前因為 ejabberd 較難獨立分出成為 App 層次來部署，故使用自訂 AMI 來建立 instance
     * Operating system => Use custom AMI
 
+### REST API Server Stack
+
 ## Apps
+
+### Portal Stack
 
 1. Personal Cloud Portal
     * Name => Personal Cloud Portal
@@ -105,7 +128,11 @@
     * Branch/Revision => develop
     * Data source type => None
 
+### REST API Server Stack
+
 ## Deployments
+
+### Portal Stack
 
 1. Personal Cloud Bots
     * 目前 Bot Jabber ID 設定值是寫死的，配予兩組「臨時調撥用帳號」，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分。請在 deploy 時，於 Advanced -> Custom Chef JSON 處，輸入如下格式的 Jabber IDs 指派設定：
@@ -116,10 +143,13 @@
             ]}
     * 另可參考 *ZyXEL Personal Cloud - Bot Deploy Guide For Create Instance Manually* 文件
 
+### REST API Server Stack
+
 ## Monitoring
 ## Resources
 ## Permissions
 ## 問題診斷
+
 1. 如果開機出問題，而 Web console 顯示大量 log 又會造成瀏覽器死機，我可以進到機器內去哪邊看 log？
 
     `/var/lib/aws/opsworks/chef/`
