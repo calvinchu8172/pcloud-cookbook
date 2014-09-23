@@ -1,6 +1,6 @@
 # ZyXEL Personal Cloud Chef Cookbooks on AWS OpsWorks
 
-依照本文件操作時如果遭遇任何不確定的問題、疑難、錯誤，請即刻向 OpsWorks 部署工作負責人（現：Hiroshi）反應，以便即時排除並將文件敘述改寫更精確
+依照本文件操作時如果遭遇任何不確定的問題、疑難、錯誤，請即刻向 OpsWorks 部署工作負責人（現：Hiroshi）反映，以便即時排除並將文件敘述改寫更精確。
 
 各項子目錄作用：
 
@@ -33,11 +33,6 @@ Personal Cloud 依據不同任務需求，分為四種環境：
 
 ## Stacks
 
-因為 Personal Cloud Portal 與 REST API Server 在 OpsWorks 中同為 Rails App Server layer 所轄，在部署時很多設定檔、資源會互相搶佔，為了管理上的方便，我們需將它們規劃在不同 Stack 中。所以每個環境當中至少需要兩份 Stack 如下：
-
-1. Portal Stack
-2. REST API Server Stack
-
 * 建議規劃一個專用的 VPC 與之下的 subnet 供此 stack 使用
 * SSH key 務必妥善保留
 * Hostname theme => Layer Dependent
@@ -47,10 +42,25 @@ Personal Cloud 依據不同任務需求，分為四種環境：
     * **Repository URL** => 指向自訂 cookbooks 的公司 GitLab repository，例如 `git@gitlab.ecoworkinc.com:zyxel/personal-cloud-cookbooks.git`，並建議為了安全起見，不要直接使用開發版本，而是為部署獨立出一份專用 repository 
     * **Repository SSH key** => 同上，建議請獨立產生一把 SSH key 供此 repository 使用
     * **Branch/Revision** => 請指向部署專用的 branch/revision
+* Custom JSON
+
+        {
+          "opsworks": { 
+            "ruby_version": "2.1", 
+            "ruby_stack": "ruby", 
+            "rails_stack": { 
+              "name": "nginx_unicorn" } 
+          }, 
+          "opsworks_bundler": { 
+            "version": "1.5.1", 
+            "manage_package": true 
+          }, 
+          "opsworks_rubygems": { 
+            "version": "2.2.1" 
+          } 
+        }
 
 ## Layers
-
-### Portal Stack
 
 1. Rails App Server
     * General Settings
@@ -91,21 +101,13 @@ Personal Cloud 依據不同任務需求，分為四種環境：
     * Security
         * Custom groups => 請依據 *ejabberd Server Operation Cheat Sheet* 文件設定一組對應的 Security Group
 
-### REST API Server Stack
-
 ## Instances
-
-### Portal Stack
 
 1. ejabberd
     * 目前因為 ejabberd 較難獨立分出成為 App 層次來部署，故使用自訂 AMI 來建立 instance
     * Operating system => Use custom AMI
 
-### REST API Server Stack
-
 ## Apps
-
-### Portal Stack
 
 1. Personal Cloud Portal
     * Name => Personal Cloud Portal
@@ -128,11 +130,7 @@ Personal Cloud 依據不同任務需求，分為四種環境：
     * Branch/Revision => develop
     * Data source type => None
 
-### REST API Server Stack
-
 ## Deployments
-
-### Portal Stack
 
 1. Personal Cloud Bots
     * 目前 Bot Jabber ID 設定值是寫死的，配予兩組「臨時調撥用帳號」，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分。請在 deploy 時，於 Advanced -> Custom Chef JSON 處，輸入如下格式的 Jabber IDs 指派設定：
@@ -142,8 +140,6 @@ Personal Cloud 依據不同任務需求，分為四種環境：
               {"jid": "botno2@xmpp.pcloud.ecoworkinc.com/robot", "pw": "YOUR_BOTNO2_PASSWORD"}
             ]}
     * 另可參考 *ZyXEL Personal Cloud - Bot Deploy Guide For Create Instance Manually* 文件
-
-### REST API Server Stack
 
 ## Monitoring
 ## Resources
@@ -156,3 +152,6 @@ Personal Cloud 依據不同任務需求，分為四種環境：
 2. 部署的相關程式、設定檔案放在哪邊？
 
     `/srv/`
+3. 如何獲取 Chef Node 的設定值？
+
+    `sudo opsworks-agent-cli get_json`
