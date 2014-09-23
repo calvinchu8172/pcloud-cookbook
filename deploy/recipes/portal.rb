@@ -18,7 +18,7 @@ node[:deploy].each do |application, deploy|
     app application
   end
 
-  opsworks_deploy do
+  opsworks_deploy_portalapp do
     deploy_data deploy
     app application
   end
