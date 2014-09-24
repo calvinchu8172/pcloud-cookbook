@@ -1,0 +1,52 @@
+magic_number: 890980
+xmpp:
+  server: localhost
+  device_rescource_id: device
+  admin:
+    account   : bot01
+    password  : 1234
+  bots: 
+    - bot01@localhost
+    - bot02@localhost
+    - bot03@localhost
+    - bot04@localhost
+    - bot05@localhost
+    - bot06@localhost
+    - bot07@localhost
+    - bot08@localhost
+  nodes:
+    - 172.31.25.84
+environments:
+  paperclip:
+    default:
+      storage: :s3
+      s3_credentials: 
+        bucket: 's3-pcloud-test'
+        access_key_id: 'AKIAJS52YFZUARWCSMVQ'
+        secret_access_key: 'vsys5QRBqdhzurgBfR8NgKP1zHojPcF'
+    attachment:
+      default:
+        url: ':s3-pcloud-test.s3.amazonaws.com'
+        s3_host_name: 's3-us-west-2.amazonaws.com'
+        path: '/:class/:attachment/:id_partition/:style/:filename'
+  sqs:
+    name: 'personal_cloud_queue_test'
+    attributes:
+      access_key_id: 'AKIAIOKGDAZ2CJ7QW3HQ'
+      secret_access_key: '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'
+      region: 'us-west-2'
+  ddns: pcloud.ecoworkinc.com
+  filter_list:
+    - api
+    - www
+    - dns
+    - ddns
+    - upnp
+    - blog
+    - zyxel
+    - store
+    - host
+    - support
+    - service
+    - services
+
