@@ -155,3 +155,6 @@ Personal Cloud 依據不同任務需求，分為四種環境：
 3. 如何獲取 Chef Node 的設定值？
 
     `sudo opsworks-agent-cli get_json`
+4. 真正執行的 Chef Cookbooks 放在哪邊？
+
+    `/opt/aws/opsworks/current/merged-cookbooks`
