@@ -47,9 +47,6 @@ node[:deploy].each do |application, deploy|
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
-    variables({
-      :production_secret_key => ENV['RAILS_SECRET_KEY']
-    })
 
     notifies :run, "execute[restart Rails app #{application}]"
 
