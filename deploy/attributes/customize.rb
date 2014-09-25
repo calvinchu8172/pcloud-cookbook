@@ -3,12 +3,10 @@ normal[:rails][:max_pool_size] = 20
 
 ## Personal Cloud Portal
 normal[:deploy]['personal_cloud_portal'][:symlink_before_migrate]['config/mailer.yml'] = 'config/mailer.yml'
-normal[:deploy]['personal_cloud_portal'][:symlink_before_migrate]['config/secrets.yml'] = 'config/secrets.yml'
 normal[:deploy]['personal_cloud_portal'][:symlink_before_migrate]['config/settings.production.yml'] = 'config/settings/production.yml'
 
 ## Personal Cloud REST API Server
 normal[:deploy]['personal_cloud_rest_api'][:symlink_before_migrate]['config/mailer.yml'] = 'config/mailer.yml'
-normal[:deploy]['personal_cloud_rest_api'][:symlink_before_migrate]['config/secrets.yml'] = 'config/secrets.yml'
 normal[:deploy]['personal_cloud_rest_api'][:symlink_before_migrate]['config/settings.production.yml'] = 'config/settings/production.yml'
 
 ## Personal Cloud Bots
