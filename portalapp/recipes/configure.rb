@@ -40,19 +40,4 @@ node[:deploy].each do |application, deploy|
       File.directory?("#{deploy[:deploy_to]}/shared/config/")
     end
   end
-
-  template "#{deploy[:deploy_to]}/shared/config/secrets.yml" do
-    source "secrets.yml.erb"
-    cookbook 'portalapp'
-    mode "0660"
-    group deploy[:group]
-    owner deploy[:user]
-
-    notifies :run, "execute[restart Rails app #{application}]"
-
-    only_if do
-      File.directory?("#{deploy[:deploy_to]}/shared/config/")
-    end
-  end
-
 end
