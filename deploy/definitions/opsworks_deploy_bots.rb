@@ -1,9 +1,9 @@
 define :opsworks_deploy_bots do
   application = params[:app]
   deploy = params[:deploy_data]
+  vars = deploy[:environment_variables]
 
   # Setting-up & Running fluentd
-  fluentd_s3 = deploy['fluentd']['s3']
 
   # initialize fluentd config
   execute "fluentd -s" do
@@ -19,10 +19,10 @@ define :opsworks_deploy_bots do
     group 'root'
     owner 'root'
     variables({
-      :s3_key => fluentd_s3['key_id'], 
-      :s3_secret_key => fluentd_s3['secret_key'],
-      :s3_bucket => fluentd_s3['bucket'],
-      :s3_log_path => fluentd_s3['log_path']
+      :s3_key => vars['S3_KEY_ID'], 
+      :s3_secret_key => vars['S3_SECRET_KEY'],
+      :s3_bucket => vars['S3_BUCKET'],
+      :s3_log_path => vars['S3_LOG_PATH']
     })
   end
 

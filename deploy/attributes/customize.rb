@@ -10,11 +10,6 @@ normal[:deploy]['personal_cloud_rest_api'][:symlink_before_migrate]['config/mail
 normal[:deploy]['personal_cloud_rest_api'][:symlink_before_migrate]['config/settings.production.yml'] = 'config/settings/production.yml'
 
 ## Personal Cloud Bots
-# fluentd
-normal[:deploy]['personal_cloud_bots']['fluentd']['s3']['key_id'] = 'AKIAIFBA53YARL2VHDWQ'
-normal[:deploy]['personal_cloud_bots']['fluentd']['s3']['secret_key'] = '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'
-normal[:deploy]['personal_cloud_bots']['fluentd']['s3']['bucket'] = 'ecowork-demo'
-normal[:deploy]['personal_cloud_bots']['fluentd']['s3']['log_path'] = 'personal-cloud-bot-log/'
 # database
 normal[:deploy]['personal_cloud_bots']['db']['host'] = 'test12345.cjfxj7dznwce.ap-northeast-1.rds.amazonaws.com'
 normal[:deploy]['personal_cloud_bots']['db']['socket'] = ''
