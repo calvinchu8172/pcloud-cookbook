@@ -1,9 +1,10 @@
 define :opsworks_deploy_bots do
   application = params[:app]
   deploy = params[:deploy_data]
+  bots_settings = node['pcloud_setting']['bots']
 
   # Setting-up & Running fluentd
-  fluentd_s3 = deploy['fluentd']['s3']
+  fluentd_s3 = bots_settings['fluentd']['s3']
 
   # initialize fluentd config
   execute "fluentd -s" do
@@ -33,7 +34,7 @@ define :opsworks_deploy_bots do
   end
 
   # Bots Configurations
-  bots_config_db = deploy['db']
+  bots_config_db = bots_settings['db']
 
   template "#{deploy[:deploy_to]}/shared/config/bot_db_config.yml" do
     source "bot_db_config.yml.erb"
@@ -50,7 +51,7 @@ define :opsworks_deploy_bots do
     })
   end
 
-  bots_config_mail = deploy['mail']
+  bots_config_mail = bots_settings['mail']
 
   template "#{deploy[:deploy_to]}/shared/config/bot_mail_config.yml" do
     source "bot_mail_config.yml.erb"
@@ -66,7 +67,7 @@ define :opsworks_deploy_bots do
     })
   end
 
-  bots_config_queue = deploy['queue']
+  bots_config_queue = bots_settings['queue']
 
   template "#{deploy[:deploy_to]}/shared/config/bot_queue_config.yml" do
     source "bot_queue_config.yml.erb"
@@ -82,7 +83,7 @@ define :opsworks_deploy_bots do
     })
   end
 
-  bots_config_route = deploy['route']
+  bots_config_route = bots_settings['route']
 
   template "#{deploy[:deploy_to]}/shared/config/bot_route_config.yml" do
     source "bot_route_config.yml.erb"
@@ -98,7 +99,7 @@ define :opsworks_deploy_bots do
     })
   end
 
-  bots_config_god = deploy['god']
+  bots_config_god = bots_settings['god']
 
   xmpp_config = node['xmpp_config'].nil? ? bots_config_god['xmpp_config'] : node['xmpp_config']
 
