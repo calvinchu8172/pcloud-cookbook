@@ -1,7 +1,7 @@
 define :opsworks_deploy_bots do
   application = params[:app]
   deploy = params[:deploy_data]
-  bots_settings = node['pcloud_setting']['bots']
+  bots_settings = node['pcloud_settings']['bots']
 
   # Setting-up & Running fluentd
   fluentd_s3 = bots_settings['fluentd']['s3']
