@@ -25,14 +25,14 @@ test:
     host: "pcloud.ecoworkinc.com"
 
 production:
-  delivery_method: :smtp
+  delivery_method: <%= @delivery_method %>
   smtp_settings:
-    address: "email-smtp.us-west-2.amazonaws.com"
-    user_name: "AKIAJZ5YWQDWXKFDZV2A"
-    password: "Am497TKCxMIt8t3VRqP0hIuylA//NiV0sJcohDwFCZFe"
-    authentication: "login"
-    enable_starttls_auto: Yes
+    address: <%= @smtp_settings['address'] %>
+    user_name: <%= @smtp_settings['user_name'] %>
+    password: <%= @smtp_settings['password'] %>
+    authentication: <%= @smtp_settings['authentication'] %>
+    enable_starttls_auto: <%= @smtp_settings['enable_starttls_auto'] %>
   default:
-    from: "do-not-reply@ecoworkinc.com"
+    from: <%= @default['from'] %>
   default_url_options:
-    host: "myzyxel.ecoworkinc.com"
+    host: <%= @default_url_options['host'] %>
