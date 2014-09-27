@@ -13,6 +13,10 @@ package "mongooseim" do
   action :install
 end
 
+package "mysql-client-core-5.6" do
+  action :install
+end
+
 package "mysql-client-5.6" do
   action :install
 end
