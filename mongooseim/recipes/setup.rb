@@ -52,3 +52,14 @@ template '/etc/sysctl.conf' do
   group 'root'
   mode '0644'
 end
+
+template '/usr/lib/mongooseim/etc/vm.args' do
+  cookbook 'mongooseim'
+  source 'vm.args.erb'
+  owner 'mongooseim'
+  group 'mongooseim'
+  mode '0644'
+  variables({
+    :hostname => node[:opsworks][:instance][:hostname]
+  })
+end
