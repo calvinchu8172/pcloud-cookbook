@@ -118,7 +118,7 @@
 %% You can define one or several, for example:
 %% {hosts, ["example.net", "example.com", "example.org"]}.
 %%
-{hosts, ["localhost"] }.
+{hosts, ["<%= @vhost %>"] }.
 
 %%
 %% route_subdomains: Delegate subdomains to other XMPP servers.
@@ -413,7 +413,7 @@
 %% This option specifies the maximum number of elements in the queue
 %% of the FSM. Refer to the documentation for details.
 %%
-{max_fsm_queue, 1000}.
+{max_fsm_queue, 10000000}.
 
 
 %%%.   ====================
@@ -462,7 +462,7 @@
 {access, max_user_sessions, [{10, all}]}.
 
 %% Maximum number of offline messages that users can have:
-{access, max_user_offline_messages, [{5000, admin}, {100, all}]}.
+{access, max_user_offline_messages, [{0, admin}, {0, all}]}.
 
 %% This rule allows access only for local users:
 {access, local, [{allow, local}]}.
@@ -473,10 +473,10 @@
 
 %% For C2S connections, all users except admins use the "normal" shaper
 {access, c2s_shaper, [{none, admin},
-		      {normal, all}]}.
+		      {none, all}]}.
 
 %% All S2S connections use the "fast" shaper
-{access, s2s_shaper, [{fast, all}]}.
+{access, s2s_shaper, [{none, all}]}.
 
 %% Admins of this server are also admins of the MUC service:
 {access, muc_admin, [{allow, admin}]}.
@@ -511,7 +511,7 @@
 {shaper, mam_shaper, {maxrate, 1}}.
 %% This shaper is primeraly for Mnesia overload protection during stress testing.
 %% The limit is 1000 operations of each type per second.
-{shaper, mam_global_shaper, {maxrate, 1000}}.
+{shaper, mam_global_shaper, {maxrate, 10000}}.
 
 {access, mam_set_prefs_shaper, [{mam_shaper, all}]}.
 {access, mam_get_prefs_shaper, [{mam_shaper, all}]}.

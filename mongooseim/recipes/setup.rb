@@ -63,3 +63,19 @@ template '/usr/lib/mongooseim/etc/vm.args' do
     :hostname => node[:opsworks][:instance][:hostname]
   })
 end
+
+mongooseim_settings = node['pcloud_settings']['mongooseim']
+
+template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
+  cookbook 'mongooseim'
+  source 'ejabberd.cfg.erb'
+  owner 'mongooseim'
+  group 'mongooseim'
+  mode '0644'
+  variables({
+    :vhost => mongooseim_settings['vhost'],
+    :ejabberd_c2s => mongooseim_settings['ejabberd_c2s'],
+    :sm_backend => mongooseim_settings['sm_backend'],
+    :auth_method => mongooseim_settings['auth_method']
+  })
+end
