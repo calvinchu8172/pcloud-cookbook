@@ -27,18 +27,12 @@ test:
 production:
   delivery_method: <%= @delivery_method %>
   smtp_settings:
-<% @smtp_settings.each do |smtp_setting| %>
-    address: <%= smtp_setting['address'] %>
-    user_name: <%= smtp_setting['user_name'] %>
-    password: <%= smtp_setting['password'] %>
-    authentication: <%= smtp_setting['authentication'] %>
-    enable_starttls_auto: <%= smtp_setting['enable_starttls_auto'] %>
-<% end %>
+    address: <%= @smtp_settings['address'] %>
+    user_name: <%= @smtp_settings['user_name'] %>
+    password: <%= @smtp_settings['password'] %>
+    authentication: <%= @smtp_settings['authentication'] %>
+    enable_starttls_auto: <%= @smtp_settings['enable_starttls_auto'] %>
   default:
-<% @default.each do |default_setting|%>
-    from: <%= default_setting['from'] %>
-<% end %>
+    from: <%= @default['from'] %>
   default_url_options:
-<% @default_url_options.each do |default_url_option| %>
-    host: <%= default_url_option['host'] %>
-<% end %>
+    host: <%= @default_url_options['host'] %>
