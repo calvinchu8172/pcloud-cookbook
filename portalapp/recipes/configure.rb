@@ -36,12 +36,19 @@ node[:deploy].each do |application, deploy|
     end
   end
 
+  production_settings = portalapp_settings['production']
+
   template "#{deploy[:deploy_to]}/shared/config/settings.production.yml" do
     source "production.yml.erb"
     cookbook 'portalapp'
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
+    variables({
+      :magic_number => production_settings['magic_number'],
+      :xmpp => production_settings['xmpp'],
+      :environments => production_settings['environments'],
+    })
 
     notifies :run, "execute[restart Rails app #{application}]"
 
