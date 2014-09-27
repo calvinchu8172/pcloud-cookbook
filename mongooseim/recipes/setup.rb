@@ -20,3 +20,35 @@ end
 package "redis-tools" do
   action :install
 end
+
+template '/etc/security/limits.conf' do
+  cookbook 'mongooseim'
+  source 'limits.conf.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
+template '/etc/pam.d/common-session' do
+  cookbook 'mongooseim'
+  source 'common-session.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
+template '/etc/pam.d/common-session-noninteractive' do
+  cookbook 'mongooseim'
+  source 'common-session-noninteractive.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
+template '/etc/sysctl.conf' do
+  cookbook 'mongooseim'
+  source 'sysctl.conf.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
