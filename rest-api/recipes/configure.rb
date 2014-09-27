@@ -15,7 +15,7 @@ mailer_settings = rest_api_server_settings['mailer']['production']
 
 template "#{deploy[:deploy_to]}/shared/config/mailer.yml" do
   source "mailer.yml.erb"
-  cookbook 'portalapp'
+  cookbook 'rest-api'
   mode "0660"
   group deploy[:group]
   owner deploy[:user]
@@ -37,7 +37,7 @@ production_settings = rest_api_server_settings['production']
 
 template "#{deploy[:deploy_to]}/shared/config/settings.production.yml" do
   source "production.yml.erb"
-  cookbook 'portalapp'
+  cookbook 'rest-api'
   mode "0660"
   group deploy[:group]
   owner deploy[:user]
