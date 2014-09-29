@@ -81,7 +81,7 @@ execute "load secret key from S3" do
   command <<-EOH
     AWS_ACCESS_KEY_ID=#{mongooseim_settings['ejabberd_c2s']['s3_access_key']} \
     AWS_SECRET_ACCESS_KEY=#{mongooseim_settings['ejabberd_c2s']['s3_secret_key']} \
-    aws s3 cp s3://#{mongooseim_settings['ejabberd_c2s']['s3_bucket']}/certificate/#{mongooseim_settings['ejabberd_c2s']['certfile']} \
+    aws s3 cp s3://#{mongooseim_settings['ejabberd_c2s']['s3_bucket']}/certificates/#{mongooseim_settings['ejabberd_c2s']['certfile']} \
     #{mongooseim_settings['ejabberd_c2s']['certfile']} --region 'us-east-1'
   EOH
 
