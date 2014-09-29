@@ -83,6 +83,17 @@ execute "load secret key from S3" do
   not_if "test -f #{mongooseim_settings['ejabberd_c2s']['certpath']}#{mongooseim_settings['ejabberd_c2s']['certfile']}"
 end
 
+execute "set ownership & permission of secret key" do
+  user "root"
+  cwd "#{mongooseim_settings['ejabberd_c2s']['certpath']}"
+  command <<-EOH
+    chown mongooseim:mongooseim #{mongooseim_settings['ejabberd_c2s']['certpath']}#{mongooseim_settings['ejabberd_c2s']['certfile']} && \
+    chmod 0400 #{mongooseim_settings['ejabberd_c2s']['certpath']}#{mongooseim_settings['ejabberd_c2s']['certfile']}
+  EOH
+
+  only_if "test -f #{mongooseim_settings['ejabberd_c2s']['certpath']}#{mongooseim_settings['ejabberd_c2s']['certfile']}"
+end
+
 template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
   cookbook 'mongooseim'
   source 'ejabberd.cfg.erb'
