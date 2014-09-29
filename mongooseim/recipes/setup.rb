@@ -21,6 +21,10 @@ package "redis-tools" do
   action :install
 end
 
+packages "awscli" do
+  action :install
+end
+
 template '/etc/security/limits.conf' do
   cookbook 'mongooseim'
   source 'limits.conf.erb'
