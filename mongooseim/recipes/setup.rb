@@ -21,7 +21,7 @@ package "redis-tools" do
   action :install
 end
 
-packages "awscli" do
+package "awscli" do
   action :install
 end
 
