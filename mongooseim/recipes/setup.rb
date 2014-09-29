@@ -57,6 +57,11 @@ template '/etc/sysctl.conf' do
   mode '0644'
 end
 
+execute "shutdown mongooseim first during setting things up & done" do
+  user "root"
+  command "mongooseimctl stop"
+end
+
 template '/usr/lib/mongooseim/etc/vm.args' do
   cookbook 'mongooseim'
   source 'vm.args.erb'
@@ -106,4 +111,9 @@ template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
     :sm_backend => mongooseim_settings['sm_backend'],
     :auth_method => mongooseim_settings['auth_method']
   })
+end
+
+execute "start mongooseim" do
+  user "root"
+  command "mongooseimctl start"
 end
