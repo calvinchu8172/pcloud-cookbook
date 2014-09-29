@@ -112,7 +112,3 @@ template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
     :auth_method => mongooseim_settings['auth_method']
   })
 end
-
-service "mongooseim" do
-  action :start
-end
