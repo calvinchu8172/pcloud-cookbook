@@ -70,6 +70,19 @@ end
 
 mongooseim_settings = node['pcloud_settings']['mongooseim']
 
+execute "load secret key from S3" do
+  user "root"
+  cwd "#{mongooseim_settings['ejabberd_c2s']['certpath']}"
+  command <<-EOH
+    AWS_ACCESS_KEY_ID=#{mongooseim_settings['ejabberd_c2s']['s3_access_key']} \
+    AWS_SECRET_ACCESS_KEY=#{mongooseim_settings['ejabberd_c2s']['s3_secret_key']} \
+    aws s3 cp s3://#{mongooseim_settings['ejabberd_c2s']['s3_bucket']}/certificate/#{mongooseim_settings['ejabberd_c2s']['certfile']} \
+    #{mongooseim_settings['ejabberd_c2s']['certfile']} --region 'us-east-1'
+  EOH
+
+  not_if "test -f #{mongooseim_settings['ejabberd_c2s']['certpath']}#{mongooseim_settings['ejabberd_c2s']['certfile']}"
+end
+
 template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
   cookbook 'mongooseim'
   source 'ejabberd.cfg.erb'
