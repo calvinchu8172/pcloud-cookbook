@@ -57,9 +57,9 @@ template '/etc/sysctl.conf' do
   mode '0644'
 end
 
-# Stop MongooseIM before anything is done
-service "mongooseim" do
-  action :stop
+execute "shutdown mongooseim first during setting things up & done" do
+  user "root"
+  command "mongooseimctl stop"
 end
 
 template '/usr/lib/mongooseim/etc/vm.args' do
@@ -113,6 +113,7 @@ template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
   })
 end
 
-service "mongooseim" do
-  action :start
+execute "start mongooseim" do
+  user "root"
+  command "mongooseimctl start"
 end
