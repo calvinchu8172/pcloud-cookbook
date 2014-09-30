@@ -119,6 +119,19 @@ define :opsworks_deploy_bots do
     })
   end
 
+  bots_config_redis = bots_settings['redis']
+
+  template "#{deploy[:deploy_to]}/shared/config/bot_redis_config.yml" do
+    source "bot_redis_config.yml.erb"
+    cookbook 'deploy'
+    mode "0644"
+    group deploy[:group]
+    owner deploy[:user]
+    variables({
+      :redis_host => bot_redis_config['host']
+    })
+  end
+
   # Run God monitor & Bots
   execute "launch bots" do
     command "god terminate; god -c #{deploy[:current_path]}/bot.god"
