@@ -132,7 +132,7 @@ define :opsworks_deploy_bots do
     group deploy[:group]
     owner deploy[:user]
     variables({
-      :redis_host => bot_redis_config['host']
+      :redis_host => bots_config_redis['host']
     })
   end
 
