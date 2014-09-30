@@ -63,7 +63,11 @@ define :opsworks_deploy_bots do
       :mail_key_id => bots_config_mail['key_id'],
       :mail_access_key => bots_config_mail['access_key'],
       :mail_region => bots_config_mail['region'],
-      :mail_domain => bots_config_mail['domain']
+      :mail_domain => bots_config_mail['domain'],
+      :mail_smtp_host => bots_config_mail['smtp_host'],
+      :mail_smtp_port => bots_config_mail['smtp_port'],
+      :mail_smtp_user => bots_config_mail['smtp_user'],
+      :mail_smtp_password => bots_config_mail['smtp_password']
     })
   end
 
