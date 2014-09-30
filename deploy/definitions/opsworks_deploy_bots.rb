@@ -138,7 +138,6 @@ define :opsworks_deploy_bots do
 
   # Run God monitor & Bots
   execute "launch bots" do
-    user "#{deploy[:user]}"
     command "god terminate; god -c #{deploy[:current_path]}/bot.god"
   end
 end
