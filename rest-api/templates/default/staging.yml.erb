@@ -1,4 +1,5 @@
 magic_number: <%= @magic_number %>
+version: <%= @version %>
 xmpp:
   server: <%= @xmpp['server'] %>
   device_rescource_id: <%= @xmpp['device_rescource_id'] %>
@@ -14,6 +15,8 @@ xmpp:
     - <%= node %>
 <% end %>
 environments:
+  api_domain: <%= @environments['api_domain'] %>
+  portal_domain: <%= @environments['portal_domain'] %> 
   paperclip:
     default:
       storage: <%= @environments['paperclip']['default']['storage'] %>
@@ -33,7 +36,17 @@ environments:
       secret_access_key: <%= @environments['sqs']['attributes']['secret_access_key'] %>
       region: <%= @environments['sqs']['attributes']['region'] %>
   ddns: <%= @environments['ddns'] %>
+  cdn: <%= @environments['cdn'] %>
   filter_list:
 <% @environments['filter_list'].each do |hostname| %>
     - <%= hostname %>
 <% end %>
+oauth:
+  facebook_app_id: <%= @oauth['facebook_app_id'] %>
+  facebook_secret: <%= @oauth['facebook_secret'] %>
+  google_app_id: <%= @oauth['google_app_id'] %>
+  google_secret: <%= @oauth['google_secret'] %>
+recaptcha:
+  config:
+    public_key: <%= @recaptcha['config']['public_key'] %>
+    private_key: <%= @recaptcha['config']['private_key'] %>
