@@ -74,3 +74,22 @@ template "#{deploy[:deploy_to]}/shared/config/settings.staging.yml" do
     File.directory?("#{deploy[:deploy_to]}/shared/config/")
   end
 end
+
+databases_settings = rest_api_server_settings['databases']
+
+template "#{deploy[:deploy_to]}/shared/config/database.yml" do
+  source "database.yml.erb"
+  cookbook 'rest-api'
+  mode "0660"
+  group deploy[:group]
+  owner deploy[:user]
+  variables({
+    :databases => databases_settings
+  })
+
+  notifies :run, "execute[restart Rails app #{application}]"
+
+  only_if do
+    File.directory?("#{deploy[:deploy_to]}/shared/config/")
+  end
+end
