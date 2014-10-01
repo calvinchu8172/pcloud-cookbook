@@ -1,0 +1,39 @@
+magic_number: <%= @magic_number %>
+xmpp:
+  server: <%= @xmpp['server'] %>
+  device_rescource_id: <%= @xmpp['device_rescource_id'] %>
+  admin:
+    account: <%= @xmpp['admin']['account'] %>
+    password: <%= @xmpp['admin']['password'] %>
+  bots:
+<% @xmpp['bots'].each do |bot| %>
+    - <%= bot %>
+<% end %>
+  nodes:
+<% @xmpp['nodes'].each do |node| %>
+    - <%= node %>
+<% end %>
+environments:
+  paperclip:
+    default:
+      storage: <%= @environments['paperclip']['default']['storage'] %>
+      s3_credentials: 
+        bucket: <%= @environments['paperclip']['default']['s3_credentials']['bucket'] %>
+        access_key_id: <%= @environments['paperclip']['default']['s3_credentials']['access_key_id'] %>
+        secret_access_key: <%= @environments['paperclip']['default']['s3_credentials']['secret_access_key'] %>
+    attachment:
+      default:
+        url: <%= @environments['paperclip']['attachment']['default']['url'] %>
+        s3_host_name: <%= @environments['paperclip']['attachment']['default']['s3_host_name'] %>
+        path: <%= @environments['paperclip']['attachment']['default']['path'] %>
+  sqs:
+    name: <%= @environments['sqs']['name'] %>
+    attributes:
+      access_key_id: <%= @environments['sqs']['attributes']['access_key_id'] %>
+      secret_access_key: <%= @environments['sqs']['attributes']['secret_access_key'] %>
+      region: <%= @environments['sqs']['attributes']['region'] %>
+  ddns: <%= @environments['ddns'] %>
+  filter_list:
+<% @environments['filter_list'].each do |hostname| %>
+    - <%= hostname %>
+<% end %>

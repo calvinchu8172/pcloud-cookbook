@@ -53,3 +53,24 @@ template "#{deploy[:deploy_to]}/shared/config/settings.production.yml" do
     File.directory?("#{deploy[:deploy_to]}/shared/config/")
   end
 end
+
+staging_settings = rest_api_server_settings['staging']
+
+template "#{deploy[:deploy_to]}/shared/config/settings.staging.yml" do
+  source "staging.yml.erb"
+  cookbook 'rest-api'
+  mode "0660"
+  group deploy[:group]
+  owner deploy[:user]
+  variables({
+    :magic_number => staging_settings['magic_number'],
+    :xmpp => staging_settings['xmpp'],
+    :environments => staging_settings['environments'],
+  })
+
+  notifies :run, "execute[restart Rails app #{application}]"
+
+  only_if do
+    File.directory?("#{deploy[:deploy_to]}/shared/config/")
+  end
+end
