@@ -2,7 +2,7 @@
 <%= env %>:
   adapter: mysql2
   database: <%= @databases['rails']['database'] %>
-  encoding: <%= @databases['rails'] || 'utf8' %>
+  encoding: <%= @databases['rails']['encoding'] || 'utf8' %>
   host: <%= @databases['rails']['host'] %>
   username: <%= @databases['rails']['username'] %>
   password: <%= @databases['rails']['password'] %>
@@ -19,7 +19,7 @@
 xmpp_<%= env %>:
   adapter: mysql2
   database: <%= @databases['mongooseim']['database'] %>
-  encoding: <%= @databases['mongooseim'] || 'utf8' %>
+  encoding: <%= @databases['mongooseim']['encoding'] || 'utf8' %>
   host: <%= @databases['mongooseim']['host'] %>
   username: <%= @databases['mongooseim']['username'] %>
   password: <%= @databases['mongooseim']['password'] %>
