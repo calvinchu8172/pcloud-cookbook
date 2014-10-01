@@ -1,0 +1,30 @@
+<% (['development', 'test', 'production', 'staging']).uniq.each do |env| -%>
+<%= env %>:
+  adapter: mysql2
+  database: <%= @databases['rails']['database'] %>
+  encoding: <%= @databases['rails']['encoding'] || 'utf8' %>
+  host: <%= @databases['rails']['host'] %>
+  username: <%= @databases['rails']['username'] %>
+  password: <%= @databases['rails']['password'] %>
+  reconnect: <%= @databases['rails']['reconnect'] %>
+<% if @databases['rails']['pool'] %>
+  pool: <%= @databases['rails']['pool'] %>
+<% end %>
+<% if @databases['rails']['port'] %>
+  port: <%= @databases['rails']['port'] %>
+<% end %>
+xmpp_<%= env %>:
+  adapter: mysql2
+  database: <%= @databases['mongooseim']['database'] %>
+  encoding: <%= @databases['mongooseim']['encoding'] || 'utf8' %>
+  host: <%= @databases['mongooseim']['host'] %>
+  username: <%= @databases['mongooseim']['username'] %>
+  password: <%= @databases['mongooseim']['password'] %>
+  reconnect: <%= @databases['mongooseim']['reconnect'] %>
+<% if @databases['mongooseim']['pool'] %>
+  pool: <%= @databases['mongooseim']['pool'] %>
+<% end %>
+<% if @databases['mongooseim']['port'] %>
+  port: <%= @databases['mongooseim']['port'] %>
+<% end %>
+<% end -%>

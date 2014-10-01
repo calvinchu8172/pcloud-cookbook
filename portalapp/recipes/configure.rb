@@ -45,6 +45,54 @@ template "#{deploy[:deploy_to]}/shared/config/settings.production.yml" do
     :magic_number => production_settings['magic_number'],
     :xmpp => production_settings['xmpp'],
     :environments => production_settings['environments'],
+    :version => production_settings['version'],
+    :oauth => production_settings['oauth'],
+    :recaptcha => production_settings['recaptcha'],
+    :redis => production_settings['redis']
+  })
+
+  notifies :run, "execute[restart Rails app #{application}]"
+
+  only_if do
+    File.directory?("#{deploy[:deploy_to]}/shared/config/")
+  end
+end
+
+staging_settings = portalapp_settings['staging']
+
+template "#{deploy[:deploy_to]}/shared/config/settings.staging.yml" do
+  source "staging.yml.erb"
+  cookbook 'portalapp'
+  mode "0660"
+  group deploy[:group]
+  owner deploy[:user]
+  variables({
+    :magic_number => staging_settings['magic_number'],
+    :xmpp => staging_settings['xmpp'],
+    :environments => staging_settings['environments'],
+    :version => staging_settings['version'],
+    :oauth => staging_settings['oauth'],
+    :recaptcha => staging_settings['recaptcha'],
+    :redis => staging_settings['redis']
+  })
+
+  notifies :run, "execute[restart Rails app #{application}]"
+
+  only_if do
+    File.directory?("#{deploy[:deploy_to]}/shared/config/")
+  end
+end
+
+databases_settings = portalapp_settings['databases']
+
+template "#{deploy[:deploy_to]}/shared/config/database.yml" do
+  source "database.yml.erb"
+  cookbook 'portalapp'
+  mode "0660"
+  group deploy[:group]
+  owner deploy[:user]
+  variables({
+    :databases => databases_settings
   })
 
   notifies :run, "execute[restart Rails app #{application}]"
