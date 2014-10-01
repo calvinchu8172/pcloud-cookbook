@@ -50,3 +50,6 @@ recaptcha:
   config:
     public_key: <%= @recaptcha['config']['public_key'] %>
     private_key: <%= @recaptcha['config']['private_key'] %>
+redis:
+  host: <%= @redis['host'] %>
+  port: <%= @redis['port'] %>

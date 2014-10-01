@@ -47,7 +47,8 @@ template "#{deploy[:deploy_to]}/shared/config/settings.production.yml" do
     :environments => production_settings['environments'],
     :version => production_settings['version'],
     :oauth => production_settings['oauth'],
-    :recaptcha => production_settings['recaptcha']
+    :recaptcha => production_settings['recaptcha'],
+    :redis => production_settings['redis']
   })
 
   notifies :run, "execute[restart Rails app #{application}]"
@@ -71,7 +72,8 @@ template "#{deploy[:deploy_to]}/shared/config/settings.staging.yml" do
     :environments => staging_settings['environments'],
     :version => staging_settings['version'],
     :oauth => staging_settings['oauth'],
-    :recaptcha => staging_settings['recaptcha']
+    :recaptcha => staging_settings['recaptcha'],
+    :redis => staging_settings['redis']
   })
 
   notifies :run, "execute[restart Rails app #{application}]"
