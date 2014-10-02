@@ -11,7 +11,7 @@ execute "restart Rails app #{application}" do
   action :nothing
 end
 
-mailer_settings = portalapp_settings['mailer']['production']
+mailer_settings = portalapp_settings['mailer']
 
 template "#{deploy[:deploy_to]}/shared/config/mailer.yml" do
   source "mailer.yml.erb"
