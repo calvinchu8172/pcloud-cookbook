@@ -26,7 +26,6 @@ environments:
         secret_access_key: <%= @environments['paperclip']['default']['s3_credentials']['secret_access_key'] %>
     attachment:
       default:
-        url: <%= @environments['paperclip']['attachment']['default']['url'] %>
         s3_host_name: <%= @environments['paperclip']['attachment']['default']['s3_host_name'] %>
         path: <%= @environments['paperclip']['attachment']['default']['path'] %>
   sqs:
