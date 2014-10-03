@@ -1,7 +1,7 @@
 path: <%= @god_path %>
 xmpp_config:
 <% @god_xmpp_config.each do |xmpp| %>
-  - {jid: <%= xmpp['jid'] %>, pw: <%= xmpp['pw'] %>}
+  - {jid: <%= xmpp['id'] %>, pw: <%= xmpp['password'] %>}
 <% end %>
 
 mail_domain: <%= @god_mail_domain %>

@@ -1,19 +1,9 @@
+require 'json'
+
 define :opsworks_deploy_bots do
   application = params[:app]
   deploy = params[:deploy_data]
   bots_settings = node['pcloud_settings']['bots']
-
-  bots_instances_data_s3 = bots_settings['instances']['s3']
-
-  execute "load bot instances data from S3" do
-    user "root"
-    cwd "#{deploy[:deploy_to]}/shared/config/"
-    command <<-EOH
-      AWS_ACCESS_KEY_ID=#{bots_instances_data_s3['key_id']} \
-      AWS_SECRET_ACCESS_KEY=#{bots_instances_data_s3['secret_key']} \
-      aws s3 cp s3://#{bots_instances_data_s3['bucket']}/bots/bots.json bots.json --region 'us-east-1'
-    EOH
-  end
 
   # Setting-up & Running fluentd
   fluentd_s3 = bots_settings['fluentd']['s3']
@@ -115,9 +105,24 @@ define :opsworks_deploy_bots do
     })
   end
 
+  bots_instances_data_s3 = bots_settings['instances']['s3']
+
+  execute "load bot instances data from S3" do
+    user "#{deploy[:user]}"
+    cwd "#{deploy[:deploy_to]}/shared/config/"
+    command <<-EOH
+      AWS_ACCESS_KEY_ID=#{bots_instances_data_s3['key_id']} \
+      AWS_SECRET_ACCESS_KEY=#{bots_instances_data_s3['secret_key']} \
+      aws s3 cp s3://#{bots_instances_data_s3['bucket']}/bots/bots.json bots.json --region 'us-east-1'
+    EOH
+  end
+
+  bots_instances = JSON.load(File.open("#{deploy[:deploy_to]}/shared/config/bots.json", "r"))
+  node_bots_instances = bots_instances[node[:opsworks][:instance][:hostname]]
+
   bots_config_god = bots_settings['god']
 
-  xmpp_config = node['xmpp_config'].nil? ? bots_config_god['xmpp_config'] : node['xmpp_config']
+  #xmpp_config = node['xmpp_config'].nil? ? bots_config_god['xmpp_config'] : node['xmpp_config']
 
   template "#{deploy[:deploy_to]}/shared/config/god_config.yml" do
     source "god_config.yml.erb"
@@ -127,7 +132,7 @@ define :opsworks_deploy_bots do
     owner deploy[:user]
     variables({
       :god_path => "#{deploy[:current_path]}/",
-      :god_xmpp_config => xmpp_config,
+      :god_xmpp_config => node_bots_instances,
       :god_mail_domain => bots_config_god['mail_domain'],
       :god_mail_user => bots_config_god['mail_user'],
       :god_mail_pw => bots_config_god['mail_pw'],
