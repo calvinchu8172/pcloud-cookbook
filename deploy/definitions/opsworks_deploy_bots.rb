@@ -108,7 +108,6 @@ define :opsworks_deploy_bots do
   bots_instances_data_s3 = bots_settings['instances']['s3']
 
   execute "load bot instances data from S3" do
-    user "#{deploy[:user]}"
     cwd "#{deploy[:deploy_to]}/shared/config/"
     command <<-EOH
       AWS_ACCESS_KEY_ID=#{bots_instances_data_s3['key_id']} \
