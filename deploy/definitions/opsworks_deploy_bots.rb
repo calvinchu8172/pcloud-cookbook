@@ -105,8 +105,8 @@ define :opsworks_deploy_bots do
     })
   end
 
-  bots_instances = JSON.load(File.open("/var/tmp/bots.json", "r"))
-  node_bots_instances = bots_instances[node[:opsworks][:instance][:hostname]]
+  #bots_instances = JSON.load(File.open("/var/tmp/bots.json", "r"))
+  #node_bots_instances = bots_instances[node[:opsworks][:instance][:hostname]]
 
   bots_config_god = bots_settings['god']
 
@@ -120,7 +120,7 @@ define :opsworks_deploy_bots do
     owner deploy[:user]
     variables({
       :god_path => "#{deploy[:current_path]}/",
-      :god_xmpp_config => node_bots_instances,
+      :god_xmpp_config => bots_config_god['ec2_instances'][node[:opsworks][:instance][:hostname]],
       :god_mail_domain => bots_config_god['mail_domain'],
       :god_mail_user => bots_config_god['mail_user'],
       :god_mail_pw => bots_config_god['mail_pw'],
