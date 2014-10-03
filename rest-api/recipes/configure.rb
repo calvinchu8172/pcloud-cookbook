@@ -33,7 +33,7 @@ template "#{deploy[:deploy_to]}/shared/config/mailer.yml" do
   end
 end
 
-production_settings = rest_api_server_settings['production']
+environments_settings = rest_api_server_settings['environment']
 
 ['production', 'staging'].each do |environment|
   template "#{deploy[:deploy_to]}/shared/config/settings.#{environment}.yml" do
@@ -43,13 +43,13 @@ production_settings = rest_api_server_settings['production']
     group deploy[:group]
     owner deploy[:user]
     variables({
-      :magic_number => production_settings['magic_number'],
-      :xmpp => production_settings['xmpp'],
-      :environments => production_settings['environments'],
-      :version => production_settings['version'],
-      :oauth => production_settings['oauth'],
-      :recaptcha => production_settings['recaptcha'],
-      :redis => production_settings['redis']
+      :magic_number => environments_settings['magic_number'],
+      :xmpp => environments_settings['xmpp'],
+      :environments => environments_settings['environments'],
+      :version => environments_settings['version'],
+      :oauth => environments_settings['oauth'],
+      :recaptcha => environments_settings['recaptcha'],
+      :redis => environments_settings['redis']
     })
 
     notifies :run, "execute[restart Rails app #{application}]"
@@ -59,31 +59,6 @@ production_settings = rest_api_server_settings['production']
     end
   end
 end
-
-#staging_settings = rest_api_server_settings['staging']
-
-#template "#{deploy[:deploy_to]}/shared/config/settings.staging.yml" do
-  #source "staging.yml.erb"
-  #cookbook 'rest-api'
-  #mode "0660"
-  #group deploy[:group]
-  #owner deploy[:user]
-  #variables({
-    #:magic_number => staging_settings['magic_number'],
-    #:xmpp => staging_settings['xmpp'],
-    #:environments => staging_settings['environments'],
-    #:version => staging_settings['version'],
-    #:oauth => staging_settings['oauth'],
-    #:recaptcha => staging_settings['recaptcha'],
-    #:redis => staging_settings['redis']
-  #})
-
-  #notifies :run, "execute[restart Rails app #{application}]"
-
-  #only_if do
-    #File.directory?("#{deploy[:deploy_to]}/shared/config/")
-  #end
-#end
 
 databases_settings = rest_api_server_settings['databases']
 
