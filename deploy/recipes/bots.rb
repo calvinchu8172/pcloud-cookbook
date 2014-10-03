@@ -1,17 +1,5 @@
 include_recipe 'deploy'
 
-package "mysql-client" do
-  action :install
-end
-
-package "redis-tools" do
-  action :install
-end
-
-package "awscli" do
-  action :install
-end
-
 node[:deploy].each do |application, deploy|
   #Chef::Log.info("#{deploy.inspect}")
   #Chef::Log.info("#{node.inspect}")
