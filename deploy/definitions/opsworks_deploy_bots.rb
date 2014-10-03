@@ -108,7 +108,7 @@ define :opsworks_deploy_bots do
   bots_instances_data_s3 = bots_settings['instances']['s3']
 
   execute "load bot instances data from S3" do
-    cwd "#{deploy[:deploy_to]}/shared/config/"
+    cwd "/var/tmp/"
     command <<-EOH
       AWS_ACCESS_KEY_ID=#{bots_instances_data_s3['key_id']} \
       AWS_SECRET_ACCESS_KEY=#{bots_instances_data_s3['secret_key']} \
@@ -116,7 +116,7 @@ define :opsworks_deploy_bots do
     EOH
   end
 
-  bots_instances = JSON.load(File.open("#{deploy[:deploy_to]}/shared/config/bots.json", "r"))
+  bots_instances = JSON.load(File.open("/var/tmp/bots.json", "r"))
   node_bots_instances = bots_instances[node[:opsworks][:instance][:hostname]]
 
   bots_config_god = bots_settings['god']
