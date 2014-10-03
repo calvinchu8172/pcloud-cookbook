@@ -33,55 +33,82 @@ template "#{deploy[:deploy_to]}/shared/config/mailer.yml" do
   end
 end
 
-production_settings = portalapp_settings['production']
+environments_settings = portalapp_settings['environment']
 
-template "#{deploy[:deploy_to]}/shared/config/settings.production.yml" do
-  source "production.yml.erb"
-  cookbook 'portalapp'
-  mode "0660"
-  group deploy[:group]
-  owner deploy[:user]
-  variables({
-    :magic_number => production_settings['magic_number'],
-    :xmpp => production_settings['xmpp'],
-    :environments => production_settings['environments'],
-    :version => production_settings['version'],
-    :oauth => production_settings['oauth'],
-    :recaptcha => production_settings['recaptcha'],
-    :redis => production_settings['redis']
-  })
+['production', 'staging'].each do |environment|
+  template "#{deploy[:deploy_to]}/shared/config/settings.#{environment}.yml" do
+    source "#{environment}.yml.erb"
+    cookbook 'portalapp'
+    mode "0660"
+    group deploy[:group]
+    owner deploy[:user]
+    variables({
+      :magic_number => environments_settings['magic_number'],
+      :xmpp => environments_settings['xmpp'],
+      :environments => environments_settings['environments'],
+      :version => environments_settings['version'],
+      :oauth => environments_settings['oauth'],
+      :recaptcha => environments_settings['recaptcha'],
+      :redis => environments_settings['redis']
+    })
 
-  notifies :run, "execute[restart Rails app #{application}]"
+    notifies :run, "execute[restart Rails app #{application}]"
 
-  only_if do
-    File.directory?("#{deploy[:deploy_to]}/shared/config/")
+    only_if do
+      File.directory?("#{deploy[:deploy_to]}/shared/config/")
+    end
   end
 end
 
-staging_settings = portalapp_settings['staging']
+#production_settings = portalapp_settings['production']
 
-template "#{deploy[:deploy_to]}/shared/config/settings.staging.yml" do
-  source "staging.yml.erb"
-  cookbook 'portalapp'
-  mode "0660"
-  group deploy[:group]
-  owner deploy[:user]
-  variables({
-    :magic_number => staging_settings['magic_number'],
-    :xmpp => staging_settings['xmpp'],
-    :environments => staging_settings['environments'],
-    :version => staging_settings['version'],
-    :oauth => staging_settings['oauth'],
-    :recaptcha => staging_settings['recaptcha'],
-    :redis => staging_settings['redis']
-  })
+#template "#{deploy[:deploy_to]}/shared/config/settings.production.yml" do
+  #source "production.yml.erb"
+  #cookbook 'portalapp'
+  #mode "0660"
+  #group deploy[:group]
+  #owner deploy[:user]
+  #variables({
+    #:magic_number => production_settings['magic_number'],
+    #:xmpp => production_settings['xmpp'],
+    #:environments => production_settings['environments'],
+    #:version => production_settings['version'],
+    #:oauth => production_settings['oauth'],
+    #:recaptcha => production_settings['recaptcha'],
+    #:redis => production_settings['redis']
+  #})
 
-  notifies :run, "execute[restart Rails app #{application}]"
+  #notifies :run, "execute[restart Rails app #{application}]"
 
-  only_if do
-    File.directory?("#{deploy[:deploy_to]}/shared/config/")
-  end
-end
+  #only_if do
+    #File.directory?("#{deploy[:deploy_to]}/shared/config/")
+  #end
+#end
+
+#staging_settings = portalapp_settings['staging']
+
+#template "#{deploy[:deploy_to]}/shared/config/settings.staging.yml" do
+  #source "staging.yml.erb"
+  #cookbook 'portalapp'
+  #mode "0660"
+  #group deploy[:group]
+  #owner deploy[:user]
+  #variables({
+    #:magic_number => staging_settings['magic_number'],
+    #:xmpp => staging_settings['xmpp'],
+    #:environments => staging_settings['environments'],
+    #:version => staging_settings['version'],
+    #:oauth => staging_settings['oauth'],
+    #:recaptcha => staging_settings['recaptcha'],
+    #:redis => staging_settings['redis']
+  #})
+
+  #notifies :run, "execute[restart Rails app #{application}]"
+
+  #only_if do
+    #File.directory?("#{deploy[:deploy_to]}/shared/config/")
+  #end
+#end
 
 databases_settings = portalapp_settings['databases']
 
