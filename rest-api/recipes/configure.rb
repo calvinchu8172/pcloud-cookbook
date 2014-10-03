@@ -35,53 +35,55 @@ end
 
 production_settings = rest_api_server_settings['production']
 
-template "#{deploy[:deploy_to]}/shared/config/settings.production.yml" do
-  source "production.yml.erb"
-  cookbook 'rest-api'
-  mode "0660"
-  group deploy[:group]
-  owner deploy[:user]
-  variables({
-    :magic_number => production_settings['magic_number'],
-    :xmpp => production_settings['xmpp'],
-    :environments => production_settings['environments'],
-    :version => production_settings['version'],
-    :oauth => production_settings['oauth'],
-    :recaptcha => production_settings['recaptcha'],
-    :redis => production_settings['redis']
-  })
+['production', 'staging'].each do |environment|
+  template "#{deploy[:deploy_to]}/shared/config/settings.#{environment}.yml" do
+    source "#{environment}.yml.erb"
+    cookbook 'rest-api'
+    mode "0660"
+    group deploy[:group]
+    owner deploy[:user]
+    variables({
+      :magic_number => production_settings['magic_number'],
+      :xmpp => production_settings['xmpp'],
+      :environments => production_settings['environments'],
+      :version => production_settings['version'],
+      :oauth => production_settings['oauth'],
+      :recaptcha => production_settings['recaptcha'],
+      :redis => production_settings['redis']
+    })
 
-  notifies :run, "execute[restart Rails app #{application}]"
+    notifies :run, "execute[restart Rails app #{application}]"
 
-  only_if do
-    File.directory?("#{deploy[:deploy_to]}/shared/config/")
+    only_if do
+      File.directory?("#{deploy[:deploy_to]}/shared/config/")
+    end
   end
 end
 
-staging_settings = rest_api_server_settings['staging']
+#staging_settings = rest_api_server_settings['staging']
 
-template "#{deploy[:deploy_to]}/shared/config/settings.staging.yml" do
-  source "staging.yml.erb"
-  cookbook 'rest-api'
-  mode "0660"
-  group deploy[:group]
-  owner deploy[:user]
-  variables({
-    :magic_number => staging_settings['magic_number'],
-    :xmpp => staging_settings['xmpp'],
-    :environments => staging_settings['environments'],
-    :version => staging_settings['version'],
-    :oauth => staging_settings['oauth'],
-    :recaptcha => staging_settings['recaptcha'],
-    :redis => staging_settings['redis']
-  })
+#template "#{deploy[:deploy_to]}/shared/config/settings.staging.yml" do
+  #source "staging.yml.erb"
+  #cookbook 'rest-api'
+  #mode "0660"
+  #group deploy[:group]
+  #owner deploy[:user]
+  #variables({
+    #:magic_number => staging_settings['magic_number'],
+    #:xmpp => staging_settings['xmpp'],
+    #:environments => staging_settings['environments'],
+    #:version => staging_settings['version'],
+    #:oauth => staging_settings['oauth'],
+    #:recaptcha => staging_settings['recaptcha'],
+    #:redis => staging_settings['redis']
+  #})
 
-  notifies :run, "execute[restart Rails app #{application}]"
+  #notifies :run, "execute[restart Rails app #{application}]"
 
-  only_if do
-    File.directory?("#{deploy[:deploy_to]}/shared/config/")
-  end
-end
+  #only_if do
+    #File.directory?("#{deploy[:deploy_to]}/shared/config/")
+  #end
+#end
 
 databases_settings = rest_api_server_settings['databases']
 
