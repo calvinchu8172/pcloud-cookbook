@@ -105,17 +105,6 @@ define :opsworks_deploy_bots do
     })
   end
 
-  bots_instances_data_s3 = bots_settings['instances']['s3']
-
-  execute "load bot instances data from S3" do
-    cwd "/var/tmp/"
-    command <<-EOH
-      AWS_ACCESS_KEY_ID=#{bots_instances_data_s3['key_id']} \
-      AWS_SECRET_ACCESS_KEY=#{bots_instances_data_s3['secret_key']} \
-      aws s3 cp s3://#{bots_instances_data_s3['bucket']}/bots/bots.json bots.json --region 'us-east-1'
-    EOH
-  end
-
   bots_instances = JSON.load(File.open("/var/tmp/bots.json", "r"))
   node_bots_instances = bots_instances[node[:opsworks][:instance][:hostname]]
 
