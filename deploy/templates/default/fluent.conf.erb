@@ -116,7 +116,7 @@
     s3_endpoint s3.amazonaws.com
     path <%= @s3_log_path %>
 
-    time_slice_format %Y%m%d%H%M%S
+    time_slice_format %Y%m%d%H
 
     buffer_path /var/log/td-agent/s3
     buffer_chunk_limit 256m
