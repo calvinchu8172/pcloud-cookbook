@@ -1,0 +1,10 @@
+/var/log/td-agent/bot.log {
+    rotate 14
+    daily
+    dateext
+    dateformat -%Y-%m-%d
+    compress
+    missingok
+    notifempty
+    copytruncate
+}

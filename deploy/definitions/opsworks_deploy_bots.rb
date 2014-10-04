@@ -5,6 +5,14 @@ define :opsworks_deploy_bots do
   deploy = params[:deploy_data]
   bots_settings = node['pcloud_settings']['bots']
 
+  template "/etc/logrotate.d/bots" do
+    source "logrotate.fluentd.bots.conf.erb"
+    cookbook 'deploy'
+    mode "0644"
+    group 'root'
+    owner 'root'
+  end
+
   # Setting-up & Running fluentd
   fluentd_s3 = bots_settings['fluentd']['s3']
 
