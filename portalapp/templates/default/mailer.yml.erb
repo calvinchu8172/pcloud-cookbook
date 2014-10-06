@@ -1,30 +1,5 @@
-development:
-  delivery_method: :smtp
-  smtp_settings:
-    address: "email-smtp.us-west-2.amazonaws.com"
-    user_name: "AKIAJZ5YWQDWXKFDZV2A"
-    password: "Am497TKCxMIt8t3VRqP0hIuylA//NiV0sJcohDwFCZFe"
-    authentication: "login"
-    enable_starttls_auto: Yes
-  default:
-    from: "do-not-reply@pcloud.ecoworkinc.com"
-  default_url_options:
-    host: "pcloud.dev"
-
-test:
-  delivery_method: :smtp
-  smtp_settings:
-    address: "email-smtp.us-west-2.amazonaws.com"
-    user_name: "AKIAJZ5YWQDWXKFDZV2A"
-    password: "Am497TKCxMIt8t3VRqP0hIuylA//NiV0sJcohDwFCZFe"
-    authentication: "login"
-    enable_starttls_auto: Yes
-  default:
-    from: "do-not-reply@pcloud.ecoworkinc.com"
-  default_url_options:
-    host: "pcloud.ecoworkinc.com"
-
-production:
+<% (['development', 'test', 'production', 'staging']).uniq.each do |env| -%>
+<%= env %>:
   delivery_method: <%= @delivery_method %>
   smtp_settings:
     address: <%= @smtp_settings['address'] %>
@@ -36,3 +11,4 @@ production:
     from: <%= @default['from'] %>
   default_url_options:
     host: <%= @default_url_options['host'] %>
+<% end -%>

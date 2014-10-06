@@ -101,16 +101,24 @@
 
 ## Personal Cloud Bots
 <match bot.**>
-  type s3
+  type copy
+  <store>
+    type file
 
-  aws_key_id <%= @s3_key %>
-  aws_sec_key <%= @s3_secret_key %>
-  s3_bucket <%= @s3_bucket %>
-  s3_endpoint s3.amazonaws.com
-  path <%= @s3_log_path %>
+    path /var/log/td-agent/bot.log
+  </store>
+  <store>
+    type s3
 
-  time_slice_format %Y%m%d%H%M%S
+    aws_key_id <%= @s3_key %>
+    aws_sec_key <%= @s3_secret_key %>
+    s3_bucket <%= @s3_bucket %>
+    s3_endpoint s3.amazonaws.com
+    path <%= @s3_log_path %>
 
-  buffer_path /var/log/td-agent/s3
-  buffer_chunk_limit 256m
+    time_slice_format %Y%m%d%H
+
+    buffer_path /var/log/td-agent/s3
+    buffer_chunk_limit 256m
+  </store>
 </match>

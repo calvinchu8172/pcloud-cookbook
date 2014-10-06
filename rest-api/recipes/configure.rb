@@ -11,7 +11,7 @@ execute "restart Rails app #{application}" do
   action :nothing
 end
 
-mailer_settings = rest_api_server_settings['mailer']['production']
+mailer_settings = rest_api_server_settings['mailer']
 
 template "#{deploy[:deploy_to]}/shared/config/mailer.yml" do
   source "mailer.yml.erb"
@@ -33,18 +33,43 @@ template "#{deploy[:deploy_to]}/shared/config/mailer.yml" do
   end
 end
 
-production_settings = rest_api_server_settings['production']
+environments_settings = rest_api_server_settings['environment']
 
-template "#{deploy[:deploy_to]}/shared/config/settings.production.yml" do
-  source "production.yml.erb"
+['production', 'staging'].each do |environment|
+  template "#{deploy[:deploy_to]}/shared/config/settings.#{environment}.yml" do
+    source "#{environment}.yml.erb"
+    cookbook 'rest-api'
+    mode "0660"
+    group deploy[:group]
+    owner deploy[:user]
+    variables({
+      :magic_number => environments_settings['magic_number'],
+      :xmpp => environments_settings['xmpp'],
+      :environments => environments_settings['environments'],
+      :version => environments_settings['version'],
+      :oauth => environments_settings['oauth'],
+      :recaptcha => environments_settings['recaptcha'],
+      :redis => environments_settings['redis']
+    })
+
+    notifies :run, "execute[restart Rails app #{application}]"
+
+    only_if do
+      File.directory?("#{deploy[:deploy_to]}/shared/config/")
+    end
+  end
+end
+
+databases_settings = rest_api_server_settings['databases']
+
+template "#{deploy[:deploy_to]}/shared/config/database.yml" do
+  source "database.yml.erb"
   cookbook 'rest-api'
   mode "0660"
   group deploy[:group]
   owner deploy[:user]
   variables({
-    :magic_number => production_settings['magic_number'],
-    :xmpp => production_settings['xmpp'],
-    :environments => production_settings['environments'],
+    :databases => databases_settings
   })
 
   notifies :run, "execute[restart Rails app #{application}]"

@@ -4,38 +4,42 @@
 
 各項子目錄作用：
 
-* `/bot`: Bot servers
 * `/deploy`:
     * `/attributes/customize.rb`: Customized attributes for Personal Cloud
     * `/definitions`: Customized definitions for Personal Cloud
     * `/recipes`: Customized deploy recipes for Personal Cloud
     * `/templates`: Customized templates for Personal Cloud
 * `/ejabberd`: ejabberd servers
+* `/mongooseim`: MongooseIM servers
 * `/portalapp`: Personal Cloud Portal Rails application
+* `/rest-api`: Personal Cloud Portal Rails application (RESTful API operation mode)
 * `/server`: Ubuntu 14.04 server
+* `/opsworks_stack_state_sync`
+* `/rails`
+* `/unicorn`
 
 # Main Concepts, Hints
 
 * Recipes 會照列表順序跑
 * 遇到同名的 recipe，OpsWorks 會以我們自訂的版本取代預設的，所以請注意 cookbook 與 recipe 的命名
-* 亦請避免使用「直接覆蓋」AWS 預設版本的暴力法
-* 實務上每個 layer 至少會開兩個 instances，如此輪流開關機可保證跑過一整套部署流程，確保我們的 cookbooks 在 instance 的整個 life cycle 中運作是正常的
+* 請避免使用「直接覆蓋」AWS 預設版本的暴力法：
+    * 因為 AWS 官方也會修正他們的 cookbooks，如果直接覆蓋，會無法受惠於他們的修正
+    * 目前覆蓋自 AWS 預設版本的修改，都是情非得已，優先為了 Personal Cloud 各種專屬配置而改
+    * 任何需要覆蓋 AWS 預設版本的修改，請先徵得 OpsWorks 部屬工作負責人同意與 code review 過再行
 
 # OpsWorks Configurations
 
 ## Environments
 
-Personal Cloud 依據不同任務需求，分為四種環境：
+Personal Cloud 依據不同任務需求，分為三種環境：
 1. Production
 2. Staging
-3. Beta
-4. Alpha
+3. Alpha
 
 ## Stacks
 
-* 建議規劃一個專用的 VPC 與之下的 subnet 供此 stack 使用
-* SSH key 務必妥善保留
-* Hostname theme => Layer Dependent
+* 實務上，可以 clone 已經規劃的 Stack，配上適合的修改（如 Security Groups 一定要改、Git repo. 等則視需求而定），就可以快速複製一樣的環境，所以若要作 A/B Test 則請 clone 一系列 Stacks 來做實驗組，而不要直接修改目前已經在運作的 Stack
+* Hostname theme => 請務必使用 Layer Dependent，因為部署流程中至少包括 Bots, MongooseIM 都依賴辨識 hostname 來運作
 * Chef 版本使用 11.10
 * **Use custom Chef cookbooks** => Yes
     * **Repository type** => Git
@@ -43,24 +47,12 @@ Personal Cloud 依據不同任務需求，分為四種環境：
     * **Repository SSH key** => 同上，建議請獨立產生一把 SSH key 供此 repository 使用
     * **Branch/Revision** => 請指向部署專用的 branch/revision
 * Custom JSON
-
-        {
-          "opsworks": { 
-            "ruby_version": "2.1", 
-            "ruby_stack": "ruby", 
-            "rails_stack": { 
-              "name": "nginx_unicorn" } 
-          }, 
-          "opsworks_bundler": { 
-            "version": "1.5.1", 
-            "manage_package": true 
-          }, 
-          "opsworks_rubygems": { 
-            "version": "2.2.1" 
-          } 
-        }
-
+    * 為了我們的部署需求，每個 stack 除了 Bastion Server 以外都有一份專屬的 custom JSON，記載所需配置的設定值，請勿任意修改
+    
 ## Layers
+
+* 除 Bastion Server 與 XMPP Server (MongooseIM) 需要 Public IP Addr. 以外，其餘 layers 都不該配予 Public IP Addr.
+* 
 
 1. Rails App Server
     * General Settings
@@ -77,40 +69,41 @@ Personal Cloud 依據不同任務需求，分為四種環境：
                 * `portalapp::configure`: 當前任務是將 `mailer.yml` 生出來，並搭配 `deploy/attributes/customize.rb` 的 `symlink_before_migrate` 自訂值，讓 Chef 幫我們自動做 symbolic link 到當前部署的 portal 版本的 `config/` 裡。
             * Setup => `server::install\_packages`
             * Configure => `portalapp::configure`
+        * OS Packages
+            * libmysqlclient-dev
+            * mysql-client
     * Network
         * Elastic Load Balancer => 新增一個 ELB，若設定正確，則 OpsWorks 會自動將 Rails instances 掛上此 ELB
-        * Public IP addresses => Yes
-        * Elastic IP addresses => 視是否需要固定 IP addr. 而定
-2. RDS
-    * Add Layer 時選擇右邊分頁的 RDS，依據實際需求建立一台
-    * 設定完成後，於後述的 Apps 處若設定妥當，則 Rails App 會自動生出一個對應的 `config/database.yml` 配置檔
-    * 不同的 Apps 可以規劃使用不同的 RDS
-3. (Custom) Bot
+        * Public IP addresses => No
+        * Elastic IP addresses => No
+2. (Custom) Bot
     * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'Bot'
     * Auto healing enabled => yes
     * Recipes
         * Custom Chef Recipes
             * Deploy => `deploy::bots`
+        * OS Packages
+            * libmysqlclient-dev
+            * mysql-client
+            * awscli
+            * redis-tools
     * Network
-        * Public IP addresses => yes
-4. (Custom) ejabberd
-    * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'ejabberd'
+        * Public IP addresses => no
+3. (Custom) MongooseIM
+    * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'MongooseIM'
     * Recipes
         * Custom Chef Recipes
-            *  Setup => `ejabberd::setup`
-    * Security
-        * Custom groups => 請依據 *ejabberd Server Operation Cheat Sheet* 文件設定一組對應的 Security Group
+            *  Setup => `mongooseim::setup`
+        * OS Packages
+            * mysql-client
+            * awscli
+            * redis-tools
 
 ## Instances
-
-1. ejabberd
-    * 目前因為 ejabberd 較難獨立分出成為 App 層次來部署，故使用自訂 AMI 來建立 instance
-    * Operating system => Use custom AMI
-
 ## Apps
 
 1. Personal Cloud Portal
-    * Name => Personal Cloud Portal
+    * Name => Personal Cloud Portal（因為 cookbooks 會比對 App 名稱，故請注意不要使用其他命名）
     * Rails environment => ?
     * Enable auto bundle => Yes
     * Document root => public
@@ -122,7 +115,7 @@ Personal Cloud 依據不同任務需求，分為四種環境：
     * Domain name => ?
     * Enable SSL => ?
 2. Personal Cloud Bots
-    * Name => Personal Cloud Bots （因為 `deploy::bots` 會比對 App 名稱，故請注意不要使用其他命名）
+    * Name => Personal Cloud Bots （因為 cookbooks 會比對 App 名稱，故請注意不要使用其他命名）
     * Type => Other
     * Repository type => Git
     * Repository URL => 如 Stack 一節所述，指向一份部署專用的 repository
@@ -133,12 +126,7 @@ Personal Cloud 依據不同任務需求，分為四種環境：
 ## Deployments
 
 1. Personal Cloud Bots
-    * 目前 Bot Jabber ID 設定值是寫死的，配予兩組「臨時調撥用帳號」，故 instance 開機完成後，需儘速登入機器手動設定，將 ID 調開，否則 instances 之間會一直搶佔身分。請在 deploy 時，於 Advanced -> Custom Chef JSON 處，輸入如下格式的 Jabber IDs 指派設定：
-
-            {"xmpp_config": [
-              {"jid": "botno1@xmpp.pcloud.ecoworkinc.com/robot", "pw": "YOUR_BOTNO1_PASSWORD"},
-              {"jid": "botno2@xmpp.pcloud.ecoworkinc.com/robot", "pw": "YOUR_BOTNO2_PASSWORD"}
-            ]}
+    * 目前 Bot Jabber ID 設定值是寫死的，會依照 Bot layer instances 的 hostname 來指定，如 bot1 則讓 bot1, bot2 上線、bot2 類推讓 bot3, bp4 上線，對應設定寫在 Stack Custom JSON 
     * 另可參考 *ZyXEL Personal Cloud - Bot Deploy Guide For Create Instance Manually* 文件
 
 ## Monitoring
