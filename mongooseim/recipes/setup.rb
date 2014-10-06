@@ -57,6 +57,11 @@ template '/etc/sysctl.conf' do
   mode '0644'
 end
 
+execute "setup port forwarding 443 to 5222" do
+  user "root"
+  command "iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 5222"
+end
+
 execute "shutdown mongooseim first during setting things up & done" do
   user "root"
   command "mongooseimctl stop"
