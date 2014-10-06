@@ -1,10 +1,8 @@
 magic_number: 0800
+version: <%= @version %>
 xmpp:
   server: <%= @xmpp['server'] %>
-  device_rescource_id: <%= @xmpp['device_rescource_id'] %>
-  admin:
-    account: <%= @xmpp['admin']['account'] %>
-    password: <%= @xmpp['admin']['password'] %>
+  device_resource_id: <%= @xmpp['device_resource_id'] %>
   bots:
 <% @xmpp['bots'].each do |bot| %>
     - <%= bot %>
@@ -14,6 +12,8 @@ xmpp:
     - <%= node %>
 <% end %>
 environments:
+  api_domain: <%= @environments['api_domain'] %>
+  portal_domain: <%= @environments['portal_domain'] %> 
   paperclip:
     default:
       storage: <%= @environments['paperclip']['default']['storage'] %>
@@ -23,7 +23,6 @@ environments:
         secret_access_key: <%= @environments['paperclip']['default']['s3_credentials']['secret_access_key'] %>
     attachment:
       default:
-        url: <%= @environments['paperclip']['attachment']['default']['url'] %>
         s3_host_name: <%= @environments['paperclip']['attachment']['default']['s3_host_name'] %>
         path: <%= @environments['paperclip']['attachment']['default']['path'] %>
   sqs:
@@ -33,7 +32,20 @@ environments:
       secret_access_key: <%= @environments['sqs']['attributes']['secret_access_key'] %>
       region: <%= @environments['sqs']['attributes']['region'] %>
   ddns: <%= @environments['ddns'] %>
+  cdn: <%= @environments['cdn'] %>
   filter_list:
 <% @environments['filter_list'].each do |hostname| %>
     - <%= hostname %>
 <% end %>
+oauth:
+  facebook_app_id: <%= @oauth['facebook_app_id'] %>
+  facebook_secret: <%= @oauth['facebook_secret'] %>
+  google_app_id: <%= @oauth['google_app_id'] %>
+  google_secret: <%= @oauth['google_secret'] %>
+recaptcha:
+  config:
+    public_key: <%= @recaptcha['config']['public_key'] %>
+    private_key: <%= @recaptcha['config']['private_key'] %>
+redis:
+  host: <%= @redis['host'] %>
+  port: <%= @redis['port'] %>

@@ -1,7 +1,17 @@
+require 'json'
+
 define :opsworks_deploy_bots do
   application = params[:app]
   deploy = params[:deploy_data]
   bots_settings = node['pcloud_settings']['bots']
+
+  template "/etc/logrotate.d/bots" do
+    source "logrotate.fluentd.bots.conf.erb"
+    cookbook 'deploy'
+    mode "0644"
+    group 'root'
+    owner 'root'
+  end
 
   # Setting-up & Running fluentd
   fluentd_s3 = bots_settings['fluentd']['s3']
@@ -103,9 +113,12 @@ define :opsworks_deploy_bots do
     })
   end
 
+  #bots_instances = JSON.load(File.open("/var/tmp/bots.json", "r"))
+  #node_bots_instances = bots_instances[node[:opsworks][:instance][:hostname]]
+
   bots_config_god = bots_settings['god']
 
-  xmpp_config = node['xmpp_config'].nil? ? bots_config_god['xmpp_config'] : node['xmpp_config']
+  #xmpp_config = node['xmpp_config'].nil? ? bots_config_god['xmpp_config'] : node['xmpp_config']
 
   template "#{deploy[:deploy_to]}/shared/config/god_config.yml" do
     source "god_config.yml.erb"
@@ -115,7 +128,7 @@ define :opsworks_deploy_bots do
     owner deploy[:user]
     variables({
       :god_path => "#{deploy[:current_path]}/",
-      :god_xmpp_config => xmpp_config,
+      :god_xmpp_config => bots_config_god['ec2_instances'][node[:opsworks][:instance][:hostname]],
       :god_mail_domain => bots_config_god['mail_domain'],
       :god_mail_user => bots_config_god['mail_user'],
       :god_mail_pw => bots_config_god['mail_pw'],
