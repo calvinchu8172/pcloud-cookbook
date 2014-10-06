@@ -3,9 +3,6 @@ version: <%= @version %>
 xmpp:
   server: <%= @xmpp['server'] %>
   device_resource_id: <%= @xmpp['device_resource_id'] %>
-  admin:
-    account: <%= @xmpp['admin']['account'] %>
-    password: <%= @xmpp['admin']['password'] %>
   bots:
 <% @xmpp['bots'].each do |bot| %>
     - <%= bot %>
