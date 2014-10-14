@@ -113,12 +113,7 @@ define :opsworks_deploy_bots do
     })
   end
 
-  #bots_instances = JSON.load(File.open("/var/tmp/bots.json", "r"))
-  #node_bots_instances = bots_instances[node[:opsworks][:instance][:hostname]]
-
   bots_config_god = bots_settings['god']
-
-  #xmpp_config = node['xmpp_config'].nil? ? bots_config_god['xmpp_config'] : node['xmpp_config']
 
   template "#{deploy[:deploy_to]}/shared/config/god_config.yml" do
     source "god_config.yml.erb"
