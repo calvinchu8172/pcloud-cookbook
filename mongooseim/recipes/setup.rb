@@ -57,6 +57,10 @@ template '/etc/dhcp/dhclient.conf' do
   mode '0644'
 end
 
+execute "/sbin/ip link set dev eth0 mtu 1492" do
+  user "root"
+end
+
 template '/etc/sysctl.conf' do
   cookbook 'mongooseim'
   source 'sysctl.conf.erb'
