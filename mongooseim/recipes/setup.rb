@@ -49,6 +49,14 @@ template '/etc/pam.d/common-session-noninteractive' do
   mode '0644'
 end
 
+template '/etc/dhcp/dhclient.conf' do
+  cookbook 'mongooseim'
+  source 'dhclient.conf.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
 template '/etc/sysctl.conf' do
   cookbook 'mongooseim'
   source 'sysctl.conf.erb'
