@@ -102,7 +102,7 @@ execute "load secret key from S3" do
     #{mongooseim_settings['ejabberd_c2s']['certfile']} --region 'us-east-1'
   EOH
 
-  not_if "test -f #{mongooseim_settings['ejabberd_c2s']['certpath']}#{mongooseim_settings['ejabberd_c2s']['certfile']}"
+  #not_if "test -f #{mongooseim_settings['ejabberd_c2s']['certpath']}#{mongooseim_settings['ejabberd_c2s']['certfile']}"
 end
 
 execute "set ownership & permission of secret key" do
