@@ -4,6 +4,8 @@ application = 'personal_cloud_portal'
 deploy = node[:deploy][application]
 portalapp_settings = node['pcloud_settings']['portalapp']
 
+rails_env = node[:deploy][application][:rails_env]
+
 execute "restart Rails app #{application}" do
   user 'deploy'
   cwd deploy[:current_path]
@@ -82,7 +84,7 @@ end
 execute "sidekiq" do
   cwd deploy[:current_path]
   user deploy[:user]
-  command "bundle exec sidekiq -d -L log/sidekiq.log -q mailer"
+  command "RAILS_ENV=#{rails_env} bundle exec sidekiq -d -L log/sidekiq.log -q mailer"
 
   not_if "ps -ef |grep sidekiq |grep -v grep"
 end
