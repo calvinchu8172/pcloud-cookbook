@@ -49,15 +49,7 @@ template '/etc/pam.d/common-session-noninteractive' do
   mode '0644'
 end
 
-template '/etc/dhcp/dhclient.conf' do
-  cookbook 'mongooseim'
-  source 'dhclient.conf.erb'
-  owner 'root'
-  group 'root'
-  mode '0644'
-end
-
-execute "/sbin/ip link set dev eth0 mtu 1492" do
+execute "/sbin/ip link set dev eth0 mtu 1400" do
   user "root"
 end
 
