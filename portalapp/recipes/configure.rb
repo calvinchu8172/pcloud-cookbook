@@ -87,4 +87,5 @@ execute "sidekiq" do
   command "RAILS_ENV=#{rails_env} bundle exec sidekiq -d -L log/sidekiq.log -q mailer"
 
   not_if "ps -ef |grep sidekiq |grep -v grep"
+  action :nothing
 end
