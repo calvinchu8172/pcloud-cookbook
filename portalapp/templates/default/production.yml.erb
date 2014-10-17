@@ -46,5 +46,6 @@ recaptcha:
     public_key: <%= @recaptcha['config']['public_key'] %>
     private_key: <%= @recaptcha['config']['private_key'] %>
 redis:
-  host: <%= @redis['host'] %>
+  web_host: <%= @redis['web_host'] %>
+  xmpp_host: <%= @redis['xmpp_host'] %>
   port: <%= @redis['port'] %>
