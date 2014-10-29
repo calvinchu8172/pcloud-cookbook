@@ -70,3 +70,7 @@ net.core.netdev_max_backlog = 2500
 vm.min_free_kbytes = 65536
 vm.swappiness = 0
 net.ipv4.ip_local_port_range = 1024 65535
+# TCP Keep-Alive
+net.ipv4.tcp_keepalive_intvl = 60
+net.ipv4.tcp_keepalive_probes = 2
+net.ipv4.tcp_keepalive_time = 180
