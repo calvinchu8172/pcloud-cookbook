@@ -40,7 +40,7 @@ define :opsworks_deploy_bots do
   # start fluentd
   execute "fluentd -d /var/run/fluentd.pid" do
     user 'root'
-    not_if 'test -f /var/run/fluentd.pid'
+    not_if 'ps -ef |grep fluentd |grep -v grep'
   end
 
   # Bots Configurations
@@ -144,8 +144,12 @@ define :opsworks_deploy_bots do
     })
   end
 
+  bots_revision = `cd #{deploy[:current_path]} && git rev-parse HEAD`.strip
+  Chef::Log.info("Launching Bots revision #{bots_revision}")
+
   # Run God monitor & Bots
   execute "launch bots" do
-    command "god terminate; god -c #{deploy[:current_path]}/bot.god"
+    cwd "#{deploy[:current_path]}"
+    command "god terminate && god -c #{deploy[:current_path]}/bot.god"
   end
 end
