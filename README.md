@@ -1,8 +1,10 @@
 # ZyXEL Personal Cloud Chef Cookbooks on AWS OpsWorks
 
-依照本文件操作時如果遭遇任何不確定的問題、疑難、錯誤，請即刻向 OpsWorks 部署工作負責人（現：Hiroshi）反映，以便即時排除並將文件敘述改寫更精確。
+依照本文件操作時如果遭遇任何不確定的問題、疑難、錯誤，請即刻向 OpsWorks 部署工作負責人反映，以便即時排除並將文件敘述改寫更精確。
 
-各項子目錄作用：
+請同時參閱 *Personal Cloud AWS Settings* 文件設定 AWS 基礎設施（主要是 VPC），Personal Cloud 於 OpsWorks 上，需將這些基礎設施設定妥善方能順利配置。
+
+# 各項子目錄作用
 
 * `/deploy`:
     * `/attributes/customize.rb`: Customized attributes for Personal Cloud
@@ -11,21 +13,22 @@
     * `/templates`: Customized templates for Personal Cloud
 * `/ejabberd`: ejabberd servers
 * `/mongooseim`: MongooseIM servers
+* `/nginx`: nginx Web servers
+* `/opsworks_stack_state_sync`: OpsWorks Stack state sync
 * `/portalapp`: Personal Cloud Portal Rails application
 * `/rest-api`: Personal Cloud Portal Rails application (RESTful API operation mode)
+* `/rails`: Rails
 * `/server`: Ubuntu 14.04 server
-* `/opsworks_stack_state_sync`
-* `/rails`
-* `/unicorn`
+* `/unicorn`: Unicorn application server
 
 # Main Concepts, Hints
 
-* Recipes 會照列表順序跑
-* 遇到同名的 recipe，OpsWorks 會以我們自訂的版本取代預設的，所以請注意 cookbook 與 recipe 的命名
+* Recipes 會照列表順序跑。
+* 遇到同名的 recipe，OpsWorks 會以我們自訂的版本取代預設的，所以請注意 cookbook 與 recipe 的命名。
 * 請避免使用「直接覆蓋」AWS 預設版本的暴力法：
-    * 因為 AWS 官方也會修正他們的 cookbooks，如果直接覆蓋，會無法受惠於他們的修正
-    * 目前覆蓋自 AWS 預設版本的修改，都是情非得已，優先為了 Personal Cloud 各種專屬配置而改
-    * 任何需要覆蓋 AWS 預設版本的修改，請先徵得 OpsWorks 部屬工作負責人同意與 code review 過再行
+    * 因為 AWS 官方也會修正他們的 cookbooks，如果直接覆蓋，會無法受惠於他們的修正。
+    * 目前覆蓋自 AWS 預設版本的修改，都是情非得已，優先為了 Personal Cloud 各種專屬配置而改。
+    * 任何需要覆蓋 AWS 預設版本的修改，請先徵得 OpsWorks 部屬工作負責人同意與 code review 過再行修改。
 
 # OpsWorks Configurations
 
@@ -33,7 +36,7 @@
 
 Personal Cloud 依據不同任務需求，分為三種環境：
 1. Production
-2. Staging
+2. Beta
 3. Alpha
 
 ## Stacks
@@ -47,12 +50,12 @@ Personal Cloud 依據不同任務需求，分為三種環境：
     * **Repository SSH key** => 同上，建議請獨立產生一把 SSH key 供此 repository 使用
     * **Branch/Revision** => 請指向部署專用的 branch/revision
 * Custom JSON
-    * 為了我們的部署需求，每個 stack 除了 Bastion Server 以外都有一份專屬的 custom JSON，記載所需配置的設定值，請勿任意修改
+    * 為了我們的部署需求，每個 stack 都有一份專屬的 custom JSON，記載所需配置的設定值，請勿任意修改
+    * 請參閱 *ZyXEL Personal Cloud Custom JSON Configuration* 瞭解 Custom JSON 當中的設定值意義
     
 ## Layers
 
-* 除 Bastion Server 與 XMPP Server (MongooseIM) 需要 Public IP Addr. 以外，其餘 layers 都不該配予 Public IP Addr.
-* 
+* 除 XMPP Server (MongooseIM) 需要 Public IP Addr. 以外，其餘 layers 都不該配予 Public IP Addr.
 
 1. Rails App Server
     * General Settings
@@ -99,7 +102,6 @@ Personal Cloud 依據不同任務需求，分為三種環境：
             * awscli
             * redis-tools
 
-## Instances
 ## Apps
 
 1. Personal Cloud Portal
@@ -126,8 +128,8 @@ Personal Cloud 依據不同任務需求，分為三種環境：
 ## Deployments
 
 1. Personal Cloud Bots
-    * 目前 Bot Jabber ID 設定值是寫死的，會依照 Bot layer instances 的 hostname 來指定，如 bot1 則讓 bot1, bot2 上線、bot2 類推讓 bot3, bp4 上線，對應設定寫在 Stack Custom JSON 
-    * 另可參考 *ZyXEL Personal Cloud - Bot Deploy Guide For Create Instance Manually* 文件
+    * 目前 Bot Jabber ID 設定值是寫死的，會依照 Bot layer instances 的 hostname 來指定，如 bot1 (server) 則讓 bot1, bot2 上線、bot2 (server) 類推讓 bot3, bp4 上線，對應設定寫在 Stack Custom JSON 
+    * 另請參考 *ZyXEL Personal Cloud - Bot Deploy Guide For Create Instance Manually* 文件
 
 ## Monitoring
 ## Resources
