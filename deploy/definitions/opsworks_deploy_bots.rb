@@ -148,8 +148,14 @@ define :opsworks_deploy_bots do
   Chef::Log.info("Launching Bots revision #{bots_revision}")
 
   # Run God monitor & Bots
+  execute "terminate god" do
+    cwd "#{deploy[:current_path]}"
+    command "god terminate"
+    only_if 'ps -ef | grep god | grep -v grep'
+  end
+
   execute "launch bots" do
     cwd "#{deploy[:current_path]}"
-    command "god terminate && god -c #{deploy[:current_path]}/bot.god"
+    command "god -c #{deploy[:current_path]}/bot.god"
   end
 end
