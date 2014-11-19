@@ -74,7 +74,7 @@ Personal Cloud 依據不同任務需求，分為三種環境：
     
 ## Layers
 
-* 請注意！因系統安全緣故，除 XMPP Server (MongooseIM) 需要 Public IP Addr. 以外，其餘 layers 都不該配予 Public IP Addr.
+請注意！因系統安全緣故，除 XMPP Server (MongooseIM) 需要 Public IP Addr. 以外，其餘 layers 都不該配予 Public IP Addr.
 
 ### For Portal Stack
 
@@ -103,8 +103,7 @@ Personal Cloud 依據不同任務需求，分為三種環境：
             * Production => PCloud-Prod-Portal-Web
             * Beta => PCloud-Beta-Portal-Web
             * Alpha => PCloud-Alpha-Portal-Web
-        * Public IP addresses => No
-        * Elastic IP addresses => No
+        * Public IP addresses => no
     * Security
         * Security Groups
             * Default groups => AWS-OpsWorks-Rails-App-Server
@@ -125,6 +124,13 @@ Personal Cloud 依據不同任務需求，分為三種環境：
             * redis-tools
     * Network
         * Public IP addresses => no
+    * Security
+        * Security Groups
+            * Default groups => AWS-OpsWorks-Custom-Server
+            * Custom groups（參照 *Personal Cloud AWS Settings*）
+                * Production => PCloud-Prod-Bot-Server, PCloud-Prod-EC2-Instance
+                * Beta => PCloud-Beta-Bot-Server, PCloud-Beta-EC2-Instance
+                * Alpha => PCloud-Alpha-Bot-Server, PCloud-Alpha-EC2-Instance
 3. (Custom) MongooseIM
     * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'MongooseIM'
     * Recipes
@@ -134,8 +140,51 @@ Personal Cloud 依據不同任務需求，分為三種環境：
             * mysql-client
             * awscli
             * redis-tools
+    * Network
+        * **Public IP addresses => yes**
+    * Security
+        * Security Groups
+            * Default groups => AWS-OpsWorks-Custom-Server
+            * Custom groups（參照 *Personal Cloud AWS Settings*）
+                * Production => PCloud-Prod-EC2-Instance, PCloud-Prod-XMPP-Server
+                * Beta => PCloud-Beta-EC2-Instance, PCloud-Beta-XMPP-Server
+                * Alpha => PCloud-Alpha-EC2-Instance, PCloud-Alpha-XMPP-Server
 
 ### For REST API Server Stack
+
+1. Rails App Server
+    * General Settings
+        * Ruby version => 2.1
+        * Rails stack => nginx and Unicorn
+        * RubyGems version => 2.2.2
+        * Install and manage Bundler => Yes
+        * Bundler version => 1.5.3
+        * Auto healing enabled => Yes
+    * Recipes
+        * Custom Chef Recipes
+            * 目前使用的這兩份自訂 recipes 的主要作用是自動安裝必要的軟體套件，以及把專屬設定檔放到該放的地方
+                * `server::install\_packages`: 安裝必要的套件
+                * `portalapp::configure`: 當前任務是將 `mailer.yml` 生出來，並搭配 `deploy/attributes/customize.rb` 的 `symlink_before_migrate` 自訂值，讓 Chef 幫我們自動做 symbolic link 到當前部署的 portal 版本的 `config/` 裡。
+            * Setup => `server::install\_packages`
+            * Configure => `portalapp::configure`
+        * OS Packages
+            * libmysqlclient-dev
+            * mysql-client
+            * awscli
+            * ntp
+    * Network
+        * Elastic Load Balancer 參照 *Personal Cloud AWS Settings* 指定一個 ELB，若設定正確，則 OpsWorks 會自動將 Rails instances 掛上此 ELB
+            * Production => PCloud-Prod-RESTful-API
+            * Beta => PCloud-Beta-RESTful-API 
+            * Alpha => PCloud-Alpha-RESTful-API 
+        * Public IP addresses => no
+    * Security
+        * Security Groups
+            * Default groups => AWS-OpsWorks-Rails-App-Server
+            * Custom groups（參照 *Personal Cloud AWS Settings*）
+                * Production => PCloud-Prod-EC2-Instance, PCloud-Prod-Web-Server
+                * Beta => PCloud-Beta-EC2-Instance, PCloud-Beta-Web-Server
+                * Alpha => PCloud-Alpha-EC2-Instance, PCloud-Alpha-Web-Server
 
 ## Apps
 
