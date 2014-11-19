@@ -248,12 +248,19 @@ Personal Cloud 依據不同任務需求，分為三種環境：
         * RAILS_SECRET_KEY 需與 C.5.1 的 Personal Cloud Portal 使用的 secret key 一致
 
 ## C.6 Deployments
-### C.6.1 For Portal Stack
-### C.6.2 For REST API Server Stack
+
+### C.6.1 Deploy an App
+
+* 為求部署效率，請務必選對正確的 App 與對應的 Instances，例如在部署 Personal Cloud Bots 時指定 Instances 僅針對 Bot 群
+
+### C.6.2 Run command
+### C.6.3 For Portal Stack
 
 1. Personal Cloud Bots
     * 目前 Bot Jabber ID 設定值是寫死的，會依照 Bot layer instances 的 hostname 來指定，如 bot1 (server) 則讓 bot1, bot2 上線、bot2 (server) 類推讓 bot3, bp4 上線，對應設定寫在 Stack Custom JSON 
     * 另請參考 *ZyXEL Personal Cloud - Bot Deploy Guide For Create Instance Manually* 文件
+
+### C.6.4 For REST API Server Stack
 
 ## C.7 Monitoring
 ## C.8 Resources
