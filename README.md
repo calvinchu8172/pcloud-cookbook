@@ -186,7 +186,18 @@ Personal Cloud 依據不同任務需求，分為三種環境：
                 * Beta => PCloud-Beta-EC2-Instance, PCloud-Beta-Web-Server
                 * Alpha => PCloud-Alpha-EC2-Instance, PCloud-Alpha-Web-Server
 
-## C.4 Apps
+## C.4 Instances
+
+新增 instance 時，請注意：
+
+* Hostname 請直接採用系統自動給予的 Layer Dependent 名稱，如 rails-app2 即可
+* 因 AWS 費用考量，請選擇適當的 Size (instance type)
+* 參照 *Personal Cloud AWS Settings* 選擇正確的、對應的 Subnet
+* 為求保存 instance 資料，Root device type 請選用 EBS backed
+
+## C.5 Apps
+
+### C.5.1 For Portal Stack
 
 1. Personal Cloud Portal
     * Name => Personal Cloud Portal（因為 cookbooks 會比對 App 名稱，故請注意不要使用其他命名）
@@ -209,15 +220,21 @@ Personal Cloud 依據不同任務需求，分為三種環境：
     * Branch/Revision => develop
     * Data source type => None
 
-## C.5 Deployments
+### C.5.2 For REST API Server Stack
+
+## C.6 Deployments
+### C.6.1 For Portal Stack
+### C.6.2 For REST API Server Stack
 
 1. Personal Cloud Bots
     * 目前 Bot Jabber ID 設定值是寫死的，會依照 Bot layer instances 的 hostname 來指定，如 bot1 (server) 則讓 bot1, bot2 上線、bot2 (server) 類推讓 bot3, bp4 上線，對應設定寫在 Stack Custom JSON 
     * 另請參考 *ZyXEL Personal Cloud - Bot Deploy Guide For Create Instance Manually* 文件
 
-## C.6 Monitoring
-## C.7 Resources
-## C.8 Permissions
+## C.7 Monitoring
+## C.8 Resources
+### C.8.1 For Portal Stack
+### C.8.2 For REST API Server Stack
+## C.9 Permissions
 
 # D. 問題診斷
 
@@ -233,3 +250,6 @@ Personal Cloud 依據不同任務需求，分為三種環境：
 4. 真正執行的 Chef Cookbooks 放在哪邊？
 
     `/opt/aws/opsworks/current/merged-cookbooks`
+5. 如果需要將 instance 升降級，但是發現沒有想要的 instance type 可選，該怎麼辦？
+
+    這是因為 instance 選定的 Virtualization type 不同所導致，只能將該 instance 移除重建。請注意如果需要重建 MongooseIM，務必在移除原有 instance 時保留已經取得的 ElasticIP，再將新開的 instance 掛上原來的 ElasticIP，否則後續得修改 VPC 與相關文件等一系列資料，非常麻煩，敬請注意這點。
