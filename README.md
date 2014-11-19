@@ -162,11 +162,8 @@ Personal Cloud 依據不同任務需求，分為三種環境：
         * Auto healing enabled => Yes
     * Recipes
         * Custom Chef Recipes
-            * 目前使用的這兩份自訂 recipes 的主要作用是自動安裝必要的軟體套件，以及把專屬設定檔放到該放的地方
-                * `server::install\_packages`: 安裝必要的套件
-                * `portalapp::configure`: 當前任務是將 `mailer.yml` 生出來，並搭配 `deploy/attributes/customize.rb` 的 `symlink_before_migrate` 自訂值，讓 Chef 幫我們自動做 symbolic link 到當前部署的 portal 版本的 `config/` 裡。
             * Setup => `server::install\_packages`
-            * Configure => `portalapp::configure`
+            * Configure => `rest-api::configure`
         * OS Packages
             * libmysqlclient-dev
             * mysql-client
@@ -201,26 +198,54 @@ Personal Cloud 依據不同任務需求，分為三種環境：
 
 1. Personal Cloud Portal
     * Name => Personal Cloud Portal（因為 cookbooks 會比對 App 名稱，故請注意不要使用其他命名）
-    * Rails environment => ?
+    * Rails environment
+        * Production => production
+        * Beta => production
+        * Alpha => staging
     * Enable auto bundle => Yes
     * Document root => public
+    * Data source type => None，因為 Personal Cloud 掛載了複數的 RDS (MySQL)，故在此無法選用現成的 RDS 選項，需要透過 recipe 產生資料庫連接設定檔
     * Repository type => Git
     * Repository URL => 如 Stack 一節所述，指向一份部署專用的 repository
     * Repository SSH key => 如 Stack 一節所述，指向一把部屬專用的 key
-    * Branch/Revision => ?
-    * Data source type => RDS
-    * Domain name => ?
-    * Enable SSL => ?
+    * Branch/Revision
+        * Production => master
+        * Beta => master
+        * Alpha => develop
+    * Environment Variables
+        * RAILS_SECRET_KEY 需配置一個透過 `rake secret` 產生一組 secret key
 2. Personal Cloud Bots
     * Name => Personal Cloud Bots （因為 cookbooks 會比對 App 名稱，故請注意不要使用其他命名）
     * Type => Other
+    * Data source type => None
     * Repository type => Git
     * Repository URL => 如 Stack 一節所述，指向一份部署專用的 repository
     * Repository SSH key => 如 Stack 一節所述，指向一把部屬專用的 key
-    * Branch/Revision => develop
-    * Data source type => None
+    * Branch/Revision
+        * Production => master
+        * Beta => master
+        * Alpha => develop
 
 ### C.5.2 For REST API Server Stack
+
+1. Personal Cloud REST API
+    * Name => Personal Cloud REST API（因為 cookbooks 會比對 App 名稱，故請注意不要使用其他命名）
+    * Rails environment
+        * Production => production
+        * Beta => production
+        * Alpha => staging
+    * Enable auto bundle => Yes
+    * Document root => public
+    * Data source type => None，因為 Personal Cloud 掛載了複數的 RDS (MySQL)，故在此無法選用現成的 RDS 選項，需要透過 recipe 產生資料庫連接設定檔
+    * Repository type => Git
+    * Repository URL => 如 Stack 一節所述，指向一份部署專用的 repository
+    * Repository SSH key => 如 Stack 一節所述，指向一把部屬專用的 key
+    * Branch/Revision
+        * Production => master
+        * Beta => master
+        * Alpha => develop
+    * Environment Variables
+        * RAILS_SECRET_KEY 需與 C.5.1 的 Personal Cloud Portal 使用的 secret key 一致
 
 ## C.6 Deployments
 ### C.6.1 For Portal Stack
@@ -252,4 +277,4 @@ Personal Cloud 依據不同任務需求，分為三種環境：
     `/opt/aws/opsworks/current/merged-cookbooks`
 5. 如果需要將 instance 升降級，但是發現沒有想要的 instance type 可選，該怎麼辦？
 
-    這是因為 instance 選定的 Virtualization type 不同所導致，只能將該 instance 移除重建。請注意如果需要重建 MongooseIM，務必在移除原有 instance 時保留已經取得的 ElasticIP，再將新開的 instance 掛上原來的 ElasticIP，否則後續得修改 VPC 與相關文件等一系列資料，非常麻煩，敬請注意這點。
+    這是因為 instance 選定的 Virtualization type 不同所導致，只能將該 instance 移除重建。請注意如果需要重建 MongooseIM，務必在移除原有 instance 時保留已經取得的 Elastic IP，再將新開的 instance 掛上原來的 Elastic IP，否則後續得修改 VPC 與相關文件等一系列資料，非常麻煩，敬請注意這點。
