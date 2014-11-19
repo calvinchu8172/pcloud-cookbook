@@ -35,11 +35,13 @@
 ## Environments
 
 Personal Cloud 依據不同任務需求，分為三種環境：
+
 1. Production
 2. Beta
 3. Alpha
 
 對應到 AWS OpsWorks，則規劃了下列 Stacks：
+
 1. Production
     * Personal Cloud Portal Production
     * Personal Cloud REST API Server Production
