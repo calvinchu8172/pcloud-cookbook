@@ -39,9 +39,22 @@ Personal Cloud 依據不同任務需求，分為三種環境：
 2. Beta
 3. Alpha
 
+對應到 AWS OpsWorks，則規劃了下列 Stacks：
+1. Production
+    * Personal Cloud Portal Production
+    * Personal Cloud REST API Server Production
+2. Beta
+    * Personas Cloud Portal Beta
+    * Personal Cloud REST API Server Beta
+3. Alpha
+    * Personal Cloud Portal Alpha
+    * Personal Cloud REST API Server Alpha 
+
 ## Stacks
 
 * 實務上，可以 clone 已經規劃的 Stack，配上適合的修改（如 Security Groups 一定要改、Git repo. 等則視需求而定），就可以快速複製一樣的環境，所以若要作 A/B Test 則請 clone 一系列 Stacks 來做實驗組，而不要直接修改目前已經在運作的 Stack
+* Default operating system => Ubuntu 14.04 LTS
+* Default root device type => EBS backed
 * Hostname theme => 請務必使用 Layer Dependent，因為部署流程中至少包括 Bots, MongooseIM 都依賴辨識 hostname 來運作
 * Chef 版本使用 11.10
 * **Use custom Chef cookbooks** => Yes
@@ -49,21 +62,27 @@ Personal Cloud 依據不同任務需求，分為三種環境：
     * **Repository URL** => 指向自訂 cookbooks 的公司 GitLab repository，例如 `git@gitlab.ecoworkinc.com:zyxel/personal-cloud-cookbooks.git`，並建議為了安全起見，不要直接使用開發版本，而是為部署獨立出一份專用 repository 
     * **Repository SSH key** => 同上，建議請獨立產生一把 SSH key 供此 repository 使用
     * **Branch/Revision** => 請指向部署專用的 branch/revision
+        * Production 會指向特定版號 tag，如 1.0.0
+        * Beta 指向 master branch
+        * Alpha 指向 develop branch
 * Custom JSON
     * 為了我們的部署需求，每個 stack 都有一份專屬的 custom JSON，記載所需配置的設定值，請勿任意修改
     * 請參閱 *ZyXEL Personal Cloud Custom JSON Configuration* 瞭解 Custom JSON 當中的設定值意義
+* Use OpsWorks security groups => Yes
     
 ## Layers
 
-* 除 XMPP Server (MongooseIM) 需要 Public IP Addr. 以外，其餘 layers 都不該配予 Public IP Addr.
+* 請注意！因系統安全緣故，除 XMPP Server (MongooseIM) 需要 Public IP Addr. 以外，其餘 layers 都不該配予 Public IP Addr.
+
+### For Portal Stack
 
 1. Rails App Server
     * General Settings
         * Ruby version => 2.1
         * Rails stack => nginx and Unicorn
-        * RubyGems version => 2.2.1
+        * RubyGems version => 2.2.2
         * Install and manage Bundler => Yes
-        * Bundler version => 1.5.1
+        * Bundler version => 1.5.3
         * Auto healing enabled => Yes
     * Recipes
         * Custom Chef Recipes
@@ -75,10 +94,22 @@ Personal Cloud 依據不同任務需求，分為三種環境：
         * OS Packages
             * libmysqlclient-dev
             * mysql-client
+            * awscli
+            * ntp
     * Network
-        * Elastic Load Balancer => 新增一個 ELB，若設定正確，則 OpsWorks 會自動將 Rails instances 掛上此 ELB
+        * Elastic Load Balancer 參照 *Personal Cloud AWS Settings* 指定一個 ELB，若設定正確，則 OpsWorks 會自動將 Rails instances 掛上此 ELB
+            * Production => PCloud-Prod-Portal-Web
+            * Beta => PCloud-Beta-Portal-Web
+            * Alpha => PCloud-Alpha-Portal-Web
         * Public IP addresses => No
         * Elastic IP addresses => No
+    * Security
+        * Security Groups
+            * Default groups => AWS-OpsWorks-Rails-App-Server
+            * Custom groups（參照 *Personal Cloud AWS Settings*）
+                * Production => PCloud-Prod-EC2-Instance, PCloud-Prod-Web-Server
+                * Beta => PCloud-Beta-EC2-Instance, PCloud-Beta-Web-Server
+                * Alpha => PCloud-Alpha-EC2-Instance, PCloud-Alpha-Web-Server
 2. (Custom) Bot
     * 因為不像 Rails App Server 有預設配套的 layer 可用，故此處需要新增一自訂 layer 為 'Bot'
     * Auto healing enabled => yes
@@ -101,6 +132,8 @@ Personal Cloud 依據不同任務需求，分為三種環境：
             * mysql-client
             * awscli
             * redis-tools
+
+### For REST API Server Stack
 
 ## Apps
 
