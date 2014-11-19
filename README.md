@@ -4,7 +4,7 @@
 
 請同時參閱 *Personal Cloud AWS Settings* 文件設定 AWS 基礎設施（主要是 VPC），Personal Cloud 於 OpsWorks 上，需將這些基礎設施設定妥善方能順利配置。
 
-# 各項子目錄作用
+# A. 各項子目錄作用
 
 * `/deploy`:
     * `/attributes/customize.rb`: Customized attributes for Personal Cloud
@@ -21,7 +21,7 @@
 * `/server`: Ubuntu 14.04 server
 * `/unicorn`: Unicorn application server
 
-# Main Concepts, Hints
+# B. Main Concepts, Hints
 
 * Recipes 會照列表順序跑。
 * 遇到同名的 recipe，OpsWorks 會以我們自訂的版本取代預設的，所以請注意 cookbook 與 recipe 的命名。
@@ -30,9 +30,9 @@
     * 目前覆蓋自 AWS 預設版本的修改，都是情非得已，優先為了 Personal Cloud 各種專屬配置而改。
     * 任何需要覆蓋 AWS 預設版本的修改，請先徵得 OpsWorks 部屬工作負責人同意與 code review 過再行修改。
 
-# OpsWorks Configurations
+# C. OpsWorks Configurations
 
-## Environments
+## C.1 Environments
 
 Personal Cloud 依據不同任務需求，分為三種環境：
 
@@ -52,7 +52,7 @@ Personal Cloud 依據不同任務需求，分為三種環境：
     * Personal Cloud Portal Alpha
     * Personal Cloud REST API Server Alpha 
 
-## Stacks
+## C.2 Stacks
 
 * 實務上，可以 clone 已經規劃的 Stack，配上適合的修改（如 Security Groups 一定要改、Git repo. 等則視需求而定），就可以快速複製一樣的環境，所以若要作 A/B Test 則請 clone 一系列 Stacks 來做實驗組，而不要直接修改目前已經在運作的 Stack
 * Default operating system => Ubuntu 14.04 LTS
@@ -72,11 +72,11 @@ Personal Cloud 依據不同任務需求，分為三種環境：
     * 請參閱 *ZyXEL Personal Cloud Custom JSON Configuration* 瞭解 Custom JSON 當中的設定值意義
 * Use OpsWorks security groups => Yes
     
-## Layers
+## C.3 Layers
 
 請注意！因系統安全緣故，除 XMPP Server (MongooseIM) 需要 Public IP Addr. 以外，其餘 layers 都不該配予 Public IP Addr.
 
-### For Portal Stack
+### C.3.1 For Portal Stack
 
 1. Rails App Server
     * General Settings
@@ -150,7 +150,7 @@ Personal Cloud 依據不同任務需求，分為三種環境：
                 * Beta => PCloud-Beta-EC2-Instance, PCloud-Beta-XMPP-Server
                 * Alpha => PCloud-Alpha-EC2-Instance, PCloud-Alpha-XMPP-Server
 
-### For REST API Server Stack
+### C.3.2 For REST API Server Stack
 
 1. Rails App Server
     * General Settings
@@ -186,7 +186,7 @@ Personal Cloud 依據不同任務需求，分為三種環境：
                 * Beta => PCloud-Beta-EC2-Instance, PCloud-Beta-Web-Server
                 * Alpha => PCloud-Alpha-EC2-Instance, PCloud-Alpha-Web-Server
 
-## Apps
+## C.4 Apps
 
 1. Personal Cloud Portal
     * Name => Personal Cloud Portal（因為 cookbooks 會比對 App 名稱，故請注意不要使用其他命名）
@@ -209,16 +209,17 @@ Personal Cloud 依據不同任務需求，分為三種環境：
     * Branch/Revision => develop
     * Data source type => None
 
-## Deployments
+## C.5 Deployments
 
 1. Personal Cloud Bots
     * 目前 Bot Jabber ID 設定值是寫死的，會依照 Bot layer instances 的 hostname 來指定，如 bot1 (server) 則讓 bot1, bot2 上線、bot2 (server) 類推讓 bot3, bp4 上線，對應設定寫在 Stack Custom JSON 
     * 另請參考 *ZyXEL Personal Cloud - Bot Deploy Guide For Create Instance Manually* 文件
 
-## Monitoring
-## Resources
-## Permissions
-## 問題診斷
+## C.6 Monitoring
+## C.7 Resources
+## C.8 Permissions
+
+# D. 問題診斷
 
 1. 如果開機出問題，而 Web console 顯示大量 log 又會造成瀏覽器死機，我可以進到機器內去哪邊看 log？
 
