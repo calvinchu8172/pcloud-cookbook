@@ -19,7 +19,7 @@ execute "kill fluentd container" do
     docker ps -a | grep "ecowork/fluentd" | cut -d" " -f1 | xargs sudo docker rm
   EOH
 
-  only_if "ps -ef | grep fluentd | grep -v grep"
+  only_if "ps ef | grep fluentd | grep ruby | grep -v grep"
 end
 
 execute "run fluentd container" do
