@@ -36,6 +36,7 @@ environments:
 <% @environments['filter_list'].each do |hostname| %>
     - <%= hostname %>
 <% end %>
+  ga_tracker: <%= @environments['ga_tracker'] %>
 oauth:
   facebook_app_id: <%= @oauth['facebook_app_id'] %>
   facebook_secret: <%= @oauth['facebook_secret'] %>
