@@ -11,6 +11,7 @@ xmpp:
     - <%= node %>
 <% end %>
 environments:
+  name: <%= @environments['name'] %>
   api_domain: <%= @environments['api_domain'] %>
   portal_domain: <%= @environments['portal_domain'] %> 
   paperclip:
