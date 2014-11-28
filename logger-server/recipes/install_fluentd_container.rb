@@ -38,11 +38,11 @@ execute "kill fluentd container" do
     docker ps -a | grep "24224/tcp" | cut -d" " -f1 | xargs docker kill
   EOH
 
-  only_if "ps ef | grep fluentd | grep ruby | grep -v grep"
+  only_if "ps -ef | grep fluentd | grep ruby | grep -v grep"
 end
 
 execute "run fluentd container" do
   command "sleep 10 ; docker run -d -p 24224:24224 personal_cloud/fluentd"
 
-  not_if "ps ef | grep fluentd | grep ruby | grep -v grep"
+  not_if "ps -ef | grep fluentd | grep ruby | grep -v grep"
 end
