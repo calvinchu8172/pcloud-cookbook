@@ -42,5 +42,7 @@ execute "kill fluentd container" do
 end
 
 execute "run fluentd container" do
-  command "docker run -d -p 24224:24224 personal_cloud/fluentd"
+  command "sleep 10 ; docker run -d -p 24224:24224 personal_cloud/fluentd"
+
+  not_if "ps ef | grep fluentd | grep ruby | grep -v grep"
 end
