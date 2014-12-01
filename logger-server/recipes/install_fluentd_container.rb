@@ -42,5 +42,4 @@ end
 
 execute "just run a fresh fluentd container" do
   command "docker run -d -p 24224:24224 personal_cloud/fluentd"
-  not_if "ps -ef | grep fluentd | grep ruby | grep -v grep"
 end
