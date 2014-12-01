@@ -33,15 +33,16 @@ execute "build personal cloud specific fluentd docker image" do
   command "docker build -t personal_cloud/fluentd ."
 end
 
-execute "kill fluentd container" do
+execute "kill & restart fluentd container" do
   command <<-EOH
-    docker ps -a | grep "24224/tcp" | cut -d" " -f1 | xargs docker kill && sleep 10
+    docker ps -a | grep "24224/tcp" | cut -d" " -f1 | xargs docker kill && \
+    docker run -d -p 24224:24224 personal_cloud/fluentd
   EOH
 
   only_if "ps -ef | grep fluentd | grep ruby | grep -v grep"
 end
 
-execute "run fluentd container" do
+execute "just run a fresh fluentd container" do
   command "docker run -d -p 24224:24224 personal_cloud/fluentd"
 
   not_if "ps -ef | grep fluentd | grep ruby | grep -v grep"
