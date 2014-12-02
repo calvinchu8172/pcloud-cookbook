@@ -41,5 +41,5 @@ execute "kill fluentd container" do
 end
 
 execute "just run a fresh fluentd container" do
-  command "docker run -d -p 24224:24224 personal_cloud/fluentd"
+  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent personal_cloud/fluentd"
 end
