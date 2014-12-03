@@ -68,7 +68,7 @@ end
 
 execute "shutdown mongooseim first during setting things up & done" do
   user "root"
-  command "mongooseimctl stop"
+  command "service mongooseim stop"
 end
 
 template '/usr/lib/mongooseim/etc/vm.args' do
@@ -124,5 +124,5 @@ end
 
 execute "start mongooseim" do
   user "root"
-  command "mongooseimctl start"
+  command "service mongooseim start"
 end
