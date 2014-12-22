@@ -1,0 +1,7 @@
+name             'service_pack'
+maintainer       'YOUR_NAME'
+maintainer_email 'YOUR_EMAIL'
+license          'All rights reserved'
+description      'Installs/Configures service_pack'
+long_description 'Installs/Configures service_pack'
+version          '0.1.0'
