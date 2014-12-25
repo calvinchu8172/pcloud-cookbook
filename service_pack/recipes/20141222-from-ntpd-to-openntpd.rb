@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: service_pack
-# Recipe:: 20141222-upgrade-ntpd
+# Recipe:: 20141222-from-ntpd-to-openntpd
 #
 # Copyright (C) 2014 Huei-Horng Yo <hiroshiyui@ecoworkinc.com>
 #
