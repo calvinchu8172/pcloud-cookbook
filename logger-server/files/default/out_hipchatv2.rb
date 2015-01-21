@@ -47,7 +47,7 @@ module Fluent
     def write(chunk)
       chunk.msgpack_each do |(tag,time,record)|
         begin
-          send_message(record)
+          send_message(tag, record)
           set_topic(record) if record['topic']
         rescue => e
           $log.error("HipChat Error:", :error_class => e.class, :error => e.message)
@@ -55,11 +55,15 @@ module Fluent
       end
     end
 
-    def send_message(record)
+    def send_message(tag, record)
       room = record['room'] || @default_room
       from = record['from'] || @default_from
-      message = record.to_s
-      message = '@' + @default_mention + ' ' + message if @default_mention
+
+      tag.sub!(/^hipchat\./, '') if tag =~ /^hipchat\./
+
+      message = "#{tag} #{record.to_s}"
+      message = "@#{@default_mention} #{message}" if @default_mention
+
       notify = @default_notify
 
       color = COLORS.include?(record['color']) ? record['color'] : @default_color
