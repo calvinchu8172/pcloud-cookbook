@@ -58,8 +58,12 @@ module Fluent
     def send_message(tag, record)
       room = record['room'] || @default_room
       from = record['from'] || @default_from
+
+      tag.sub!(/^hipchat\./, '') if tag =~ /^hipchat\./
+
       message = "#{tag} #{record.to_s}"
       message = "@#{@default_mention} #{message}" if @default_mention
+
       notify = @default_notify
 
       color = COLORS.include?(record['color']) ? record['color'] : @default_color
