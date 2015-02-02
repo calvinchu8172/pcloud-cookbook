@@ -16,8 +16,6 @@ execute "install RVM" do
   environment ({'HOME' => '/home/fluentd'})
   command <<-EOH
     gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 && \
-    curl -sSL https://get.rvm.io | bash -s stable --version 1.26.9 && \
-    rvm autolibs disable && \
-    rvm install 2.2
+    curl -sSL https://get.rvm.io | bash -s stable --version 1.26.9 --autolibs disable --ruby
   EOH
 end
