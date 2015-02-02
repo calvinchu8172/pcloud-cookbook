@@ -7,3 +7,13 @@ user "fluentd" do
   shell "/bin/bash"
   action :create
 end
+
+# install RVM for user 'fluentd'
+
+execute "install RVM" do
+  user "fluentd"
+  command <<-EOH
+    gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 && \
+    curl -sSL https://get.rvm.io | bash -s stable --ruby
+  EOH
+end
