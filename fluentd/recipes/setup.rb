@@ -12,6 +12,7 @@ end
 
 execute "install RVM" do
   user "fluentd"
+  group "fluentd"
   cwd "/home/fluentd"
   environment ({'HOME' => '/home/fluentd'})
   command <<-EOH
