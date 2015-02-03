@@ -18,6 +18,7 @@ execute "install RVM" do
   command <<-EOH
     gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 && \
     curl -sSL https://get.rvm.io | bash -s stable && \
+    source /home/fluentd/.rvm/scripts/rvm && \
     rvm install 2.2
   EOH
 end
