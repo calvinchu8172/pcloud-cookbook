@@ -1,36 +1,44 @@
 execute "mkdir for Docker files" do
   cwd "/srv"
-  command "mkdir -p ecowork_fluentd personal_cloud_fluentd"
+  command "mkdir -p fluentd-base personal-cloud-bot personal-cloud-portal"
 end
 
-cookbook_file "Dockerfile-ecowork-fluentd" do
-  path "/srv/ecowork_fluentd/Dockerfile"
+# setup fluentd-base
+
+cookbook_file "Dockerfile" do
+  source ["fluentd-base/Dockerfile"]
+  path "/srv/fluentd-base/Dockerfile"
   action :create
 end
 
 execute "build fluentd docker base image" do
-  cwd "/srv/ecowork_fluentd"
-  command "docker build -t ecowork/fluentd ."
+  cwd "/srv/fluentd-base"
+  command "docker build -t fluentd-base ."
 end
 
-cookbook_file "Dockerfile-personal-cloud-fluentd" do
-  path "/srv/personal_cloud_fluentd/Dockerfile"
+# setup fluentd for personal-cloud-portal
+
+cookbook_file "Dockerfile" do
+  source ["personal-cloud-portal/Dockerfile"]
+  path "/srv/personal-cloud-portal/Dockerfile"
   action :create
 end
 
 cookbook_file "fluent.conf" do
-  path "/srv/personal_cloud_fluentd/fluent.conf"
+  source ["personal-cloud-portal/Dockerfile"]
+  path "/srv/personal-cloud-portal/fluent.conf"
   action :create
 end
 
 cookbook_file "out_hipchatv2.rb" do
-  path "/srv/personal_cloud_fluentd/out_hipchatv2.rb"
+  source ["personal-cloud-portal/Dockerfile"]
+  path "/srv/personal-cloud-portal/out_hipchatv2.rb"
   action :create
 end
 
-execute "build personal cloud specific fluentd docker image" do
-  cwd "/srv/personal_cloud_fluentd"
-  command "docker build -t personal_cloud/fluentd ."
+execute "build personal cloud portal specific fluentd docker image" do
+  cwd "/srv/personal-cloud-portal"
+  command "docker build -t personal-cloud-portal ."
 end
 
 running_container_id = `docker ps -a | grep "24224/tcp" | cut -d" " -f1`
@@ -41,5 +49,5 @@ execute "kill fluentd container" do
 end
 
 execute "just run a fresh fluentd container" do
-  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent personal_cloud/fluentd"
+  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent personal-cloud-portal"
 end

@@ -1,4 +1,4 @@
-FROM ecowork/fluentd
+FROM fluentd-base
 MAINTAINER hiroshiyui@ecoworkinc.com
 
 ADD fluent.conf /etc/fluent/
