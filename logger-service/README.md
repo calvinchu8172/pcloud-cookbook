@@ -1,4 +1,4 @@
-# logger-server-cookbook
+# logger-service-cookbook
 
 TODO: Enter the cookbook description here.
 
@@ -16,7 +16,7 @@ TODO: List your supported platforms.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['logger-server']['bacon']</tt></td>
+    <td><tt>['logger-service']['bacon']</tt></td>
     <td>Boolean</td>
     <td>whether to include bacon</td>
     <td><tt>true</tt></td>
@@ -25,14 +25,14 @@ TODO: List your supported platforms.
 
 ## Usage
 
-### logger-server::default
+### logger-service::default
 
-Include `logger-server` in your node's `run_list`:
+Include `logger-service` in your node's `run_list`:
 
 ```json
 {
   "run_list": [
-    "recipe[logger-server::default]"
+    "recipe[logger-service::default]"
   ]
 }
 ```

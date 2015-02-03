@@ -1,3 +1,3 @@
 # 0.1.0
 
-Initial release of logger-server
+Initial release of logger-service
