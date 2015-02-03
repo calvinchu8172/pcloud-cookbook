@@ -6,7 +6,7 @@ end
 # setup fluentd-base
 
 cookbook_file "Dockerfile" do
-  source ["fluentd-base/Dockerfile"]
+  source "fluentd-base/Dockerfile"
   path "/srv/fluentd-base/Dockerfile"
   action :create
 end
@@ -19,19 +19,19 @@ end
 # setup fluentd for personal-cloud-portal
 
 cookbook_file "Dockerfile" do
-  source ["personal-cloud-portal/Dockerfile"]
+  source "personal-cloud-portal/Dockerfile"
   path "/srv/personal-cloud-portal/Dockerfile"
   action :create
 end
 
 cookbook_file "fluent.conf" do
-  source ["personal-cloud-portal/Dockerfile"]
+  source "personal-cloud-portal/fluent.conf"
   path "/srv/personal-cloud-portal/fluent.conf"
   action :create
 end
 
 cookbook_file "out_hipchatv2.rb" do
-  source ["personal-cloud-portal/Dockerfile"]
+  source "personal-cloud-portal/out_hipchatv2.rb"
   path "/srv/personal-cloud-portal/out_hipchatv2.rb"
   action :create
 end
