@@ -14,9 +14,10 @@ execute "install RVM" do
   user "fluentd"
   group "fluentd"
   cwd "/home/fluentd"
-  environment ({'HOME' => '/home/fluentd'})
+  environment ({'HOME' => '/home/fluentd', 'SHELL' => '/bin/bash'})
   command <<-EOH
     gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 && \
-    curl -sSL https://get.rvm.io | bash -s stable
+    curl -sSL https://get.rvm.io | bash -s stable && \
+    rvm install 2.2
   EOH
 end
