@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: logger-server
+# Cookbook Name:: logger-service
 # Recipe:: default
 #
 # Copyright (C) 2014 YOUR_NAME
