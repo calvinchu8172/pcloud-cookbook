@@ -1,6 +1,19 @@
 execute "mkdir for Docker files" do
   cwd "/srv"
-  command "mkdir -p fluentd-base personal-cloud-bot personal-cloud-portal"
+  command "mkdir -p ruby-rvm-base fluentd-base personal-cloud-bot personal-cloud-portal"
+end
+
+# setup ruby-rvm-base
+
+cookbook_file "Dockerfile" do
+  source "ruby-rvm-base/Dockerfile"
+  path "/srv/ruby-rvm-base/Dockerfile"
+  action :create
+end
+
+execute "build RVM docker base image" do
+  cwd "/srv/ruby-rvm-base"
+  command "docker build -t ruby-rvm-base ."
 end
 
 # setup fluentd-base
