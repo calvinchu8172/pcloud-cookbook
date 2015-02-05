@@ -24,6 +24,12 @@ cookbook_file "Dockerfile" do
   action :create
 end
 
+cookbook_file "monitrc" do
+  source "fluentd-base/monitrc"
+  path "/srv/fluentd-base/monitrc"
+  action :create
+end
+
 execute "build fluentd docker base image" do
   cwd "/srv/fluentd-base"
   command "docker build -t fluentd-base ."
