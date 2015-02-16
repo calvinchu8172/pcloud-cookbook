@@ -1,5 +1,5 @@
-include_recipe "install_official_docker" 
-include_recipe "install_fluentd_container"
+include_recipe "logger-service::install_official_docker" 
+include_recipe "logger-service::install_fluentd_container"
 
 # setup fluentd logging center
 
