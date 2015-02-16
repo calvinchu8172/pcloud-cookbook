@@ -14,6 +14,17 @@ execute "add official docker repository" do
   EOH
 end
 
+# install linux-image-extra package such as 'linux-image-extra-3.13.0-45-generic'
+linux_image_extra_pkgname = "linux-image-extra-#{`uname -r`}".strip
+
+package "#{linux_image_extra_pkgname}" do
+  action :install
+end
+
+package "aufs-tools" do
+  action :install
+end
+
 package "lxc-docker" do
   action :install
 end
