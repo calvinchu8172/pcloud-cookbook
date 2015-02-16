@@ -14,6 +14,10 @@ execute "add official docker repository" do
   EOH
 end
 
+package "aufs-tools" do
+  action :install
+end
+
 package "lxc-docker" do
   action :install
 end
