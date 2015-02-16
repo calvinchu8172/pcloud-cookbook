@@ -1,6 +1,11 @@
 include_recipe "logger-service::install_official_docker" 
 include_recipe "logger-service::install_fluentd_container"
 
+execute "mkdir for Docker files" do
+  cwd "/srv"
+  command "mkdir -p fluentd-center"
+end
+
 # setup fluentd logging center
 
 cookbook_file "Dockerfile" do

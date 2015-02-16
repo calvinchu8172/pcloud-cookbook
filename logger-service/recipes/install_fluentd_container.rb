@@ -1,6 +1,6 @@
 execute "mkdir for Docker files" do
   cwd "/srv"
-  command "mkdir -p ruby-rvm-base fluentd-base fluentd-center"
+  command "mkdir -p ruby-rvm-base fluentd-base"
 end
 
 # setup ruby-rvm-base
