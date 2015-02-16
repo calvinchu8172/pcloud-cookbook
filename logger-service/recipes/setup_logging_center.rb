@@ -1,3 +1,6 @@
+include_recipe "install_official_docker" 
+include_recipe "install_fluentd_container"
+
 # setup fluentd logging center
 
 cookbook_file "Dockerfile" do
