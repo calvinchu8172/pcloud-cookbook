@@ -14,10 +14,20 @@ cookbook_file "Dockerfile" do
   action :create
 end
 
-cookbook_file "fluent.conf" do
-  source "fluentd-portal-nodes/fluent.conf"
-  path "/srv/fluentd-portal-nodes/fluent.conf"
-  action :create
+#cookbook_file "fluent.conf" do
+  #source "fluentd-portal-nodes/fluent.conf"
+  #path "/srv/fluentd-portal-nodes/fluent.conf"
+  #action :create
+#end
+template "/srv/fluentd-portal-nodes/fluent.conf" do
+  source 'fluentd-portal-nodes/fluent.conf.erb'
+  mode '0644'
+  owner 'root'
+  group 'root'
+  variables({
+    :layer => node[:opsworks][:stack][:name].squeeze.downcase.tr(" ", "_"),
+    :hostname => node[:opsworks][:instance][:hostname]
+  })
 end
 
 execute "build fluentd logging center docker image" do
