@@ -26,7 +26,9 @@
   tag pcloud.<%= @layer %>.<%= @hostname %>.app
   path /srv/www/personal_cloud_portal/shared/log/app.log
   pos_file /var/log/fluent/app.log.pos
-  format /^(?<time>.*)\s--\s(?<record>.*)$/
+  format multiline
+  format_firstline /^[0-9].*\s--\s.*$/
+  format1 /^(?<time>[0-9].*)\s--\s(?<record>.*)$/
   refresh_interval 5
 </source>
 
