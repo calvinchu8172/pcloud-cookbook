@@ -8,7 +8,7 @@
   tag pcloud.<%= @layer %>.<%= @hostname %>.unicorn.stderr
   path /srv/www/personal_cloud_portal/shared/log/unicorn.stderr.log 
   pos_file /var/log/fluent/unicorn.stderr.log.pos
-  format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s:\s(?<record>.*)$/
+  format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<record>.*)$/
   refresh_interval 30
 </source>
 
@@ -17,7 +17,7 @@
   tag pcloud.<%= @layer %>.<%= @hostname %>.unicorn.stdout
   path /srv/www/personal_cloud_portal/shared/log/unicorn.stdout.log
   pos_file /var/log/fluent/unicorn.stdout.log.pos
-  format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s:\s(?<record>.*)$/
+  format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<record>.*)$/
   refresh_interval 30
 </source>
 
