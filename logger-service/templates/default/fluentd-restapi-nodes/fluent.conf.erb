@@ -27,7 +27,9 @@
   path /srv/www/personal_cloud_rest_api/shared/log/app.log
   pos_file /var/log/fluent/app.log.pos
   format multiline
-  format_firstline /^(?<time>.*)\s--\s(?<record>.*)$/
+  format_firstline /^[0-9].*\s--\s.*$/
+  format1 /^(?<time>[0-9].*)\s--\s(?<record>.*)$/
+  format2 /^(?<exception>.*)$/
   refresh_interval 5
 </source>
 
