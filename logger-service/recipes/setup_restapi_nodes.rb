@@ -3,17 +3,17 @@ include_recipe "logger-service::install_fluentd_container"
 
 execute "mkdir for Docker files" do
   cwd "/srv"
-  command "mkdir -p fluentd-portal-nodes"
+  command "mkdir -p fluentd-restapi-nodes"
 end
 
 cookbook_file "Dockerfile" do
-  source "fluentd-portal-nodes/Dockerfile"
-  path "/srv/fluentd-portal-nodes/Dockerfile"
+  source "fluentd-restapi-nodes/Dockerfile"
+  path "/srv/fluentd-restapi-nodes/Dockerfile"
   action :create
 end
 
-template "/srv/fluentd-portal-nodes/fluent.conf" do
-  source 'fluentd-portal-nodes/fluent.conf.erb'
+template "/srv/fluentd-restapi-nodes/fluent.conf" do
+  source 'fluentd-restapi-nodes/fluent.conf.erb'
   mode '0644'
   owner 'root'
   group 'root'
@@ -24,8 +24,8 @@ template "/srv/fluentd-portal-nodes/fluent.conf" do
 end
 
 execute "build fluentd logging center docker image" do
-  cwd "/srv/fluentd-portal-nodes"
-  command "docker build -t fluentd-portal-nodes ."
+  cwd "/srv/fluentd-restapi-nodes"
+  command "docker build -t fluentd-restapi-nodes ."
 end
 
 running_container_id = `docker ps -a | grep "24224/tcp" | cut -d" " -f1`
@@ -36,5 +36,5 @@ execute "kill fluentd container" do
 end
 
 execute "just run a fresh fluentd container" do
-  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent -v /srv/www/personal_cloud_portal/shared/log:/srv/www/personal_cloud_portal/shared/log fluentd-portal-nodes"
+  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent -v /srv/www/personal_cloud_rest_api/shared/log:/srv/www/personal_cloud_rest_api/shared/log fluentd-restapi-nodes"
 end
