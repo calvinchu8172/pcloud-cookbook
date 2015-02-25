@@ -19,22 +19,22 @@ template "/srv/fluentd-center/Dockerfile" do
   })
 end
 
-#cookbook_file "fluent.conf" do
-  #source "fluentd-center/fluent.conf"
-  #path "/srv/fluentd-center/fluent.conf"
-  #action :create
-#end
-
-template "/srv/fluentd-center/fluent.conf" do
-  source 'fluentd-center/fluent.conf.erb'
-  mode '0644'
-  owner 'root'
-  group 'root'
-  variables({
-    :access_key => node['fluentd-center']['access_key'],
-    :secret_key => node['fluentd-center']['secret_key']
-  })
+cookbook_file "fluent.conf" do
+  source "fluentd-center/fluent.conf"
+  path "/srv/fluentd-center/fluent.conf"
+  action :create
 end
+
+#template "/srv/fluentd-center/fluent.conf" do
+  #source 'fluentd-center/fluent.conf.erb'
+  #mode '0644'
+  #owner 'root'
+  #group 'root'
+  #variables({
+    #:access_key => node['fluentd-center']['access_key'],
+    #:secret_key => node['fluentd-center']['secret_key']
+  #})
+#end
 
 cookbook_file "out_hipchatv2.rb" do
   source "fluentd-center/out_hipchatv2.rb"
