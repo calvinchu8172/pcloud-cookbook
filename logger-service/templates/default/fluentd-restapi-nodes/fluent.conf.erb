@@ -5,7 +5,7 @@
 
 <source>
   type tail
-  tag <%= @layer %>.<%= @hostname %>.unicorn.stderr
+  tag <%= @layer %>.<%= @hostname %>.unicorn
   path /srv/www/personal_cloud_rest_api/shared/log/unicorn.stderr.log 
   pos_file /var/log/fluent/unicorn.stderr.log.pos
   format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<record>.*)$/
@@ -14,7 +14,7 @@
 
 <source>
   type tail
-  tag <%= @layer %>.<%= @hostname %>.unicorn.stdout
+  tag <%= @layer %>.<%= @hostname %>.unicorn
   path /srv/www/personal_cloud_rest_api/shared/log/unicorn.stdout.log
   pos_file /var/log/fluent/unicorn.stdout.log.pos
   format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<record>.*)$/
