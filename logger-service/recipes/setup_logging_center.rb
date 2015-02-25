@@ -8,10 +8,21 @@ end
 
 # setup fluentd logging center
 
-cookbook_file "Dockerfile" do
-  source "fluentd-center/Dockerfile"
-  path "/srv/fluentd-center/Dockerfile"
-  action :create
+#cookbook_file "Dockerfile" do
+  #source "fluentd-center/Dockerfile"
+  #path "/srv/fluentd-center/Dockerfile"
+  #action :create
+#end
+
+template "/srv/fluentd-center/Dockerfile" do
+  source 'fluentd-center/Dockerfile.erb'
+  mode '0644'
+  owner 'root'
+  group 'root'
+  variables({
+    :access_key => node['fluentd-center']['access_key'],
+    :secret_key => node['fluentd-center']['secret_key']
+  })
 end
 
 cookbook_file "fluent.conf" do
@@ -19,6 +30,17 @@ cookbook_file "fluent.conf" do
   path "/srv/fluentd-center/fluent.conf"
   action :create
 end
+
+#template "/srv/fluentd-center/fluent.conf" do
+  #source 'fluentd-center/fluent.conf.erb'
+  #mode '0644'
+  #owner 'root'
+  #group 'root'
+  #variables({
+    #:layer => node[:opsworks][:stack][:name].squeeze.downcase.tr(" ", "_"),
+    #:hostname => node[:opsworks][:instance][:hostname]
+  #})
+#end
 
 cookbook_file "out_hipchatv2.rb" do
   source "fluentd-center/out_hipchatv2.rb"

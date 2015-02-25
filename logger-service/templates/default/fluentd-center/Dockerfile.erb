@@ -1,0 +1,11 @@
+FROM fluentd-base
+MAINTAINER hiroshiyui@ecoworkinc.com
+
+ENV AWS_REGION="us-east-1"
+ENV AWS_ACCESS_KEY_ID="<%= @access_key %>"
+ENV AWS_SECRET_ACCESS_KEY="<%= @secret_key %>"
+
+ADD fluent.conf /etc/fluent/
+ADD out_hipchatv2.rb /etc/fluent/plugin/
+RUN mkdir -p /var/log/fluent
+RUN /bin/bash -l -c "gem install fluent-plugin-rewrite-tag-filter fluent-plugin-mail fluent-plugin-cloudwatch-logs hipchat --no-ri --no-rdoc"
