@@ -5,7 +5,7 @@
 
 <source>
   type tail
-  tag pcloud.<%= @layer %>.<%= @hostname %>.unicorn.stderr
+  tag <%= @layer %>.<%= @hostname %>.unicorn.stderr
   path /srv/www/personal_cloud_rest_api/shared/log/unicorn.stderr.log 
   pos_file /var/log/fluent/unicorn.stderr.log.pos
   format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<record>.*)$/
@@ -14,7 +14,7 @@
 
 <source>
   type tail
-  tag pcloud.<%= @layer %>.<%= @hostname %>.unicorn.stdout
+  tag <%= @layer %>.<%= @hostname %>.unicorn.stdout
   path /srv/www/personal_cloud_rest_api/shared/log/unicorn.stdout.log
   pos_file /var/log/fluent/unicorn.stdout.log.pos
   format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<record>.*)$/
@@ -23,7 +23,7 @@
 
 <source>
   type tail
-  tag pcloud.<%= @layer %>.<%= @hostname %>.app
+  tag <%= @layer %>.<%= @hostname %>.app
   path /srv/www/personal_cloud_rest_api/shared/log/app.log
   pos_file /var/log/fluent/app.log.pos
   format multiline
@@ -34,14 +34,14 @@
 
 <source>
   type tail
-  tag pcloud.<%= @layer %>.<%= @hostname %>.db
+  tag <%= @layer %>.<%= @hostname %>.db
   path /srv/www/personal_cloud_rest_api/shared/log/db.log
   pos_file /var/log/fluent/db.log.pos
   format /^(?<time>.*)\s--\s(?<record>.*)$/
   refresh_interval 5
 </source>
 
-<match pcloud.**>
+<match <%= @layer %>.**>
   type copy
   <store>
     type file
