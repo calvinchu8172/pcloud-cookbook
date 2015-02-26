@@ -8,7 +8,7 @@
   tag <%= @layer %>.<%= @hostname %>.unicorn
   path /srv/www/personal_cloud_rest_api/shared/log/unicorn.stderr.log 
   pos_file /var/log/fluent/unicorn.stderr.log.pos
-  format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<record>.*)$/
+  format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<message>.*)$/
   refresh_interval 30
 </source>
 
@@ -17,7 +17,7 @@
   tag <%= @layer %>.<%= @hostname %>.unicorn
   path /srv/www/personal_cloud_rest_api/shared/log/unicorn.stdout.log
   pos_file /var/log/fluent/unicorn.stdout.log.pos
-  format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<record>.*)$/
+  format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<message>.*)$/
   refresh_interval 30
 </source>
 
@@ -28,7 +28,7 @@
   pos_file /var/log/fluent/app.log.pos
   format multiline
   format_firstline /^[0-9].*\s--\s.*$/
-  format1 /^(?<time>[0-9].*)\s--\sip:(?<record>.*),\sprocess:(?<process>.*),\suser_id:(?<user_id>.*),\shost:(?<host>.*),\senv:(?<env>.*),\slevel:(?<level>.*),\smessage:(?<message>.*)$/
+  format1 /^(?<time>[0-9].*)\s--\sip:(?<ip>.*),\sprocess:(?<process>.*),\suser_id:(?<user_id>.*),\shost:(?<host>.*),\senv:(?<env>.*),\slevel:(?<level>.*),\smessage:(?<message>.*)$/
   refresh_interval 5
 </source>
 
@@ -37,7 +37,7 @@
   tag <%= @layer %>.<%= @hostname %>.db
   path /srv/www/personal_cloud_rest_api/shared/log/db.log
   pos_file /var/log/fluent/db.log.pos
-  format /^(?<time>[0-9].*)\s--\sip:(?<record>.*),\sprocess:(?<process>.*),\suser_id:(?<user_id>.*),\shost:(?<host>.*),\senv:(?<env>.*),\slevel:(?<level>.*),\smessage:(?<message>.*)$/
+  format /^(?<time>[0-9].*)\s--\sip:(?<ip>.*),\sprocess:(?<process>.*),\suser_id:(?<user_id>.*),\shost:(?<host>.*),\senv:(?<env>.*),\slevel:(?<level>.*),\smessage:(?<message>.*)$/
   refresh_interval 5
 </source>
 
