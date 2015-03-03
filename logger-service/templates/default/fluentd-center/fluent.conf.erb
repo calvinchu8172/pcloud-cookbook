@@ -7,27 +7,22 @@
   type stdout
 </match>
 
-<match pcloud.**>
+<% @environments.each do |environment| %>
+# -----------------------------
+#  Personal Cloud Portal <%= environment.capitalize %>
+# -----------------------------
+<match personal_cloud_portal_<%= environment %>.**>
   type copy
   <store>
     type file
-    path /var/log/fluent/pcloud
+    path /var/log/fluent/personal_cloud_portal_<%= environment %>
     compress gz
   </store>
   <store>
     type cloudwatch_logs
     log_group_name personal_cloud
-    log_stream_name logs_from_fluentd
+    log_stream_name personal_cloud_portal_<%= environment %>
     auto_create_stream true
-  </store>
-</match>
-
-<match personal_cloud.**>
-  type copy
-  <store>
-    type file
-    path /var/log/fluent/personal_cloud
-    compress gz
   </store>
   <store>
     type rewrite_tag_filter
@@ -36,6 +31,30 @@
   </store>
 </match>
 
+# --------------------------------------
+#  Personal Cloud REST API Server <%= environment.capitalize %>
+# --------------------------------------
+<match personal_cloud_rest_api_server_<%= environment %>.**>
+  type copy
+  <store>
+    type file
+    path /var/log/fluent/personal_cloud_rest_api_server_<%= environment %>
+    compress gz
+  </store>
+  <store>
+    type cloudwatch_logs
+    log_group_name personal_cloud
+    log_stream_name personal_cloud_rest_api_server_<%= environment %>
+    auto_create_stream true
+  </store>
+  <store>
+    type rewrite_tag_filter
+    rewriterule1 content .*Redis::TimeoutError.* redis_timeout_error.__TAG__
+    rewriterule2 level (FATAL|ERROR) hipchat.__TAG__
+  </store>
+</match>
+
+<% end %>
 <match hipchat.**>
   type hipchatv2
   api_token RfDbhf7QXLkXMu8yMCi0ijQv1HIVGFimHw7Q4QZd
