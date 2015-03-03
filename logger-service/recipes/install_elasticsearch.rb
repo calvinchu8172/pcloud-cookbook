@@ -21,3 +21,8 @@ end
 execute "configure elasticsearch to automatically start during bootup" do
   command "update-rc.d elasticsearch defaults 95 10"
 end
+
+service "elasticsearch" do
+  supports :status => true, :restart => true
+  action [ :enable, :start ]
+end
