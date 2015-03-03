@@ -19,12 +19,6 @@ template "/srv/fluentd-center/Dockerfile" do
   })
 end
 
-#cookbook_file "fluent.conf" do
-  #source "fluentd-center/fluent.conf"
-  #path "/srv/fluentd-center/fluent.conf"
-  #action :create
-#end
-
 template "/srv/fluentd-center/fluent.conf" do
   source 'fluentd-center/fluent.conf.erb'
   mode '0644'
