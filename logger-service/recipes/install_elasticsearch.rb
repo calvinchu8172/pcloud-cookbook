@@ -10,6 +10,10 @@ execute "add elasticsearch official repository" do
   EOH
 end
 
+package "default-jre" do
+  action :install
+end
+
 package "elasticsearch" do
   action :install
 end
