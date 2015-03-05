@@ -25,7 +25,8 @@ template "/srv/fluentd-center/fluent.conf" do
   owner 'root'
   group 'root'
   variables({
-    :environments => ['alpha', 'beta', 'production']
+    :environments => ['alpha', 'beta', 'production'],
+    :elasticsearch_host => node['elasticsearch']['host']
   })
 end
 

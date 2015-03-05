@@ -29,6 +29,12 @@
     rewriterule1 content .*Redis::TimeoutError.* redis_timeout_error.__TAG__
     rewriterule2 level (FATAL|ERROR) hipchat.__TAG__
   </store>
+  <store>
+    type elasticsearch
+    host <%= elasticsearch_host %>
+    index_name personal_cloud
+    type_name personal_cloud_portal_<%= environment %>
+  </store>
 </match>
 
 # --------------------------------------
@@ -51,6 +57,12 @@
     type rewrite_tag_filter
     rewriterule1 content .*Redis::TimeoutError.* redis_timeout_error.__TAG__
     rewriterule2 level (FATAL|ERROR) hipchat.__TAG__
+  </store>
+  <store>
+    type elasticsearch
+    host <%= elasticsearch_host %>
+    index_name personal_cloud
+    type_name personal_cloud_portal_<%= environment %>
   </store>
 </match>
 

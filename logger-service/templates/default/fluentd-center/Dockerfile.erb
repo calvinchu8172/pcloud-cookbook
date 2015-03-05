@@ -8,4 +8,4 @@ ENV AWS_SECRET_ACCESS_KEY="<%= @secret_key %>"
 ADD fluent.conf /etc/fluent/
 ADD out_hipchatv2.rb /etc/fluent/plugin/
 RUN mkdir -p /var/log/fluent
-RUN /bin/bash -l -c "gem install fluent-plugin-rewrite-tag-filter fluent-plugin-mail fluent-plugin-cloudwatch-logs hipchat --no-ri --no-rdoc"
+RUN /bin/bash -l -c "gem install fluent-plugin-rewrite-tag-filter fluent-plugin-mail fluent-plugin-cloudwatch-logs fluent-plugin-elasticsearch hipchat --no-ri --no-rdoc"
