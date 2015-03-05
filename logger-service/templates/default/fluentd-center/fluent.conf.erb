@@ -31,7 +31,7 @@
   </store>
   <store>
     type elasticsearch
-    host <%= elasticsearch_host %>
+    host <%= @elasticsearch_host %>
     index_name personal_cloud
     type_name personal_cloud_portal_<%= environment %>
   </store>
@@ -60,7 +60,7 @@
   </store>
   <store>
     type elasticsearch
-    host <%= elasticsearch_host %>
+    host <%= @elasticsearch_host %>
     index_name personal_cloud
     type_name personal_cloud_portal_<%= environment %>
   </store>
