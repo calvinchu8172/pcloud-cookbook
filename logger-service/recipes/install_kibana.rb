@@ -12,5 +12,5 @@ execute "setup kibana" do
 end
 
 execute "run kibana" do
-  command "/srv/#{kibana}/bin/kibana &"
+  command "/srv/#{kibana}/bin/kibana"
 end
