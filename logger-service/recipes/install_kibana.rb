@@ -11,6 +11,6 @@ execute "setup kibana" do
   command "tar xvfz /tmp/#{kibana}.tar.gz"
 end
 
-execute "run kibana" do
-  command "/srv/#{kibana}/bin/kibana"
+bash "run kibana" do
+  code "/srv/#{kibana}/bin/kibana -q &"
 end
