@@ -12,6 +12,5 @@ execute "setup kibana" do
 end
 
 execute "run kibana" do
-  cwd "/srv/#{kibana}"
-  command "./bin/kibana &"
+  command "/srv/#{kibana}/bin/kibana &"
 end
