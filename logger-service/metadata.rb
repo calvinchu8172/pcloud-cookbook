@@ -1,0 +1,7 @@
+name             'logger-service'
+maintainer       'YOUR_NAME'
+maintainer_email 'YOUR_EMAIL'
+license          'All rights reserved'
+description      'Installs/Configures logger-service'
+long_description 'Installs/Configures logger-service'
+version          '0.1.0'

@@ -1,7 +1,0 @@
-FROM ecowork/fluentd
-MAINTAINER hiroshiyui@ecoworkinc.com
-
-ADD fluent.conf /etc/fluent/
-ADD out_hipchatv2.rb /etc/fluent/plugin/
-RUN mkdir -p /var/log/fluent
-RUN /bin/bash -l -c "gem install fluent-plugin-rewrite-tag-filter fluent-plugin-mail hipchat --no-ri --no-rdoc"
