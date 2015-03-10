@@ -54,12 +54,12 @@
     heartbeat_interval 5
     <server>
       name fluentd1
-      host 10.107.20.248
+      host <%= @fluentd1 %>
       port 24224
     </server>
     <server>
       name fluentd2
-      host 10.107.20.183
+      host <%= @fluentd2 %>
       port 24224
       standby
     </server>
