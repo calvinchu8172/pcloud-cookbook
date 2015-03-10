@@ -13,4 +13,4 @@ RUN /bin/bash -l -c "gem install fluentd --no-ri --no-rdoc"
 RUN /bin/bash -l -c "fluentd --setup"
 
 EXPOSE 24224
-CMD /bin/bash -l -c "monit -d 10 -I -c /etc/monit/monitrc -l /var/log/monit.log"
+CMD /bin/bash -l -c "fluentd -vv"

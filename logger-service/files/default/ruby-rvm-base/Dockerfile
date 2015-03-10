@@ -2,7 +2,7 @@ FROM debian:stable
 MAINTAINER hiroshiyui@ecoworkinc.com
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y curl procps && apt-get clean
+RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y curl libcurl4-gnutls-dev procps less && apt-get clean
 
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 RUN \curl -sSL https://get.rvm.io | bash -s stable

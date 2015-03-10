@@ -1,0 +1,74 @@
+<source>
+  type forward
+  port 24224
+</source>
+
+<source>
+  type tail
+  tag <%= @layer %>.<%= @hostname %>.unicorn
+  path /srv/www/personal_cloud_rest_api/shared/log/unicorn.stderr.log 
+  pos_file /var/log/fluent/unicorn.stderr.log.pos
+  format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<message>.*)$/
+  refresh_interval 30
+</source>
+
+<source>
+  type tail
+  tag <%= @layer %>.<%= @hostname %>.unicorn
+  path /srv/www/personal_cloud_rest_api/shared/log/unicorn.stdout.log
+  pos_file /var/log/fluent/unicorn.stdout.log.pos
+  format /^[A-Z],\s\[(?<time>.*)\s#[0-9].*\]\s\s(?<level>[A-Z].*)\s--\s(?<message>.*)$/
+  refresh_interval 30
+</source>
+
+<source>
+  type tail
+  tag <%= @layer %>.<%= @hostname %>.app
+  path /srv/www/personal_cloud_rest_api/shared/log/app.log
+  pos_file /var/log/fluent/app.log.pos
+  format multiline
+  format_firstline /^[0-9].*\s--\s.*$/
+  format1 /^(?<time>[0-9].*)\s--\sip:(?<ip>.*),\sprocess:(?<process>.*),\suser_id:(?<user_id>.*),\shost:(?<host>.*),\senv:(?<env>.*),\slevel:(?<level>.*),\smessage:(?<message>.*)$/
+  refresh_interval 5
+</source>
+
+<source>
+  type tail
+  tag <%= @layer %>.<%= @hostname %>.db
+  path /srv/www/personal_cloud_rest_api/shared/log/db.log
+  pos_file /var/log/fluent/db.log.pos
+  format /^(?<time>[0-9].*)\s--\sip:(?<ip>.*),\sprocess:(?<process>.*),\suser_id:(?<user_id>.*),\shost:(?<host>.*),\senv:(?<env>.*),\slevel:(?<level>.*),\smessage:(?<message>.*)$/
+  refresh_interval 5
+</source>
+
+<match <%= @layer %>.**>
+  type copy
+  <store>
+    type file
+    path /var/log/fluent/pcloud
+    compress gz
+  </store>
+  <store>
+    type forward
+    heartbeat_type tcp
+    heartbeat_interval 5
+    <server>
+      name fluentd1
+      host 10.107.20.248
+      port 24224
+    </server>
+    <server>
+      name fluentd2
+      host 10.107.20.183
+      port 24224
+      standby
+    </server>
+  </store>
+</match>
+
+## match not matched logs and write to file
+<match **>
+  type file
+  path /var/log/fluent/log
+  compress gz
+</match>

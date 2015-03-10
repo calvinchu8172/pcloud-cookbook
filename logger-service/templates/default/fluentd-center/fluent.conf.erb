@@ -1,0 +1,128 @@
+<source>
+  type forward
+  port 24224
+</source>
+
+<match debug.**>
+  type stdout
+</match>
+
+<% @environments.each do |environment| %>
+# -----------------------------
+#  Personal Cloud Portal <%= environment.capitalize %>
+# -----------------------------
+<match personal_cloud_portal_<%= environment %>.**>
+  type copy
+  <store>
+    type file
+    path /var/log/fluent/personal_cloud_portal_<%= environment %>
+    compress gz
+  </store>
+  <store>
+    type cloudwatch_logs
+    log_group_name personal_cloud
+    log_stream_name personal_cloud_portal_<%= environment %>
+    auto_create_stream true
+  </store>
+  <store>
+    type rewrite_tag_filter
+    rewriterule1 content .*Redis::TimeoutError.* redis_timeout_error.__TAG__
+    rewriterule2 level (FATAL|ERROR) hipchat.__TAG__
+  </store>
+  <store>
+    type elasticsearch
+    host <%= @elasticsearch_host %>
+    index_name personal_cloud
+    type_name personal_cloud_portal_<%= environment %>
+    logstash_format true
+  </store>
+</match>
+
+# --------------------------------------
+#  Personal Cloud REST API Server <%= environment.capitalize %>
+# --------------------------------------
+<match personal_cloud_rest_api_server_<%= environment %>.**>
+  type copy
+  <store>
+    type file
+    path /var/log/fluent/personal_cloud_rest_api_server_<%= environment %>
+    compress gz
+  </store>
+  <store>
+    type cloudwatch_logs
+    log_group_name personal_cloud
+    log_stream_name personal_cloud_rest_api_server_<%= environment %>
+    auto_create_stream true
+  </store>
+  <store>
+    type rewrite_tag_filter
+    rewriterule1 content .*Redis::TimeoutError.* redis_timeout_error.__TAG__
+    rewriterule2 level (FATAL|ERROR) hipchat.__TAG__
+  </store>
+  <store>
+    type elasticsearch
+    host <%= @elasticsearch_host %>
+    index_name personal_cloud
+    type_name personal_cloud_portal_<%= environment %>
+    logstash_format true
+  </store>
+</match>
+
+<% end %>
+<match hipchat.**>
+  type hipchatv2
+  api_token RfDbhf7QXLkXMu8yMCi0ijQv1HIVGFimHw7Q4QZd
+  default_room PersonalCloud-Logging
+  default_from Error
+  default_color red
+  default_notify true
+  default_format text
+  default_timeout 100
+  default_mention all
+</match>
+
+<match redis_timeout_error>
+  type copy
+  <store>
+    type hipchatv2
+    api_token RfDbhf7QXLkXMu8yMCi0ijQv1HIVGFimHw7Q4QZd
+    default_room PersonalCloud-Logging
+    default_from Error
+    default_color red
+    default_notify true
+    default_format text
+    default_timeout 100
+    default_mention all
+  </store>
+  <store>
+    type mail
+    host email-smtp.us-east-1.amazonaws.com
+    port 587
+    user AKIAJPGIHH7QJI23OHDA
+    password 'Al3nfM1pL71gHLNWhhas4avVrsgc34jRYh7WNLH6Qd/M'
+    enable_starttls_auto true
+    from info@myzyxel.com
+    to pcloud-notify@ecoworkinc.com,pcloud-zyxel-notify@ecoworkinc.com
+    subject '[Personal Cloud] -=FATAL=- Redis::TimeoutError'
+    message '[%s] %s@%s <- %s\n%s'
+    message_out_keys level,host,environment,ip,content
+  </store>
+</match>
+
+## match fluent's internal events
+<match fluent.**>
+  type file
+  path /var/log/fluent/fluent
+  compress gz
+</match>
+
+<match skip>
+  type null
+</match>
+
+## match not matched logs and write to file
+<match **>
+  type file
+  path /var/log/fluent/log
+  compress gz
+</match>
