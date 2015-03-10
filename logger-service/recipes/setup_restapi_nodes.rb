@@ -19,7 +19,9 @@ template "/srv/fluentd-restapi-nodes/fluent.conf" do
   group 'root'
   variables({
     :layer => node[:opsworks][:stack][:name].squeeze.downcase.tr(" ", "_"),
-    :hostname => node[:opsworks][:instance][:hostname]
+    :hostname => node[:opsworks][:instance][:hostname],
+    :fluentd1 => node['loggers']['fluentd1'],
+    :fluentd2 => node['loggers']['fluentd2']
   })
 end
 
