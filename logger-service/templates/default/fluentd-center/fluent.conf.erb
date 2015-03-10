@@ -109,6 +109,21 @@
   </store>
 </match>
 
+## back compat. with old configs
+<match personal_cloud.**>
+  type copy
+  <store>
+    type file
+    path /var/log/fluent/personal_cloud
+    compress gz
+  </store>
+  <store>
+    type rewrite_tag_filter
+    rewriterule1 content .*Redis::TimeoutError.* redis_timeout_error.__TAG__
+    rewriterule2 level (FATAL|ERROR) hipchat.__TAG__
+  </store>
+</match>
+
 ## match fluent's internal events
 <match fluent.**>
   type file
