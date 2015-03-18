@@ -51,7 +51,8 @@
   <store>
     type forward
     heartbeat_type tcp
-    heartbeat_interval 5
+    heartbeat_interval 10
+    retry_limit 7
     <server>
       name fluentd1
       host <%= @fluentd1 %>
