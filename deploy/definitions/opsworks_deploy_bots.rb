@@ -5,6 +5,13 @@ define :opsworks_deploy_bots do
   deploy = params[:deploy_data]
   bots_settings = node['pcloud_settings']['bots']
 
+  directory "/var/log/td-agent" do
+    owner 'root'
+    group 'root'
+    mode 0755
+    action :create
+  end
+
   template "/etc/logrotate.d/bots" do
     source "logrotate.fluentd.bots.conf.erb"
     cookbook 'deploy'
