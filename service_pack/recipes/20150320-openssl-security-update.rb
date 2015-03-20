@@ -13,6 +13,6 @@ execute 'apt-get update' do
   action :run
 end
 
-package "libssl" do
+package "libssl1.0.0" do
   action :upgrade
 end
