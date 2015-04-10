@@ -60,6 +60,7 @@ module Fluent
       from = record['from'] || @default_from
 
       tag.sub!(/^hipchat\./, '') if tag =~ /^hipchat\./
+      tag.sub!(/^imnotify\./, '') if tag =~ /^imnotify\./
 
       message = "#{tag} #{record.to_s}"
       message = "@#{@default_mention} #{message}" if @default_mention
