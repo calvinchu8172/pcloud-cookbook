@@ -26,7 +26,7 @@
   </store>
   <store>
     type rewrite_tag_filter
-    rewriterule1 level (FATAL|ERROR) hipchat.__TAG__
+    rewriterule1 level (FATAL|ERROR) imnotify.__TAG__
   </store>
   <store>
     type elasticsearch
@@ -55,7 +55,7 @@
   </store>
   <store>
     type rewrite_tag_filter
-    rewriterule1 level (FATAL|ERROR) hipchat.__TAG__
+    rewriterule1 level (FATAL|ERROR) imnotify.__TAG__
   </store>
   <store>
     type elasticsearch
@@ -95,6 +95,35 @@
   subject '[Personal Cloud] -=FATAL=- Redis::TimeoutError'
   message '[%s] %s@%s <- %s\n%s'
   message_out_keys level,host,environment,ip,message
+</match>
+
+## forward to instant messaging services
+<match imnotify.**>
+  type copy
+  <store>
+    type hipchatv2
+    api_token RfDbhf7QXLkXMu8yMCi0ijQv1HIVGFimHw7Q4QZd
+    default_room PersonalCloud-Logging
+    default_from Error
+    default_color red
+    default_notify true
+    default_format text
+    default_timeout 100
+    default_mention all
+  </store>
+  <store>
+    type slack
+    token xoxp-3162484743-3578327612-4379116026-fffd92
+    channel pcloud-logging
+    username PCloudOops
+    color danger
+    title '%s'
+    title_keys tag
+    message '*IP*: %s    *PID*: %s    *User*: %s    *Host*: %s    *ENV*: %s    *LOG*: %s %s'
+    message_keys ip,process,user_id,host,env,message,time
+    icon_emoji :crying_cat_face:
+    flush_interval 7s
+  </store>
 </match>
 
 ## forward to HipChat
