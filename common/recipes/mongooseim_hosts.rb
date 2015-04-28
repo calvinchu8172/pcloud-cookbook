@@ -4,7 +4,7 @@ require 'resolv'
 exit unless node[:opsworks][:instance][:layers].include?("bot")
 
 # pick up a MongooseIM instance
-mongooseim_instance = node[:opsworks][:layers]['mongooseim'][:instances].keys.first
+mongooseim_instance = node[:opsworks][:layers]['mongooseim'][:instances].keys.first.to_s
 mongooseim_ip = node[:opsworks][:layers]['mongooseim'][:instances][mongooseim_instance][:ip]
 mongooseim_name = node['pcloud_settings']['mongooseim']['vhost']
 
