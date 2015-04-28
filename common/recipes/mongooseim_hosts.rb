@@ -14,7 +14,7 @@ template '/etc/hosts' do
   variables(
     :localhost_name => node[:opsworks][:instance][:hostname],
     :nodes => search(:node, "name:*"),
-    :ip => mongooseim_ip,
-    :name => mongooseim_name
+    :mongooseim_ip => mongooseim_ip,
+    :mongooseim_name => mongooseim_name
   )
 end
