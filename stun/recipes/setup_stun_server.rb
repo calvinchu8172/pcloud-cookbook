@@ -1,5 +1,12 @@
 include_recipe "common::install_official_docker" 
 
+eth1 = `ifconfig |grep eth1`
+
+if eth1.empty?
+  Chef::Log.info("Please setup a secondary networking interface & assign a puclic IP address to it.")
+  exit
+end
+
 execute "mkdir for Docker files" do
   cwd "/srv"
   command "mkdir -p stunserver"
