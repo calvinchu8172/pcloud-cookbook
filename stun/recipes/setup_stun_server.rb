@@ -1,10 +1,14 @@
 include_recipe "common::install_official_docker" 
 
-eth1 = `ifconfig |grep eth1`
+ruby_block "detect if eth1 is exists" do
+  block do
+    eth1 = `ifconfig |grep eth1`
 
-if eth1.empty?
-  Chef::Log.info("Please setup a secondary networking interface & assign a puclic IP address to it.")
-  exit
+    if eth1.empty?
+      Chef::Log.info("--= Please setup a secondary networking interface & assign a puclic IP address to it. =--")
+      raise "Invalid secondary networking interface"
+    end
+  end
 end
 
 execute "mkdir for Docker files" do
