@@ -1,4 +1,4 @@
-require 'aws-sdk'
+require 'aws-sdk-core'
 
 ENV['AWS_REGION'] = "us-east-1"
 
