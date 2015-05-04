@@ -2,6 +2,4 @@ gem_package "aws-sdk" do
   action :install
 end
 
-env "AWS_REGION" do
-  value "us-east-1"
-end
+ENV['AWS_REGION'] = "us-east-1"
