@@ -1,7 +1,5 @@
-gem_package "aws-sdk" do
-  action :install
-end
+require 'aws-sdk-core'
 
 ENV['AWS_REGION'] = "us-east-1"
 
-Chef::Log.info("Ooooops!")
+Chef::Log.info("Setup a secondary NIC with an Elastic IP address")
