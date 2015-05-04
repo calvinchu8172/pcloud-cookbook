@@ -1,3 +1,3 @@
-gem_package "aws-sdk" do
+chef_gem "aws-sdk" do
   action :install
 end
