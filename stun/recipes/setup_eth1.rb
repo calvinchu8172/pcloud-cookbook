@@ -4,7 +4,7 @@ ENV['AWS_REGION'] = "us-east-1"
 
 Chef::Log.info("Setup a secondary NIC with an Elastic IP address")
 
-Aws.config.update({
+::Aws.config.update({
   region: 'us-east-1',
   credentials: Aws::InstanceProfileCredentials.new(), 
 })
