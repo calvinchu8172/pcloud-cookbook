@@ -41,6 +41,8 @@ execute "setup advance routes" do
     ip route add default via #{gateway} dev eth1 table 30 && \
     ip rule add from #{eth1_ipv4} lookup 30
   EOF
+
+  not_if { `ip route list table 30`.empty? }
 end
 
 execute "mkdir for Docker files" do
@@ -59,6 +61,11 @@ execute "build stunserver docker image" do
   command "docker build -t stunserver ."
 end
 
+execute "kill existed stunserver" do
+  command "docker rm -f stunserver-instance"
+  only_if "docker ps -a | grep 'stunserver-instance'"
+end
+
 execute "run stunserver in docker" do
-  command "docker run -d --net=host stunserver /opt/stunserver/stunserver --mode full --primaryinterface eth0 --altinterface eth1"
+  command "docker run -d --net=host --name=stunserver-instance stunserver /opt/stunserver/stunserver --mode full --primaryinterface eth0 --altinterface eth1"
 end
