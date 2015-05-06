@@ -42,7 +42,7 @@ execute "setup advance routes" do
     ip rule add from #{eth1_ipv4} lookup 30
   EOF
 
-  not_if { `ip route list table 30`.empty? }
+  only_if { `ip route list table 30`.empty? }
 end
 
 execute "mkdir for Docker files" do
