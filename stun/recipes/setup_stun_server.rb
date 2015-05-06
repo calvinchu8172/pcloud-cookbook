@@ -4,7 +4,7 @@ include_recipe "common::install_official_docker"
 
 ruby_block "detect if eth1 is exists" do
   block do
-    eth1 = `ifconfig |grep eth1`
+    eth1 = `ifconfig -a |grep eth1`
 
     if eth1.empty?
       Chef::Log.info("--= Please setup a secondary networking interface & assign an Elastic IP to it. =--")
