@@ -1,3 +1,5 @@
+require 'open-uri'
+
 include_recipe "common::install_official_docker" 
 
 ruby_block "detect if eth1 is exists" do
@@ -5,10 +7,40 @@ ruby_block "detect if eth1 is exists" do
     eth1 = `ifconfig |grep eth1`
 
     if eth1.empty?
-      Chef::Log.info("--= Please setup a secondary networking interface & assign a puclic IP address to it. =--")
+      Chef::Log.info("--= Please setup a secondary networking interface & assign an Elastic IP to it. =--")
       raise "Invalid secondary networking interface"
     end
   end
+end
+
+execute "enable eth1" do
+  command "ifconfig eth1 up"
+end
+
+execute "Setup eth1 via DHCP" do
+  command "dhclient eth1"
+end
+
+# Now we have to deal with multiple routes
+
+eth0_mac = /link\/ether\s(.*)\sbrd/.match(`ip -o -0 addr list eth0`)[1]
+eth1_mac = /link\/ether\s(.*)\sbrd/.match(`ip -o -0 addr list eth1`)[1]
+
+subnet = open("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{eth0_mac}/subnet-ipv4-cidr-block").read
+gateway = `route -n | grep "UG" | awk '{print ($2)}'`.chomp!
+
+eth0_ipv4 = open("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{eth0_mac}/local-ipv4s").read
+eth1_ipv4 = open("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{eth1_mac}/local-ipv4s").read
+
+execute "setup advance routes" do
+  command <<-EOF
+    ip route add #{subnet} dev eth0 proto kernel scope link src #{eth0_ipv4} table 20 && \
+    ip route add default via #{gateway} dev eth0 table 20 && \
+    ip rule add from #{eth0_ipv4} lookup 20 && \
+    ip route add #{subnet} dev eth1 proto kernel scope link src #{eth1_ipv4} table 30 && \
+    ip route add default via #{gateway} dev eth1 table 30 && \
+    ip rule add from #{eth1_ipv4} lookup 30
+  EOF
 end
 
 execute "mkdir for Docker files" do
