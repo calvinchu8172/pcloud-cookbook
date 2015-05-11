@@ -7,6 +7,10 @@
   type stdout
 </match>
 
+<match fluent.**>
+  type stdout
+</match>
+
 <match bot.**>
   type copy
   <store>
@@ -35,11 +39,4 @@
     port 24224
     standby
   </server>
-</match>
-
-## match not matched logs and write to file
-<match **>
-  type file
-  path /var/log/fluent/log
-  compress gz
 </match>
