@@ -20,23 +20,21 @@
 </match>
 
 <match <%= @layer %>.**>
-  <store>
-    type forward
-    heartbeat_type tcp
-    heartbeat_interval 10
-    retry_limit 7
-    <server>
-      name fluentd1
-      host <%= @fluentd1 %>
-      port 24224
-    </server>
-    <server>
-      name fluentd2
-      host <%= @fluentd2 %>
-      port 24224
-      standby
-    </server>
-  </store>
+  type forward
+  heartbeat_type tcp
+  heartbeat_interval 10
+  retry_limit 7
+  <server>
+    name fluentd1
+    host <%= @fluentd1 %>
+    port 24224
+  </server>
+  <server>
+    name fluentd2
+    host <%= @fluentd2 %>
+    port 24224
+    standby
+  </server>
 </match>
 
 ## match not matched logs and write to file
