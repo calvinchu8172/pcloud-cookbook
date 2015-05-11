@@ -24,3 +24,17 @@ template "/srv/fluentd-bot-nodes/fluent.conf" do
     :fluentd2 => node['loggers']['fluentd2']
   })
 end
+
+execute "build fluentd bot nodes docker image" do
+  cwd "/srv/fluentd-bot-nodes"
+  command "docker build -t fluentd-bot-nodes ."
+end
+
+execute "kill existed fluentd-bot-instance" do
+  command "docker rm -f fluentd-bot-instance"
+  only_if "docker ps -a | grep 'fluend-bot-instance'"
+end
+
+execute "run fluentd-bot-instance in docker" do
+  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent --name=fluentd-bot-instance fluentd-bot-nodes"
+end
