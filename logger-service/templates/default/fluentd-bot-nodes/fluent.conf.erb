@@ -1,0 +1,40 @@
+<source>
+  type forward
+  port 24224
+</source>
+
+<match debug.**>
+  type stdout
+</match>
+
+<match bot.**>
+  type copy
+  <store>
+    type file
+    path /var/log/td-agent/bot.log
+  </store>
+  <store>
+    type rewrite_tag_filter
+    rewriterule1 event .+ <%= @layer %>.<%= @hostname %>.__TAG__
+  </store>
+</match>
+
+<match <%= @layer %>.**>
+  <store>
+    type forward
+    heartbeat_type tcp
+    heartbeat_interval 10
+    retry_limit 7
+    <server>
+      name fluentd1
+      host <%= @fluentd1 %>
+      port 24224
+    </server>
+    <server>
+      name fluentd2
+      host <%= @fluentd2 %>
+      port 24224
+      standby
+    </server>
+  </store>
+</match>
