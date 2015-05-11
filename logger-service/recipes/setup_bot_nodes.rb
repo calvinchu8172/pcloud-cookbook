@@ -32,7 +32,7 @@ end
 
 execute "kill existed fluentd-bot-instance" do
   command "docker rm -f fluentd-bot-instance"
-  only_if "docker ps -a | grep 'fluend-bot-instance'"
+  only_if "docker ps -a | grep 'fluentd-bot-instance'"
 end
 
 execute "run fluentd-bot-instance in docker" do
