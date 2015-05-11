@@ -25,7 +25,7 @@ template "/srv/fluentd-restapi-nodes/fluent.conf" do
   })
 end
 
-execute "build fluentd logging center docker image" do
+execute "build fluentd REST API server nodes docker image" do
   cwd "/srv/fluentd-restapi-nodes"
   command "docker build -t fluentd-restapi-nodes ."
 end
