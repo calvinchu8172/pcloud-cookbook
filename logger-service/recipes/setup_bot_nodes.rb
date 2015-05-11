@@ -12,8 +12,8 @@ cookbook_file "Dockerfile" do
   action :create
 end
 
-template "/srv/fluentd-portal-nodes/fluent.conf" do
-  source 'fluentd-portal-nodes/fluent.conf.erb'
+template "/srv/fluentd-bot-nodes/fluent.conf" do
+  source 'fluentd-bot-nodes/fluent.conf.erb'
   mode '0644'
   owner 'root'
   group 'root'
