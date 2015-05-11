@@ -5,51 +5,6 @@ define :opsworks_deploy_bots do
   deploy = params[:deploy_data]
   bots_settings = node['pcloud_settings']['bots']
 
-  directory "/var/log/td-agent" do
-    owner 'root'
-    group 'root'
-    mode 0755
-    action :create
-  end
-
-  template "/etc/logrotate.d/bots" do
-    source "logrotate.fluentd.bots.conf.erb"
-    cookbook 'deploy'
-    mode "0644"
-    group 'root'
-    owner 'root'
-  end
-
-  # Setting-up & Running fluentd
-  fluentd_s3 = bots_settings['fluentd']['s3']
-
-  # initialize fluentd config
-  execute "fluentd -s" do
-    user 'root'
-    not_if 'test -d /etc/fluent'
-  end
-
-  # generate our own fluent.conf
-  template "/etc/fluent/fluent.conf" do
-    source "fluent.conf.erb"
-    cookbook 'deploy'
-    mode "0644"
-    group 'root'
-    owner 'root'
-    variables({
-      :s3_key => fluentd_s3['key_id'], 
-      :s3_secret_key => fluentd_s3['secret_key'],
-      :s3_bucket => fluentd_s3['bucket'],
-      :s3_log_path => fluentd_s3['log_path']
-    })
-  end
-
-  # start fluentd
-  execute "fluentd -d /var/run/fluentd.pid" do
-    user 'root'
-    not_if 'ps -ef |grep fluentd |grep -v grep'
-  end
-
   # Bots Configurations
   bots_config_db = bots_settings['db']
 
