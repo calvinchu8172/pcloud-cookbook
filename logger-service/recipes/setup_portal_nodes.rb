@@ -25,7 +25,7 @@ template "/srv/fluentd-portal-nodes/fluent.conf" do
   })
 end
 
-execute "build fluentd logging center docker image" do
+execute "build fluentd portal nodes docker image" do
   cwd "/srv/fluentd-portal-nodes"
   command "docker build -t fluentd-portal-nodes ."
 end
