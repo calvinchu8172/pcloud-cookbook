@@ -26,9 +26,11 @@ ff02::3 ip6-allhosts
 <% end -%>
 <% end -%>
 
+<% unless @fake_xmpp_server.nil? -%>
 # Fake XMPP Server
 <% @fake_xmpp_server.each do |xmpp_server| -%>
 <% xmpp_server.each_pair do |ip, name| -%>
 <%= ip %> <%= name %>
+<% end -%>
 <% end -%>
 <% end -%>
