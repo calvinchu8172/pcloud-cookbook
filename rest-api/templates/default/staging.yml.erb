@@ -1,7 +1,7 @@
 magic_number: 5889
 api:
   stun_ip_addresses:
-  <% @environments['api']['stun_ip_addresses'].each do |address| %>
+  <% @api['stun_ip_addresses'].each do |address| %>
     - <%= address %>
   <% end %>
 xmpp:
