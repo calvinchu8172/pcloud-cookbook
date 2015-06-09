@@ -10,3 +10,4 @@ RUN \curl -sSL https://get.rvm.io | bash -s stable
 ENV PATH /usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 RUN /bin/bash -l -c "rvm requirements && rvm install 2.1 && rvm cleanup all"
+RUN /bin/bash -l -c "echo 'source /etc/profile.d/rvm.sh' >> /etc/profile"
