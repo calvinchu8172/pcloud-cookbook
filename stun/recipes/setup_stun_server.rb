@@ -29,17 +29,20 @@ eth1_mac = /link\/ether\s(.*)\sbrd/.match(`ip -o -0 addr list eth1`)[1]
 subnet = open("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{eth0_mac}/subnet-ipv4-cidr-block").read
 gateway = `route -n | grep "UG" | awk '{print ($2)}'`.chomp!
 
-eth0_ipv4 = open("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{eth0_mac}/local-ipv4s").read
-eth1_ipv4 = open("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{eth1_mac}/local-ipv4s").read
+eth0_ipv4_private = open("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{eth0_mac}/local-ipv4s").read
+eth1_ipv4_private = open("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{eth1_mac}/local-ipv4s").read
+
+eth0_ipv4_public = open("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{eth0_mac}/public-ipv4s").read
+eth1_ipv4_public = open("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{eth1_mac}/public-ipv4s").read
 
 execute "setup advance routes" do
   command <<-EOF
-    ip route add #{subnet} dev eth0 proto kernel scope link src #{eth0_ipv4} table 20 && \
+    ip route add #{subnet} dev eth0 proto kernel scope link src #{eth0_ipv4_private} table 20 && \
     ip route add default via #{gateway} dev eth0 table 20 && \
-    ip rule add from #{eth0_ipv4} lookup 20 && \
-    ip route add #{subnet} dev eth1 proto kernel scope link src #{eth1_ipv4} table 30 && \
+    ip rule add from #{eth0_ipv4_private} lookup 20 && \
+    ip route add #{subnet} dev eth1 proto kernel scope link src #{eth1_ipv4_private} table 30 && \
     ip route add default via #{gateway} dev eth1 table 30 && \
-    ip rule add from #{eth1_ipv4} lookup 30
+    ip rule add from #{eth1_ipv4_private} lookup 30
   EOF
 
   only_if { `ip route list table 30`.empty? }
@@ -67,5 +70,10 @@ execute "kill existed stunserver" do
 end
 
 execute "run stunserver in docker" do
-  command "docker run -d --net=host --name=stunserver-instance stunserver /opt/stunserver/stunserver --mode full --primaryinterface eth0 --altinterface eth1"
+  command <<-EOF
+  docker run -d --net=host --name=stunserver-instance stunserver \
+    /opt/stunserver/stunserver --mode full \
+      --primaryinterface eth0 --altinterface eth1 \
+      --primaryadvertised #{eth0_ipv4_public} --altadvertised #{eth1_ipv4_public}
+  EOF
 end
