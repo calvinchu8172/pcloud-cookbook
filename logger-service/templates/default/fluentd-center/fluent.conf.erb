@@ -34,6 +34,7 @@
     index_name personal_cloud
     type_name personal_cloud_portal_<%= environment %>
     logstash_format true
+    include_tag_key true
   </store>
 </match>
 
@@ -63,6 +64,7 @@
     index_name personal_cloud
     type_name personal_cloud_rest_api_server_<%= environment %>
     logstash_format true
+    include_tag_key true
   </store>
 </match>
 
