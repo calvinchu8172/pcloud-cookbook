@@ -1,4 +1,4 @@
-kibana = "kibana-4.0.1-linux-x64"
+kibana = "kibana-4.1.0-linux-x64"
 
 execute "download kibana" do
   cwd "/tmp"
@@ -8,7 +8,15 @@ end
 
 execute "setup kibana" do
   cwd "/srv"
-  command "tar xvfz /tmp/#{kibana}.tar.gz"
+  command <<-EOF
+    tar xvfz /tmp/#{kibana}.tar.gz && \
+    sed -i '/^#\spid_file/s/^#\s//' /srv/#{kibana}/config/kibana.yml
+  EOF
+end
+
+execute "kill running kibana" do
+  command "kill `/bin/cat /var/run/kibana.pid`"
+  only_if "ps -ef | grep 'node.*kibana\.js'"
 end
 
 bash "run kibana" do
