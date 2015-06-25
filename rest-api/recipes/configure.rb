@@ -46,7 +46,6 @@ environments_settings = rest_api_server_settings['environment']
       :api => environments_settings['api'],
       :xmpp => environments_settings['xmpp'],
       :environments => environments_settings['environments'],
-      :version => environments_settings['version'],
       :oauth => environments_settings['oauth'],
       :recaptcha => environments_settings['recaptcha'],
       :redis => environments_settings['redis']
