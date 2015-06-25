@@ -45,7 +45,6 @@ environments_settings = portalapp_settings['environment']
     group deploy[:group]
     owner deploy[:user]
     variables({
-      :magic_number => environments_settings['magic_number'],
       :xmpp => environments_settings['xmpp'],
       :environments => environments_settings['environments'],
       :version => environments_settings['version'],

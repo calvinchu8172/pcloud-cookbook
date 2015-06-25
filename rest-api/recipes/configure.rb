@@ -43,7 +43,6 @@ environments_settings = rest_api_server_settings['environment']
     group deploy[:group]
     owner deploy[:user]
     variables({
-      :magic_number => environments_settings['magic_number'],
       :api => environments_settings['api'],
       :xmpp => environments_settings['xmpp'],
       :environments => environments_settings['environments'],
