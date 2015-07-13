@@ -1,0 +1,7 @@
+name             'findme'
+maintainer       'YOUR_NAME'
+maintainer_email 'YOUR_EMAIL'
+license          'All rights reserved'
+description      'Installs/Configures findme'
+long_description 'Installs/Configures findme'
+version          '0.1.0'
