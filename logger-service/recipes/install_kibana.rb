@@ -16,7 +16,8 @@ end
 
 execute "kill running kibana" do
   command "kill `/bin/cat /var/run/kibana.pid`"
-  only_if "ps -ef | grep 'node.*kibana\.js'"
+  #only_if "ps -ef | grep 'node.*kibana\.js'"
+  only_if "test -f /var/run/kibana.pid"
 end
 
 bash "run kibana" do
