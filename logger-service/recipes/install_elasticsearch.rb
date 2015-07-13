@@ -18,6 +18,13 @@ package "elasticsearch" do
   action :install
 end
 
+directory '/var/run/elasticsearch' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
 execute "configure elasticsearch to automatically start during bootup" do
   command "update-rc.d elasticsearch defaults 95 10"
 end
