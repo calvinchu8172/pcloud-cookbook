@@ -1,0 +1,6 @@
+/var/log/kibana.log {
+  daily
+  missingok
+  compress
+  rotate 6
+}
