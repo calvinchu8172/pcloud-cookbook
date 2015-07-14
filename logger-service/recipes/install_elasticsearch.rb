@@ -32,7 +32,7 @@ end
 cron "elasticsearch_log_expiration" do
   minute '00'
   hour '11'
-  command "find /var/log/elasticsearch -name 'elasticsearch.log.*' -ctime +30 -delete"
+  command "/usr/bin/find /var/log/elasticsearch -name 'elasticsearch.log.*' -ctime +30 -delete"
 end
 
 service "elasticsearch" do
