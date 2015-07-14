@@ -29,6 +29,12 @@ execute "configure elasticsearch to automatically start during bootup" do
   command "update-rc.d elasticsearch defaults 95 10"
 end
 
+cron "elasticsearch_log_expiration" do
+  minute '00'
+  hour '11'
+  command "find /var/log/elasticsearch -name 'elasticsearch.log.*' -ctime +30 -delete"
+end
+
 service "elasticsearch" do
   supports :status => true, :restart => true
   action [ :enable, :start ]
