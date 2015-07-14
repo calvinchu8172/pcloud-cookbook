@@ -17,6 +17,14 @@ cookbook_file "kibana.yml" do
   action :create
 end
 
+cookbook_file "logrotate" do
+  source "kibana/logrotate"
+  path "/etc/logrotate.d/kibana"
+  owner 'root'
+  group 'root'
+  action :create
+end
+
 execute "kill running kibana" do
   command "kill `/bin/cat /var/run/kibana.pid`"
   #only_if "ps -ef | grep 'node.*kibana\.js'"
