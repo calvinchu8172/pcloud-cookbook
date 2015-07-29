@@ -38,6 +38,9 @@ environments:
       region: <%= @environments['sqs']['attributes']['region'] %>
   ddns: <%= @environments['ddns'] %>
   cdn: <%= @environments['cdn'] %>
+  zones_info:
+    id: <%= @environments['zones_info']['id'] %>
+    name: <%= @environments['zones_info']['name'] %>
   filter_list:
 <% @environments['filter_list'].each do |hostname| %>
     - <%= hostname %>
