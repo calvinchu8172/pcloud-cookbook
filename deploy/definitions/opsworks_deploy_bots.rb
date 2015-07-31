@@ -19,7 +19,8 @@ define :opsworks_deploy_bots do
       :db_socket => bots_config_db['socket'],
       :db_name => bots_config_db['name'],
       :db_userid => bots_config_db['userid'],
-      :db_userpw => bots_config_db['userpw']
+      :db_userpw => bots_config_db['userpw'],
+      :db_pool => bots_config_db['pool']
     })
   end
 
