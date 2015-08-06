@@ -123,14 +123,9 @@ git 'one time password download' do
   action :sync
 end
 
-execute "compile one time password module" do
-  user "root"
-  cwd "/tmp/one-time-password"
-  command <<-EOH
-    erlc mod_onetime_password.erl && \
-    cp mod_onetime_password.beam /usr/lib/mongooseim/lib/ejabberd-2.1.8+mim-1.5.1/ebin/
-  EOH
-  not_if "find / -name '*mod_onetime_password.beam'"
+execute 'compile one time password module' do
+  user 'root'
+  command 'erlc /tmp/one-time-password/mod_onetime_password.erl && cp /tmp/one-time-password/mod_onetime_password.beam /usr/lib/mongooseim/lib/ejabberd-2.1.8+mim-1.5.1/ebin/'
 end
 
 template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
