@@ -125,7 +125,8 @@ end
 
 execute 'compile one time password module' do
   user 'root'
-  command 'erlc /tmp/one-time-password/mod_onetime_password.erl && cp /tmp/one-time-password/mod_onetime_password.beam /usr/lib/mongooseim/lib/ejabberd-2.1.8+mim-1.5.1/ebin/'
+  cwd '/tmp/one-time-password'
+  command 'erlc mod_onetime_password.erl && cp mod_onetime_password.beam /usr/lib/mongooseim/lib/ejabberd-2.1.8+mim-1.5.1/ebin/'
 end
 
 template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
