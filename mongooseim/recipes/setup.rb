@@ -118,7 +118,7 @@ end
 
 git 'one time password download' do
   repository 'git@gitlab.ecoworkinc.com:zyxel/one-time-password.git'
-  revision 'develop'
+  revision 'origin/develop'
   checkout_branch 'develop'
   destination '/tmp/one-time-password'
   action :sync
