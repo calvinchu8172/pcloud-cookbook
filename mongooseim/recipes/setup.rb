@@ -130,7 +130,7 @@ execute "compile one time password module" do
     erlc mod_onetime_password.erl && \
     cp mod_onetime_password.beam /usr/lib/mongooseim/lib/ejabberd-2.1.8+mim-1.5.1/ebin/
   EOH
-  not_if "find / -name '*mod_onetime_password*'"
+  not_if "find / -name '*mod_onetime_password.beam'"
 end
 
 template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
