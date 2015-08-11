@@ -84,7 +84,7 @@
 %% 4: Info
 %% 5: Debug
 %%
-{loglevel, 3}.
+{loglevel, 5}.
 
 %%
 %% alarms: an optional alarm handler, subscribed to system events
@@ -164,7 +164,7 @@
                         %%{zlib, 10000},
 			%% https://www.openssl.org/docs/apps/ciphers.html#CIPHER_STRINGS
 			%% {ciphers, "DEFAULT:!EXPORT:!LOW:!SSLv2"},
-                        {certfile, "<%= @ejabberd_c2s['certpath'] %><%= @ejabberd_c2s['certfile'] %>"}, starttls, starttls_required,
+                       %% {certfile, "<%= @ejabberd_c2s['certpath'] %><%= @ejabberd_c2s['certfile'] %>"}, starttls, starttls_required,
                         {ciphers, "<%= @ejabberd_c2s['ciphers'] %>"},
 			{access, c2s},
 			{shaper, c2s_shaper},
