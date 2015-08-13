@@ -7,8 +7,8 @@ define :opsworks_deploy_bots do
 
   xmpp_config = node['pcloud_settings']['mongooseim']
 
-  template "#{deploy[:deploy_to]}/shared/config/bot_xmpp_config.yml" do
-    source "bot_xmpp_config.yml.erb"
+  template "#{deploy[:deploy_to]}/shared/config/bot_xmpp_db_config.yml" do
+    source "bot_xmpp_db_config.yml.erb"
     cookbook 'deploy'
     mode "0644"
     group deploy[:group]
