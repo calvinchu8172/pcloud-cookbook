@@ -17,6 +17,7 @@ normal[:deploy]['personal_cloud_rest_api'][:symlink_before_migrate]['config/sett
 
 ## Personal Cloud Bots
 normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_db_config.yml'] = 'config/bot_db_config.yml'
+normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_xmpp_db_config.yml'] = 'config/bot_xmpp_db_config.yml'
 normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_mail_config.yml'] = 'config/bot_mail_config.yml'
 normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_queue_config.yml'] = 'config/bot_queue_config.yml'
 normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/bot_redis_config.yml'] = 'config/bot_redis_config.yml'
