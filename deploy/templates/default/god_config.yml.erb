@@ -1,7 +1,10 @@
 path: <%= @god_path %>
 xmpp_config:
+  domain: <%= @god_xmpp_domain %>
+  resource: <%= @god_xmpp_resource %>
+  bot_list:
 <% @god_xmpp_config.each do |xmpp| %>
-  - {jid: <%= xmpp['id'] %>, pw: <%= xmpp['password'] %>}
+    - {username: <%= xmpp %>}
 <% end %>
 
 mail_domain: <%= @god_mail_domain %>
