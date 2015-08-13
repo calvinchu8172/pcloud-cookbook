@@ -5,6 +5,24 @@ define :opsworks_deploy_bots do
   deploy = params[:deploy_data]
   bots_settings = node['pcloud_settings']['bots']
 
+  xmpp_config = node['pcloud_settings']['mongooseim']
+
+  template "#{deploy[:deploy_to]}/shared/config/bot_xmpp_config.yml" do
+    source "bot_xmpp_config.yml.erb"
+    cookbook 'deploy'
+    mode "0644"
+    group deploy[:group]
+    owner deploy[:user]
+    variables({
+      :db_host => xmpp_config['auth_method']['host'],
+      :db_socket => '',
+      :db_name => xmpp_config['auth_method']['database'],
+      :db_userid => xmpp_config['auth_method']['username'],
+      :db_userpw => xmpp_config['auth_method']['password'],
+      :db_pool => xmpp_config['auth_method']['pool_size']
+    })
+  end
+
   # Bots Configurations
   bots_config_db = bots_settings['db']
 
@@ -87,6 +105,8 @@ define :opsworks_deploy_bots do
     variables({
       :god_path => "#{deploy[:current_path]}/",
       :god_xmpp_config => bots_config_god['ec2_instances'][node[:opsworks][:instance][:hostname]],
+      :god_xmpp_domain => xmpp_config['vhost'], 
+      :god_xmpp_resource => bots_config_god['xmpp']['resource'],
       :god_mail_domain => bots_config_god['mail_domain'],
       :god_mail_user => bots_config_god['mail_user'],
       :god_mail_pw => bots_config_god['mail_pw'],
