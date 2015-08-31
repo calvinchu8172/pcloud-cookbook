@@ -41,6 +41,15 @@
   refresh_interval 5
 </source>
 
+<source>
+  type tail
+  tag <%= @layer %>.<%= @hostname %>.sidekiq
+  path /srv/www/personal_cloud_portal/shared/log/sidekiq.log
+  pos_file /var/log/fluent/sidekiq.log.pos
+  format /^(?<time>.*)\s(?<process>[0-9]*)\s(?<thread>TID-\S+)\s(?<log>.*)/ 
+  refresh_interval 5
+</source>
+
 <match <%= @layer %>.**>
   type copy
   <store>
