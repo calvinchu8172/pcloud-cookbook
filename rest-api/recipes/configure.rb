@@ -4,6 +4,8 @@ application = 'personal_cloud_rest_api'
 deploy = node[:deploy][application]
 rest_api_server_settings = node['pcloud_settings']['rest-api-server']
 
+rails_env = node[:deploy][application][:rails_env]
+
 execute "restart Rails app #{application}" do
   user 'deploy'
   cwd deploy[:current_path]
@@ -76,4 +78,20 @@ template "#{deploy[:deploy_to]}/shared/config/database.yml" do
   only_if do
     File.directory?("#{deploy[:deploy_to]}/shared/config/")
   end
+end
+
+execute "kill the existed sidekiq process" do
+  cwd deploy[:current_path]
+  user deploy[:user]
+  command "kill `ps -ef | grep sidekiq | grep -v grep | awk '{print $2}'`"
+  
+  only_if "ps -ef | grep sidekiq | grep -v grep"
+end
+
+execute "sidekiq" do
+  cwd deploy[:current_path]
+  user deploy[:user]
+  command "RAILS_ENV=#{rails_env} bundle exec sidekiq -d -C #{deploy[:current_path]}/config/sidekiq.yml"
+
+  not_if "ps -ef | grep sidekiq | grep -v grep"
 end
