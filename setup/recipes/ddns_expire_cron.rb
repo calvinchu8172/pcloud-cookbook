@@ -8,6 +8,6 @@ if (node[:opsworks][:instance][:hostname] == "rails-app1" && node[:opsworks][:in
     minute '0,30'
     user 'deploy'
     path "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games" 
-    command "/bin/bash -l -c 'cd #{app_path} && RAILS_ENV=#{rails_env} bundle exec rake ddns_expire:cronjob --silent >> log/cron.log 2>&1'"
+    command "/bin/bash -l -c 'cd #{app_path} && RAILS_ENV=#{rails_env} bundle exec rake ddns_expire:cronjob --silent >> /dev/null 2>&1'"
   end
 end
