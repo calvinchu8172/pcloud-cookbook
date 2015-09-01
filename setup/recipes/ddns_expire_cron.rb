@@ -4,8 +4,10 @@ if (node[:opsworks][:instance][:hostname] == "rails-app1" && node[:opsworks][:in
 
   Chef::Log.info("Assign DDNS expiration cron job on #{node[:opsworks][:instance][:hostname]} (cwd: #{app_path})")
 
-  execute "run whenever" do
-    cwd app_path
-    command "RAILS_ENV=#{rails_env} bundle exec whenever --update-crontab --set 'environment=#{rails_env}&path=#{app_path}' --user deploy"
+  cron "ddns expiration" do
+    minute '0,30'
+    user 'deploy'
+    path "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games" 
+    command "/bin/bash -l -c 'cd /srv/www/personal_cloud_portal/current && RAILS_ENV=staging bundle exec rake ddns_expire:cronjob --silent >> log/cron.log 2>&1'"
   end
 end
