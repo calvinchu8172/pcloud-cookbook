@@ -80,19 +80,18 @@ template "#{deploy[:deploy_to]}/shared/config/database.yml" do
   end
 end
 
-execute "kill the existed sidekiq process" do
-  cwd deploy[:current_path]
-  user deploy[:user]
-  command "kill `ps -ef | grep sidekiq | grep -v grep | awk '{print $2}'`"
-  
-  only_if "ps -ef | grep sidekiq | grep -v grep"
+sidekiq_pid = `ps -ef | grep "sidekiq.*busy" | grep -v grep | awk '{print $2}'`.strip
+
+if sidekiq_pid.empty?
+  execute "start sidekiq directly" do
+    cwd deploy[:current_path]
+    user deploy[:user]
+    command "RAILS_ENV=#{rails_env} bundle exec sidekiq -d -C #{deploy[:current_path]}/config/sidekiq.yml"
+  end
+else
+  execute "kill then restart sidekiq" do
+    cwd deploy[:current_path]
+    user deploy[:user]
+    command "kill #{sidekiq_pid} && RAILS_ENV=#{rails_env} bundle exec sidekiq -d -C #{deploy[:current_path]}/config/sidekiq.yml"
+  end
 end
-
-execute "sidekiq" do
-  cwd deploy[:current_path]
-  user deploy[:user]
-  command "RAILS_ENV=#{rails_env} bundle exec sidekiq -d -C #{deploy[:current_path]}/config/sidekiq.yml"
-
-  not_if "ps -ef | grep sidekiq | grep -v grep"
-end
-
