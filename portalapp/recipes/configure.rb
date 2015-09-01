@@ -80,7 +80,7 @@ template "#{deploy[:deploy_to]}/shared/config/database.yml" do
   end
 end
 
-sidekiq_pid = `ps -ef | grep "sidekiq.*busy" | grep -v grep | awk '{print $2}'`
+sidekiq_pid = `ps -ef | grep "sidekiq.*busy" | grep -v grep | awk '{print $2}'`.strip
 
 if sidekiq_pid.empty?
   execute "start sidekiq directly" do
