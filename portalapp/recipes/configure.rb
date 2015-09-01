@@ -92,9 +92,6 @@ else
   execute "kill then restart sidekiq" do
     cwd deploy[:current_path]
     user deploy[:user]
-    command <<-EOF
-      kill #{sidekiq_pid} && \
-      RAILS_ENV=#{rails_env} bundle exec sidekiq -d -C #{deploy[:current_path]}/config/sidekiq.yml
-    EOF
+    command "kill #{sidekiq_pid} && RAILS_ENV=#{rails_env} bundle exec sidekiq -d -C #{deploy[:current_path]}/config/sidekiq.yml"
   end
 end
