@@ -79,12 +79,3 @@ template "#{deploy[:deploy_to]}/shared/config/database.yml" do
     File.directory?("#{deploy[:deploy_to]}/shared/config/")
   end
 end
-
-execute "sidekiq" do
-  cwd deploy[:current_path]
-  user deploy[:user]
-  command "RAILS_ENV=#{rails_env} bundle exec sidekiq -d -L log/sidekiq.log -q mailer"
-
-  not_if "ps -ef |grep sidekiq |grep -v grep"
-  action :nothing
-end
