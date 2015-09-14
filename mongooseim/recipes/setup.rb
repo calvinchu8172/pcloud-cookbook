@@ -135,7 +135,7 @@ directory "#{otp_ebin_path}" do
 end
 
 execute 'compile one time password module' do
-  user 'root'
+  user 'mongooseim'
   cwd '/opt/one-time-password'
   command "erlc mod_onetime_password.erl && cp mod_onetime_password.beam #{otp_ebin_path}"
 end
