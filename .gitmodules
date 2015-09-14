@@ -1,3 +1,0 @@
-[submodule "mongooseim/files/default/one-time-password"]
-	path = mongooseim/files/default/one-time-password
-	url = git@gitlab.ecoworkinc.com:zyxel/one-time-password.git
