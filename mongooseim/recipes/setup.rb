@@ -108,24 +108,24 @@ execute "set ownership & permission of secret key" do
   only_if "test -f #{mongooseim_settings['ejabberd_c2s']['certpath']}#{mongooseim_settings['ejabberd_c2s']['certfile']}"
 end
 
-package "erlang-base" do
-  action :install
+# development packages for OTP module compilation
+['erlang-base', 'erlang-base-hipe'].each do |package|
+  package "#{package}" do
+    action :install
+  end
 end
 
-package "erlang-base-hipe" do
-  action :install
-end
-
-git 'one time password download' do
-  repository 'git@gitlab.ecoworkinc.com:zyxel/one-time-password.git'
-  revision 'develop'
-  destination '/tmp/one-time-password'
-  action :sync
+remote_directory "/opt/one-time-password" do
+  source 'one-time-password'
+  owner 'mongooseim'
+  group 'mongooseim'
+  action :create
+  recursive true
 end
 
 execute 'compile one time password module' do
   user 'root'
-  cwd '/tmp/one-time-password'
+  cwd '/opt/one-time-password'
   command 'erlc mod_onetime_password.erl && cp mod_onetime_password.beam /usr/lib/mongooseim/lib/ejabberd-2.1.8+mim-1.5.1/ebin/'
 end
 
