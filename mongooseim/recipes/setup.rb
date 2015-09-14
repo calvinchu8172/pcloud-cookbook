@@ -115,8 +115,19 @@ end
   end
 end
 
+# directory for OTP module compilation
 remote_directory "/opt/one-time-password" do
   source 'one-time-password'
+  owner 'mongooseim'
+  group 'mongooseim'
+  action :create
+  recursive true
+end
+
+# OTP module path
+otp_ebin_path = "/usr/lib/mongooseim/lib/onetime-password-1.0.0/ebin"
+
+directory "#{otp_ebin_path}" do
   owner 'mongooseim'
   group 'mongooseim'
   action :create
@@ -126,7 +137,7 @@ end
 execute 'compile one time password module' do
   user 'root'
   cwd '/opt/one-time-password'
-  command 'erlc mod_onetime_password.erl && cp mod_onetime_password.beam /usr/lib/mongooseim/lib/ejabberd-2.1.8+mim-1.5.1/ebin/'
+  command "erlc mod_onetime_password.erl && cp mod_onetime_password.beam #{otp_ebin_path}"
 end
 
 template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
