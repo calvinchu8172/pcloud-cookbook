@@ -108,6 +108,38 @@ execute "set ownership & permission of secret key" do
   only_if "test -f #{mongooseim_settings['ejabberd_c2s']['certpath']}#{mongooseim_settings['ejabberd_c2s']['certfile']}"
 end
 
+# development packages for OTP module compilation
+['erlang-base', 'erlang-base-hipe'].each do |package|
+  package "#{package}" do
+    action :install
+  end
+end
+
+# directory for OTP module compilation
+remote_directory "/opt/one-time-password" do
+  source 'one-time-password'
+  owner 'mongooseim'
+  group 'mongooseim'
+  action :create
+  recursive true
+end
+
+# OTP module path
+otp_ebin_path = "/usr/lib/mongooseim/lib/onetime-password-1.0.0/ebin"
+
+directory "#{otp_ebin_path}" do
+  owner 'mongooseim'
+  group 'mongooseim'
+  action :create
+  recursive true
+end
+
+execute 'compile one time password module' do
+  user 'mongooseim'
+  cwd '/opt/one-time-password'
+  command "erlc mod_onetime_password.erl && cp mod_onetime_password.beam #{otp_ebin_path}"
+end
+
 template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
   cookbook 'mongooseim'
   source 'ejabberd.cfg.erb'

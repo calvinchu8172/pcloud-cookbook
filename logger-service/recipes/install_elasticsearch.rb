@@ -35,6 +35,24 @@ cron "elasticsearch_log_expiration" do
   command "/usr/bin/find /var/log/elasticsearch -name 'elasticsearch.log.*' -ctime +30 -delete"
 end
 
+template "/etc/default/elasticsearch" do
+  source 'elasticsearch/elasticsearch.default.erb'
+  mode '0644'
+  owner 'root'
+  group 'root'
+  variables({
+    :heap_size => node['elasticsearch']['heap_size']
+  })
+end
+
+template "/etc/elasticsearch/elasticsearch.yml" do
+  source 'elasticsearch/elasticsearch.yml.erb'
+  mode '0644'
+  owner 'root'
+  group 'root'
+  variables({})
+end
+
 service "elasticsearch" do
   supports :status => true, :restart => true
   action [ :enable, :start ]
