@@ -6,10 +6,11 @@ execute "setup mongooseim repository" do
     dpkg -i erlang-solutions_1.0_all.deb && \
     apt-get update
   EOH
-  not_if "dpkg-query -W mongooseim"
+  not_if "test -f /etc/apt/sources.list.d/erlang-solutions.list"
 end
 
 package "mongooseim" do
+  version '1.5.0-1'
   action :install
 end
 
