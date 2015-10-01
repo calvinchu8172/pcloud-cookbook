@@ -6,10 +6,11 @@ execute "setup mongooseim repository" do
     dpkg -i erlang-solutions_1.0_all.deb && \
     apt-get update
   EOH
-  not_if "dpkg-query -W mongooseim"
+  not_if "test -f /etc/apt/sources.list.d/erlang-solutions.list"
 end
 
 package "mongooseim" do
+  version '1.5.0-1'
   action :install
 end
 
@@ -137,7 +138,13 @@ end
 execute 'compile one time password module' do
   user 'mongooseim'
   cwd '/opt/one-time-password'
-  command "erlc mod_onetime_password.erl && cp mod_onetime_password.beam #{otp_ebin_path}"
+  command "erlc mod_onetime_password.erl"
+end
+
+execute 'deploy one time password module' do
+  user 'root'
+  cwd '/opt/one-time-password'
+  command "cp mod_onetime_password.beam #{otp_ebin_path}"
 end
 
 template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
