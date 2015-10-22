@@ -150,9 +150,8 @@
           {"_", "/http-bind", mod_bosh},
           {"_", "/ws-xmpp", mod_websockets},
           %% The hostname "_" means the metrics can be accessed via localhost,
-          %% private ip and public ip, and the security group of mongooseim server that
-          %% we're using will restrict the access from outside.
-          {"_", "/api", mongoose_api, [
+          %% private ip and public ip or hostname.
+          {"_", "/zFjkyW9lxXZvZFEgDVWjcNQ", mongoose_api, [
               {handlers, [
                   mongoose_api_metrics, mongoose_api_users
               ]}
