@@ -27,6 +27,7 @@
   <store>
     type rewrite_tag_filter
     rewriterule1 level (FATAL|ERROR) imnotify.__TAG__
+    rewriterule2 message .*\[DDNS_CRON\].* imnotify.__TAG__
   </store>
   <store>
     type elasticsearch
