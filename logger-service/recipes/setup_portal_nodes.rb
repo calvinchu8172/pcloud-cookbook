@@ -36,5 +36,12 @@ execute "kill fluentd container" do
 end
 
 execute "just run a fresh fluentd container" do
-  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent --name=fluentd-portal-instance fluentd-portal-nodes"
+  command <<-EOF
+    docker run -d \
+      -p 24224:24224 \
+      -v /var/log/fluent:/var/log/fluent \
+      -v /srv/www/personal_cloud_portal/shared/log:/srv/www/personal_cloud_portal/shared/log \
+      --name=fluentd-portal-instance \
+      fluentd-portal-nodes
+  EOF
 end
