@@ -41,13 +41,11 @@ execute "build fluentd logging center docker image" do
   command "docker build -t fluentd-center ."
 end
 
-running_container_id = `docker ps -a | grep "24224/tcp" | cut -d" " -f1`
-
 execute "kill fluentd container" do
-  command "docker kill #{running_container_id}"
-  not_if { running_container_id.empty? }
+  command "docker rm -f fluentd-center-instance"
+  only_if "docker ps -a | grep 'fluentd-center-instance'"
 end
 
 execute "just run a fresh fluentd container" do
-  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent fluentd-center"
+  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent --name=fluentd-center-instance fluentd-center"
 end

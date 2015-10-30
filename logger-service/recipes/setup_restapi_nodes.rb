@@ -30,13 +30,18 @@ execute "build fluentd REST API server nodes docker image" do
   command "docker build -t fluentd-restapi-nodes ."
 end
 
-running_container_id = `docker ps -a | grep "24224/tcp" | cut -d" " -f1`
-
 execute "kill fluentd container" do
-  command "docker kill #{running_container_id}"
-  not_if { running_container_id.empty? }
+  command "docker rm -f fluentd-restapi-instance"
+  only_if "docker ps -a | grep 'fluentd-restapi-instance'"
 end
 
 execute "just run a fresh fluentd container" do
-  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent -v /srv/www/personal_cloud_rest_api/shared/log:/srv/www/personal_cloud_rest_api/shared/log fluentd-restapi-nodes"
+  command <<-EOF
+    docker run -d \
+      -p 24224:24224 \
+      -v /var/log/fluent:/var/log/fluent \
+      -v /srv/www/personal_cloud_rest_api/shared/log:/srv/www/personal_cloud_rest_api/shared/log \
+      --name=fluentd-restapi-instance \
+      fluentd-restapi-nodes
+  EOF
 end
