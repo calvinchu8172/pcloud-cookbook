@@ -3,15 +3,18 @@
   port 24224
 </source>
 
-<match debug.**>
-  type stdout
-</match>
+<source>
+  type tail
+  tag <%= @layer %>.<%= @hostname %>.bot
+  path /srv/www/personal_cloud_bot/shared/log/bot.log
+  pos_file /var/log/fluent/bot.log.pos
+  format json 
+  time_key time
 
-<match fluent.**>
-  type stdout
-</match>
+  refresh_interval 5
+</source>
 
-<match bot.**>
+<match <%= @layer %>.**>
   type copy
   <store>
     type file
@@ -19,25 +22,28 @@
     compress gz
   </store>
   <store>
-    type rewrite_tag_filter
-    rewriterule1 event .+ <%= @layer %>.<%= @hostname %>.__TAG__
+    type forward
+    heartbeat_type tcp
+    heartbeat_interval 10
+    retry_limit 7
+    <server>
+      name fluentd1
+      host <%= @fluentd1 %>
+      port 24224
+    </server>
+    <server>
+      name fluentd2
+      host <%= @fluentd2 %>
+      port 24224
+      standby
+    </server>
   </store>
 </match>
 
-<match <%= @layer %>.**>
-  type forward
-  heartbeat_type tcp
-  heartbeat_interval 10
-  retry_limit 7
-  <server>
-    name fluentd1
-    host <%= @fluentd1 %>
-    port 24224
-  </server>
-  <server>
-    name fluentd2
-    host <%= @fluentd2 %>
-    port 24224
-    standby
-  </server>
+## match not matched logs and write to file
+<match **>
+  type file
+  path /var/log/fluent/log
+  compress gz
 </match>
+

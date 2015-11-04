@@ -36,5 +36,5 @@ execute "kill existed fluentd-bot-instance" do
 end
 
 execute "run fluentd-bot-instance in docker" do
-  command "docker run -d -p 24224:24224 -v /var/log/fluent:/var/log/fluent --name=fluentd-bot-instance fluentd-bot-nodes"
+  command "docker run -d -p 24224:24224 -v /srv/www/personal_cloud_bot/shared/log:/srv/www/personal_cloud_bot/shared/log -v /var/log/fluent:/var/log/fluent --name=fluentd-bot-instance fluentd-bot-nodes"
 end
