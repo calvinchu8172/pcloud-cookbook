@@ -6,16 +6,6 @@ aws_instance_id = node[:opsworks][:instance][:aws_instance_id]
 aws_instance_name = node[:opsworks][:instance][:hostname]
 aws_stack_name = node[:opsworks][:stack][:name]
 
-ec2_instance_settings = {
-  "setup_alarm" => {
-    "sns_resource" => "arn:aws:sns:us-east-1:212868998188:PCloud-Ecowork-Staff",
-    "alarm_settings" => [
-      { "mertric_name" => "CPUUtilization", "threshold" => 80, "consecutive_periods" => 3, "period" => 300, "statistic" => "Average", "unit" => "Seconds", "comparison-operator" => "GreaterThanOrEqualToThreshold" },
-      { "mertric_name" => "StatusCheckFailed", "threshold" => 1, "consecutive_periods" => 1, "period" => 300, "statistic" => "Average", "unit" => "Seconds", "comparison-operator" => "GreaterThanOrEqualToThreshold" }
-    ]
-  }
-}
-
 ec2_instance_settings['setup_alarm']['alarm_settings'].each do |alarm_setting|
   execute "add CloudWatch alarms to EC2 instances" do
     user "root"
