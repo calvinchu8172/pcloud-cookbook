@@ -6,7 +6,8 @@ aws_instance_id = node[:opsworks][:instance][:aws_instance_id]
 aws_instance_name = node[:opsworks][:instance][:hostname]
 aws_stack_name = node[:opsworks][:stack][:name]
 
-ec2_instance_settings['setup_alarm']['alarm_settings'].each do |alarm_setting|
+instance_setup_alarm_settings = node['ec2_instance_settings']['setup_alarm']
+instance_setup_alarm_settings['alarm_settings'].each do |alarm_setting|
   execute "add CloudWatch alarms to EC2 instances" do
     user "root"
     command <<-EOH
@@ -14,8 +15,8 @@ ec2_instance_settings['setup_alarm']['alarm_settings'].each do |alarm_setting|
         --alarm-name "#{aws_stack_name}-#{aws_instance_name}-#{alarm_setting['mertric_name']}"
         --alarm-description "#{alarm_setting['mertric_name']} "
         --actions-enabled true
-        --ok-actions "#{ec2_instance_settings['setup_alarm']['sns_resource']}"
-        --alarm-actions "#{ec2_instance_settings['setup_alarm']['sns_resource']}"
+        --ok-actions "#{instance_setup_alarm_settings['sns_resource']}"
+        --alarm-actions "#{instance_setup_alarm_settings['sns_resource']}"
         --metric-name "#{alarm_setting['metric_name']}"
         --namespace AWS/EC2
         --statistic #{alarm_setting['statistic']}
