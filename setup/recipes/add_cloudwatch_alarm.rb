@@ -12,8 +12,8 @@ instance_setup_alarm_settings['alarm_settings'].each do |alarm_setting|
     user "root"
     command <<-EOH
       aws cloudwatch put-metric-alarm
-        --alarm-name "#{aws_stack_name}-#{aws_instance_name}-#{alarm_setting['mertric_name']}"
-        --alarm-description "#{alarm_setting['mertric_name']} "
+        --alarm-name "#{aws_stack_name}-#{aws_instance_name}-#{alarm_setting['metric_name']}"
+        --alarm-description "#{alarm_setting['metric_name']} "
         --actions-enabled true
         --ok-actions "#{instance_setup_alarm_settings['sns_resource']}"
         --alarm-actions "#{instance_setup_alarm_settings['sns_resource']}"
