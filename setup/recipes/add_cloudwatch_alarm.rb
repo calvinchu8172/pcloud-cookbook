@@ -25,7 +25,7 @@ instance_setup_alarm_settings['alarm_settings'].each do |alarm_setting|
         --unit #{alarm_setting['unit']}
         --evaluation-periods #{alarm_setting['consecutive_periods']}
         --threshold #{alarm_setting['threshold']}
-        --comparison-operator #{alarm_setting['comparison-operator']})
+        --comparison-operator #{alarm_setting['comparison-operator']}
     EOH
   end
 end
