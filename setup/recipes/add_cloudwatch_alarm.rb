@@ -12,6 +12,7 @@ instance_setup_alarm_settings['alarm_settings'].each do |alarm_setting|
     user "root"
     command <<-EOH
       aws cloudwatch put-metric-alarm \
+        --region "#{instance_setup_alarm_settings['region']}" \
         --alarm-name "#{aws_stack_name}-#{aws_instance_name}-#{alarm_setting['metric_name']}" \
         --alarm-description "#{alarm_setting['metric_name']} " \
         --actions-enabled \
