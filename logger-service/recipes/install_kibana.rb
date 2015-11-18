@@ -9,6 +9,7 @@ end
 execute "setup kibana" do
   cwd "/srv"
   command "tar xvfz /tmp/#{kibana}.tar.gz"
+  not_if "test -d /srv/#{kibana}"
 end
 
 cookbook_file "kibana.yml" do
