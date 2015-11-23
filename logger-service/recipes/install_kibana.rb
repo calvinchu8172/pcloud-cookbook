@@ -1,4 +1,4 @@
-kibana = "kibana-4.2.1-linux-x64"
+kibana = "kibana-4.1.1-linux-x64"
 
 execute "download kibana" do
   cwd "/tmp"
@@ -27,8 +27,10 @@ cookbook_file "logrotate" do
 end
 
 execute "kill running kibana" do
-  command "kill `/bin/cat /var/run/kibana.pid`"
-  #only_if "ps -ef | grep 'node.*kibana\.js'"
+  command <<-EOF
+    kill `/bin/cat /var/run/kibana.pid` && \
+    rm /var/run/kibana.pid
+  EOF
   only_if "test -f /var/run/kibana.pid"
 end
 
