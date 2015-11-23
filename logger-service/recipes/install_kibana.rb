@@ -1,4 +1,4 @@
-kibana = "kibana-4.2.1-linux-x64"
+kibana = "kibana-4.1.1-linux-x64"
 
 execute "download kibana" do
   cwd "/tmp"

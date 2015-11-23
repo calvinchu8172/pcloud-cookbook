@@ -5,7 +5,7 @@ end
 
 execute "add elasticsearch official repository" do
   command <<-EOH
-    add-apt-repository 'deb http://packages.elasticsearch.org/elasticsearch/2.x/debian stable main' && \
+    add-apt-repository 'deb http://packages.elasticsearch.org/elasticsearch/1.6/debian stable main' && \
     apt-get update
   EOH
 end
