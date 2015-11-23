@@ -1,4 +1,4 @@
-include_recipe "common::install_official_docker" 
+include_recipe "common::install_official_docker"
 include_recipe "logger-service::install_fluentd_container"
 
 execute "mkdir for Docker files" do
@@ -26,7 +26,8 @@ template "/srv/fluentd-center/fluent.conf" do
   group 'root'
   variables({
     :environments => ['alpha', 'beta', 'production'],
-    :elasticsearch_host => node['elasticsearch']['host']
+    :elasticsearch_host => node['elasticsearch']['host'],
+    :slack_webhook_url => node['slack']['webhook_url']
   })
 end
 
