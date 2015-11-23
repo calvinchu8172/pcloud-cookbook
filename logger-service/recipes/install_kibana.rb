@@ -27,8 +27,10 @@ cookbook_file "logrotate" do
 end
 
 execute "kill running kibana" do
-  command "kill `/bin/cat /var/run/kibana.pid`"
-  #only_if "ps -ef | grep 'node.*kibana\.js'"
+  command <<-EOF
+    kill `/bin/cat /var/run/kibana.pid` && \
+    rm /var/run/kibana.pid
+  EOF
   only_if "test -f /var/run/kibana.pid"
 end
 
