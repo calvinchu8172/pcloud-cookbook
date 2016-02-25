@@ -166,7 +166,7 @@ execute 'remove Mnesia database folder' do
   cwd '/usr/lib/mongooseim/'
   command <<-EOH
     mkdir -p /usr/lib/mongooseim/temp && \
-    mv Mnesia.#{node[:opsworks][:instance][:hostname]} ./temp
+    mv Mnesia.mongooseim@#{node[:opsworks][:instance][:hostname]} ./temp
   EOH
 end
 
