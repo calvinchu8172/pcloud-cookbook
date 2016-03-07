@@ -161,6 +161,16 @@ template '/usr/lib/mongooseim/etc/ejabberd.cfg' do
   })
 end
 
+execute 'remove Mnesia database folder' do
+  user 'root'
+  cwd '/usr/lib/mongooseim/'
+  command <<-EOH
+    mkdir -p /usr/lib/mongooseim/temp && \
+    cp -rf Mnesia.mongooseim@#{node[:opsworks][:instance][:hostname]} ./temp && \
+    rm -rf Mnesia.mongooseim@#{node[:opsworks][:instance][:hostname]}
+  EOH
+end
+
 execute "start mongooseim" do
   user "root"
   command "service mongooseim start"
