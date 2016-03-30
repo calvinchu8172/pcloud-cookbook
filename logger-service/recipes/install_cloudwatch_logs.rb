@@ -1,4 +1,3 @@
-include_recipe 'common::load_config_yaml'
 app_region = node["opsworks"]["instance"]["region"]
 
 
