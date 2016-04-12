@@ -41,3 +41,12 @@ template "#{deploy[:deploy_to]}/shared/config/unicorn.conf" do
   source "unicorn.conf.erb"
   variables(:deploy => deploy, :application => application)
 end
+
+
+template "/etc/monit/conf.d/" + application + "_unicorn_master.monitrc" do
+  mode '0400'
+  owner 'root'
+  group 'root'
+  source "rails_service_monitrc.erb"
+  variables(:deploy => deploy, :application => application)
+end
