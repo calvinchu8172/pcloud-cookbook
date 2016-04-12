@@ -4,6 +4,7 @@ end
 
 include_recipe "nginx"
 include_recipe "unicorn"
+include_recipe "opsworks_agent_monit::service"
 
 application = 'personal_cloud_rest_api'
 deploy = node[:deploy][application]
