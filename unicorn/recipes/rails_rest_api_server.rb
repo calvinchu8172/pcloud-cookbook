@@ -50,3 +50,7 @@ template "/etc/monit/conf.d/" + application + "_unicorn_master.monitrc" do
   source "rails_service_monitrc.erb"
   variables(:deploy => deploy, :application => application)
 end
+
+service "monit" do
+  action :restart
+end
