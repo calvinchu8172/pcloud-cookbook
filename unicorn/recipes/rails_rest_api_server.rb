@@ -4,6 +4,7 @@ end
 
 include_recipe "nginx"
 include_recipe "unicorn"
+include_recipe "opsworks_agent_monit::service"
 
 application = 'personal_cloud_rest_api'
 deploy = node[:deploy][application]
@@ -40,4 +41,17 @@ template "#{deploy[:deploy_to]}/shared/config/unicorn.conf" do
   group deploy[:group]
   source "unicorn.conf.erb"
   variables(:deploy => deploy, :application => application)
+end
+
+
+template "/etc/monit/conf.d/" + application + "_unicorn_master.monitrc" do
+  mode '0400'
+  owner 'root'
+  group 'root'
+  source "rails_service.monitrc.erb"
+  variables(:deploy => deploy, :application => application)
+end
+
+service "monit" do
+  action :restart
 end

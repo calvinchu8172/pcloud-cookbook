@@ -37,6 +37,9 @@ environments:
       secret_access_key: <%= @environments['sqs']['attributes']['secret_access_key'] %>
       region: <%= @environments['sqs']['attributes']['region'] %>
   ddns: <%= @environments['ddns'] %>
+  upnp:
+    random_port_max: '<%= @environments['upnp']['random_port_max'] %>'
+    random_port_min: '<%= @environments['upnp']['random_port_min'] %>'
   cdn: <%= @environments['cdn'] %>
   zones_info:
     id: <%= @environments['zones_info']['id'] %>
@@ -59,3 +62,6 @@ redis:
   web_host: <%= @redis['web_host'] %>
   xmpp_host: <%= @redis['xmpp_host'] %>
   port: <%= @redis['port'] %>
+oauth_applications:
+  account: <%= @oauth_applications['account'] %>
+  password: <%= @oauth_applications['password'] %>

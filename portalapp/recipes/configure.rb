@@ -50,7 +50,8 @@ environments_settings = portalapp_settings['environment']
       :environments => environments_settings['environments'],
       :oauth => environments_settings['oauth'],
       :recaptcha => environments_settings['recaptcha'],
-      :redis => environments_settings['redis']
+      :redis => environments_settings['redis'],
+      :oauth_applications => environments_settings['oauth_applications'],
     })
 
     notifies :run, "execute[restart Rails app #{application}]"
@@ -78,4 +79,18 @@ template "#{deploy[:deploy_to]}/shared/config/database.yml" do
   only_if do
     File.directory?("#{deploy[:deploy_to]}/shared/config/")
   end
+end
+
+
+
+template "/etc/monit/conf.d/" + application + "_unicorn_master.monitrc" do
+  mode '0400'
+  owner 'root'
+  group 'root'
+  source "rails_service.monitrc.erb"
+  variables(:deploy => deploy, :application => application)
+end
+
+service "monit" do
+  action :restart
 end
