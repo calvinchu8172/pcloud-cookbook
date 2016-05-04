@@ -169,6 +169,7 @@ execute 'remove Mnesia database folder' do
     cp -rf Mnesia.mongooseim@#{node[:opsworks][:instance][:hostname]} ./temp && \
     rm -rf Mnesia.mongooseim@#{node[:opsworks][:instance][:hostname]}
   EOH
+  only_if "[ -d Mnesia.mongooseim@#{node[:opsworks][:instance][:hostname]} ]"
 end
 
 execute "start mongooseim" do
