@@ -50,7 +50,8 @@ environments_settings = rest_api_server_settings['environment']
       :environments => environments_settings['environments'],
       :oauth => environments_settings['oauth'],
       :recaptcha => environments_settings['recaptcha'],
-      :redis => environments_settings['redis']
+      :redis => environments_settings['redis'],
+      :oauth_applications => environments_settings['oauth_applications']
     })
 
     notifies :run, "execute[restart Rails app #{application}]"
