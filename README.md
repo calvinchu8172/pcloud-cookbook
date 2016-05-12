@@ -272,6 +272,31 @@ Personal Cloud 依據不同任務需求，分為三種環境：
 * 列在此項的帳號，若提供 Public SSH key，系統會透過 recipe 自動建立一個對應的 SSH 帳號，可透過 VPN 走 SSH 協定登入主機
 * 請注意權限的管控，勿浮濫開放
 
+## C.8 monit
+
+1. opsworks 有內建 monit ,主要是用來監控 instance 內的 opsworks agent 是否有正成運行
+2. 為了保證 unicorn process 不會因為 unicorn master process 死亡就停止,所以額外 monit 設定檔來監控 unicorn master　( 不可以蓋掉原本就在跑的 monit 設定檔,不然 opsworks agent 可能會出問題 )
+3. 系統內每一個 unicorn master ,會有一個對應的 monit 設定檔( 所以 portal instance 會有兩個設定檔 : portal + findme ,　restful-api 會有一個設定檔 : restful api ) 
+4. monit 設定檔( *.monitrc )放置位置 `/etc/monit/conf.d/`
+	* portal `/etc/monit/conf.d/personal_cloud_portal_unicorn_master.monitrc`
+	* findme `/etc/monit/conf.d/personal_cloud_findme.monitrc`
+	* restful api `/etc/monit/conf.d/personal_cloud_rest_api_unicorn_master.monitrc`
+5. *.monitrc 設定檔的結構可以參考 `https://mmonit.com/monit/` 此專案內主要是用到 pid file 和 start 兩個部份.
+6.  此專案中主要是靠 unicorn master的 pid file 來取得該監控的 process id ,pid 位置:
+	* portal `/srv/www/personal_cloud_portal/shared/pids/unicorn.pid` 
+	* findme `/srv/www/personal_cloud_findme/shared/pids/unicorn.pid`
+	* restful api `/srv/www/personal_cloud_rest_api/shared/pids/unicorn.pid`
+7. monit 碰到 unicorn master 死掉時執行的指令
+	* portal `/bin/su -c '/srv/www/personal_cloud_portal/shared/scripts/unicorn start'` 
+	* findme `/bin/su -c '/srv/www/personal_cloud_findme/shared/scripts/unicorn start`
+	* restful api `/bin/su -c '/srv/www/personal_cloud_rest_api/shared/scripts/unicorn start`
+8. cookbook　只要作好把 app 設定檔放到對應位置這個動作,即可確保 service 有被 monit監控
+	* portal : `portalapp/recipes/configure.rb`
+	* restful-api : `rest-api/recipe/configure.rb`
+	* findme : `findme/recipes/configure.rb`
+9. 開機完後可以登入 instance 內,輸入 `monit status` 驗證 服務是否有被監控
+
+
 # D. 問題診斷
 
 1. 如果開機出問題，而 Web console 顯示大量 log 又會造成瀏覽器死機，我可以進到機器內去哪邊看 log？
