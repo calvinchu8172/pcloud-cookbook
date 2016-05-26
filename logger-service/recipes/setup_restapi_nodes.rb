@@ -6,10 +6,11 @@ execute "mkdir for Docker files" do
   command "mkdir -p fluentd-restapi-nodes"
 end
 
-cookbook_file "Dockerfile" do
-  source "fluentd-restapi-nodes/Dockerfile"
-  path "/srv/fluentd-restapi-nodes/Dockerfile"
-  action :create
+template "/srv/fluentd-restapi-nodes/Dockerfile" do
+  source 'fluentd-restapi-nodes/Dockerfile.erb'
+  mode '0644'
+  owner 'root'
+  group 'root'
 end
 
 template "/srv/fluentd-restapi-nodes/fluent.conf" do

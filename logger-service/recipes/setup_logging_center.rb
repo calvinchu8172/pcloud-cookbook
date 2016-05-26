@@ -7,7 +7,6 @@ execute "mkdir for Docker files" do
 end
 
 # setup fluentd logging center
-
 template "/srv/fluentd-center/Dockerfile" do
   source 'fluentd-center/Dockerfile.erb'
   mode '0644'

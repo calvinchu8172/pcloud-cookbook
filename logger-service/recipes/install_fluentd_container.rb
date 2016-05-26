@@ -1,36 +1,15 @@
-execute "mkdir for Docker files" do
-  cwd "/srv"
-  command "mkdir -p ruby-rvm-base fluentd-base"
+fluent_base_image_repo = node['fluentd-base']['repository']
+fluent_base_image_revision = node['fluentd-base']['revision']
+aws_account_id = fluent_base_image_repo.split('.').first
+
+
+execute 'login AWS ECR' do
+  command "$(aws ecr get-login --region us-east-1 --registry-ids #{aws_account_id})"
 end
 
-# setup ruby-rvm-base
-
-cookbook_file "Dockerfile" do
-  source "ruby-rvm-base/Dockerfile"
-  path "/srv/ruby-rvm-base/Dockerfile"
-  action :create
+execute 'pull fluent-base image from AWS ECR' do
+  command "docker pull #{fluent_base_image_repo}:#{fluent_base_image_revision}"
 end
 
-execute "build RVM docker base image" do
-  cwd "/srv/ruby-rvm-base"
-  command "docker build -t ruby-rvm-base ."
-end
 
-# setup fluentd-base
 
-cookbook_file "Dockerfile" do
-  source "fluentd-base/Dockerfile"
-  path "/srv/fluentd-base/Dockerfile"
-  action :create
-end
-
-cookbook_file "monitrc" do
-  source "fluentd-base/monitrc"
-  path "/srv/fluentd-base/monitrc"
-  action :create
-end
-
-execute "build fluentd docker base image" do
-  cwd "/srv/fluentd-base"
-  command "docker build -t fluentd-base ."
-end
