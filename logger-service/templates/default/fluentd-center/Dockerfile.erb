@@ -1,4 +1,4 @@
-FROM fluentd-base
+FROM <%=node['fluentd-base']['repository']%>:<%=node['fluentd-base']['revision']%>
 MAINTAINER hiroshiyui@ecoworkinc.com
 
 ENV AWS_REGION="us-east-1"
