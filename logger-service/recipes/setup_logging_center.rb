@@ -1,4 +1,5 @@
 include_recipe "common::install_official_docker"
+include_recipe "logger-service::install_awscli"
 include_recipe "logger-service::install_fluentd_container"
 
 execute "mkdir for Docker files" do
@@ -7,7 +8,6 @@ execute "mkdir for Docker files" do
 end
 
 # setup fluentd logging center
-
 template "/srv/fluentd-center/Dockerfile" do
   source 'fluentd-center/Dockerfile.erb'
   mode '0644'

@@ -1,4 +1,5 @@
 include_recipe "common::install_official_docker" 
+include_recipe "logger-service::install_awscli"
 include_recipe "logger-service::install_fluentd_container"
 
 execute "mkdir for Docker files" do
@@ -6,10 +7,11 @@ execute "mkdir for Docker files" do
   command "mkdir -p fluentd-portal-nodes"
 end
 
-cookbook_file "Dockerfile" do
-  source "fluentd-portal-nodes/Dockerfile"
-  path "/srv/fluentd-portal-nodes/Dockerfile"
-  action :create
+template "/srv/fluentd-portal-nodes/Dockerfile" do
+  source 'fluentd-portal-nodes/Dockerfile.erb'
+  mode '0644'
+  owner 'root'
+  group 'root'
 end
 
 template "/srv/fluentd-portal-nodes/fluent.conf" do
