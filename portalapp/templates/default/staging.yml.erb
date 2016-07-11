@@ -66,4 +66,7 @@ oauth_applications:
   account: <%= @oauth_applications['account'] %>
   password: <%= @oauth_applications['password'] %>
 unicorn:
-  pid_path: <%= @unicorn['pid_path'] %>
+  portal:
+    pid_path: <%= @unicorn['portal']['pid_path'] %>
+  findme: 
+    pid_path: <%= @unicorn['findme']['pid_path'] %>

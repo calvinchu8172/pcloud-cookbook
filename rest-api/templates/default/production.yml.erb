@@ -62,3 +62,6 @@ redis:
 oauth_applications:
   account: <%= @oauth_applications['account'] %>
   password: <%= @oauth_applications['password'] %>
+unicorn:
+  rest_api:
+    pid_path: <%= @unicorn['rest_api']['pid_path'] %>
