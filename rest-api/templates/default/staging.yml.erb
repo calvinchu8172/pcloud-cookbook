@@ -62,6 +62,13 @@ redis:
 oauth_applications:
   account: <%= @oauth_applications['account'] %>
   password: <%= @oauth_applications['password'] %>
+vendors:
+  data_safe_period: <%= @vendors['data_safe_period'] %>
+  asi:
+    vpcName: <%= @vendors['asi']['vpcName'] %>
+    host: <%= @vendors['asi']['host'] %>
+    account: <%= @vendors['asi']['account'] %>
+    password: <%= @vendors['asi']['password'] %>
 unicorn:
   rest_api:
     pid_path: <%= @unicorn['rest_api']['pid_path'] %>
