@@ -83,6 +83,11 @@ stun_server_instances.each_with_index do | ins, index |
   custom_primaryport = ins['primaryport']
   custom_altport = ins['altport']
 
+  execute "kill stunserver-instance-#{index} if exists" do
+   command "docker rm -f stunserver-instance-#{index}"
+   only_if "docker ps -a | grep 'stunserver-instance-#{index}'"
+  end
+
   execute "run stunserver-#{index} with custom port in docker" do
     command <<-EOF
     docker run -d --net=host --name=stunserver-instance-#{index} stunserver \
