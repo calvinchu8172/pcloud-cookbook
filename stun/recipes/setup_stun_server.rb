@@ -77,3 +77,16 @@ execute "run stunserver in docker" do
       --primaryadvertised #{eth0_ipv4_public} --altadvertised #{eth1_ipv4_public}
   EOF
 end
+
+custom_primaryport = node['pcloud_settings']['stun_server']['althost']['primaryport']
+custom_altport = node['pcloud_settings']['stun_server']['althost']['altport']
+
+execute "run althost stunserver with different port in docker" do
+  command <<-EOF
+  docker run -d --net=host --name=stunserver-instance stunserver \
+    /opt/stunserver/stunserver --mode full \
+      --primaryinterface eth0 --altinterface eth1 \
+      --primaryadvertised #{eth0_ipv4_public} --altadvertised #{eth1_ipv4_public} \
+      --primaryport #{custom_primaryport} --altport #{custom_altport}
+  EOF
+end
