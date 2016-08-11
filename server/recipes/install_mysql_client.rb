@@ -1,3 +1,3 @@
-package "mysql-client" do
+package "libmysqlclient-dev" do
   action :install
 end
