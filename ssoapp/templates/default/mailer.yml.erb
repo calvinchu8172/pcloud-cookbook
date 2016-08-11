@@ -1,0 +1,16 @@
+<% (['development', 'test', 'production', 'staging']).uniq.each do |env| -%>
+<%= env %>:
+  delivery_method: <%= @delivery_method %>
+  smtp_settings:
+    address: <%= @smtp_settings['address'] %>
+    port: <%= @smtp_settings['port'] %>
+    user_name: <%= @smtp_settings['user_name'] %>
+    password: <%= @smtp_settings['password'] %>
+    authentication: <%= @smtp_settings['authentication'] %>
+    enable_starttls_auto: <%= @smtp_settings['enable_starttls_auto'] %>
+  default:
+    from: <%= @default['from'] %>
+  default_url_options:
+    protocol: <%= @default_url_options['protocol'] %>
+    host: <%= @default_url_options['host'] %>
+<% end -%>
