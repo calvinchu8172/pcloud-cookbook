@@ -17,7 +17,7 @@ mailer_settings = portalapp_settings['mailer']
 
 template "#{deploy[:deploy_to]}/shared/config/mailer.yml" do
   source "mailer.yml.erb"
-  cookbook 'portalapp'
+  cookbook 'ssoapp'
   mode "0660"
   group deploy[:group]
   owner deploy[:user]
@@ -40,7 +40,7 @@ environments_settings = portalapp_settings['environment']
 ['production', 'staging'].each do |environment|
   template "#{deploy[:deploy_to]}/shared/config/settings.#{environment}.yml" do
     source "#{environment}.yml.erb"
-    cookbook 'portalapp'
+    cookbook 'ssoapp'
     mode "0660"
     group deploy[:group]
     owner deploy[:user]
@@ -67,7 +67,7 @@ databases_settings = portalapp_settings['databases']
 
 template "#{deploy[:deploy_to]}/shared/config/database.yml" do
   source "database.yml.erb"
-  cookbook 'portalapp'
+  cookbook 'ssoapp'
   mode "0660"
   group deploy[:group]
   owner deploy[:user]
