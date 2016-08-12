@@ -53,6 +53,7 @@ environments_settings = rest_api_server_settings['environment']
       :redis => environments_settings['redis'],
       :oauth_applications => environments_settings['oauth_applications'],
       :vendors => environments_settings['vendors'],
+      :unicorn => environments_settings['unicorn'],
       :geoip => environments_settings['geoip']
     })
 

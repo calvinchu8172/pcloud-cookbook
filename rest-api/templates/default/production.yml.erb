@@ -69,6 +69,8 @@ vendors:
     host: <%= @vendors['asi']['host'] %>
     account: <%= @vendors['asi']['account'] %>
     password: <%= @vendors['asi']['password'] %>
+unicorn:
+  rest_api:
+    pid_path: <%= @unicorn['rest_api']['pid_path'] %>
 geoip:
   db_path: <%= @geoip['db_path'] %>
-  
