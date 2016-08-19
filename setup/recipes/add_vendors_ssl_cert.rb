@@ -30,20 +30,3 @@ execute "update ca certificates" do
 	user "root"
 	command "update-ca-certificates"
 end
-
-  # "ssl": {
-  #   "certificates": {
-  #     "vendors": {
-  #       "s3_bucket": "pcloud-alpha"
-  #       "s3_access_key": "AKIAJGCMN2ELYNJUS4WQ",
-  #       "s3_secret_key": "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",
-  #       "list": [
-  #         {
-  #           "name": "asi"
-  #           "certpath": "/usr/local/share/ca-certificates/asicloud.aethersi.com/"
-  #           "certfile": "asi-ssl-alpha.crt"
-  #         }
-  #       ]
-  #     }
-  #   }
-  # },
