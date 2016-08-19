@@ -4,7 +4,7 @@ ssl_vendor_settings = node['ssl']['certificates']['vendors']
 ssl_vendor_settings['list'].each do |vendor| 
 
 	# create vendor's ca certificate directory
-	directory "#{ssl_vendor_settings['certpath']}" do
+	directory "#{vendor['certpath']}" do
 	  owner 'root'
 	  group 'root'
 	  action :create
