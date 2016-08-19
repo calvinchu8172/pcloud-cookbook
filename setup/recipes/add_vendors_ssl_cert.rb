@@ -15,8 +15,6 @@ ssl_vendor_settings['list'].each do |vendor|
 	  user "root"
 	  cwd "#{vendor['certpath']}"
 	  command <<-EOH
-	    AWS_ACCESS_KEY_ID=#{ssl_vendor_settings['s3_access_key']} \
-	    AWS_SECRET_ACCESS_KEY=#{ssl_vendor_settings['s3_secret_key']} \
 	    aws s3 cp s3://#{ssl_vendor_settings['s3_bucket']}/certificates/vendors/#{vendor['name']}/#{vendor['certfile']} \
 	    #{vendor['certfile']} --region 'us-east-1'
 	  EOH
