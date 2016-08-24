@@ -35,7 +35,6 @@ template "#{deploy[:deploy_to]}/shared/config/mailer.yml" do
   end
 end
 
-environments_settings = portalapp_settings['environment']
 environments_settings = rest_api_server_settings['environment']
 
 ['production', 'staging'].each do |environment|
