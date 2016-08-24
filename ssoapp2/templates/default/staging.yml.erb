@@ -1,0 +1,74 @@
+magic_number: 5889
+api:
+  stun_ip_addresses:
+  <% @api['stun_ip_addresses'].each do |address| %>
+    - <%= address %>
+  <% end %>
+xmpp:
+  server: <%= @xmpp['server'] %>
+  device_resource_id: <%= @xmpp['device_resource_id'] %>
+  bots:
+<% @xmpp['bots'].each do |bot| %>
+    - <%= bot %>
+<% end %>
+  nodes:
+<% @xmpp['nodes'].each do |node| %>
+    - <%= node %>
+<% end %>
+environments:
+  name: <%= @environments['name'] %>
+  api_domain: <%= @environments['api_domain'] %>
+  portal_domain: <%= @environments['portal_domain'] %> 
+  paperclip:
+    default:
+      storage: <%= @environments['paperclip']['default']['storage'] %>
+      s3_credentials: 
+        bucket: <%= @environments['paperclip']['default']['s3_credentials']['bucket'] %>
+        access_key_id: <%= @environments['paperclip']['default']['s3_credentials']['access_key_id'] %>
+        secret_access_key: <%= @environments['paperclip']['default']['s3_credentials']['secret_access_key'] %>
+    attachment:
+      default:
+        s3_host_name: <%= @environments['paperclip']['attachment']['default']['s3_host_name'] %>
+        path: <%= @environments['paperclip']['attachment']['default']['path'] %>
+  sqs:
+    name: <%= @environments['sqs']['name'] %>
+    attributes:
+      access_key_id: <%= @environments['sqs']['attributes']['access_key_id'] %>
+      secret_access_key: <%= @environments['sqs']['attributes']['secret_access_key'] %>
+      region: <%= @environments['sqs']['attributes']['region'] %>
+  ddns: <%= @environments['ddns'] %>
+  upnp:
+    random_port_max: '<%= @environments['upnp']['random_port_max'] %>'
+    random_port_min: '<%= @environments['upnp']['random_port_min'] %>'
+  cdn: <%= @environments['cdn'] %>
+  zones_info:
+    id: <%= @environments['zones_info']['id'] %>
+    name: <%= @environments['zones_info']['name'] %>
+  filter_list:
+<% @environments['filter_list'].each do |hostname| %>
+    - <%= hostname %>
+<% end %>
+  ga_tracker: <%= @environments['ga_tracker'] %>
+oauth:
+  facebook_app_id: <%= @oauth['facebook_app_id'] %>
+  facebook_secret: <%= @oauth['facebook_secret'] %>
+  google_app_id: <%= @oauth['google_app_id'] %>
+  google_secret: <%= @oauth['google_secret'] %>
+recaptcha:
+  config:
+    public_key: <%= @recaptcha['config']['public_key'] %>
+    private_key: <%= @recaptcha['config']['private_key'] %>
+redis:
+  web_host: <%= @redis['web_host'] %>
+  xmpp_host: <%= @redis['xmpp_host'] %>
+  port: <%= @redis['port'] %>
+oauth_applications:
+  account: <%= @oauth_applications['account'] %>
+  password: <%= @oauth_applications['password'] %>
+vendors:
+  data_safe_period: <%= @vendors['data_safe_period'] %>
+  asi:
+    vpcName: <%= @vendors['asi']['vpcName'] %>
+    host: <%= @vendors['asi']['host'] %>
+    account: <%= @vendors['asi']['account'] %>
+    password: <%= @vendors['asi']['password'] %>
