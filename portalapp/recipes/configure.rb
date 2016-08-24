@@ -52,7 +52,9 @@ environments_settings = portalapp_settings['environment']
       :recaptcha => environments_settings['recaptcha'],
       :redis => environments_settings['redis'],
       :oauth_applications => environments_settings['oauth_applications'],
-      :vendors => environments_settings['vendors']
+      :vendors => environments_settings['vendors'],
+      :unicorn => environments_settings['unicorn'],
+      :geoip => environments_settings['geoip']
     })
 
     notifies :run, "execute[restart Rails app #{application}]"
