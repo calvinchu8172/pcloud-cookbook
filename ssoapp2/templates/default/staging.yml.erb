@@ -37,9 +37,6 @@ environments:
       secret_access_key: <%= @environments['sqs']['attributes']['secret_access_key'] %>
       region: <%= @environments['sqs']['attributes']['region'] %>
   ddns: <%= @environments['ddns'] %>
-  upnp:
-    random_port_max: '<%= @environments['upnp']['random_port_max'] %>'
-    random_port_min: '<%= @environments['upnp']['random_port_min'] %>'
   cdn: <%= @environments['cdn'] %>
   zones_info:
     id: <%= @environments['zones_info']['id'] %>
@@ -72,3 +69,8 @@ vendors:
     host: <%= @vendors['asi']['host'] %>
     account: <%= @vendors['asi']['account'] %>
     password: <%= @vendors['asi']['password'] %>
+unicorn:
+  rest_api:
+    pid_path: <%= @unicorn['rest_api']['pid_path'] %>
+geoip:
+  db_path: <%= @geoip['db_path'] %>
