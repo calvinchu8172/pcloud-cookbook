@@ -14,6 +14,7 @@ template "/srv/fluentd-sso-nodes/Dockerfile" do
   group 'root'
 end
 
+puts "*********" + node[:opsworks][:stack][:name]
 puts "*********" + node[:opsworks][:stack][:name].squeeze.downcase.tr(" ", "_")
 
 template "/srv/fluentd-sso-nodes/fluent.conf" do
