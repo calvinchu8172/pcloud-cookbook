@@ -15,6 +15,7 @@ template "/srv/fluentd-sso-nodes/Dockerfile" do
 end
 
 puts "*********" + node[:opsworks][:stack][:name]
+puts "*********" + node[:opsworks][:stack][:name].downcase.tr(" ", "_")
 puts "*********" + node[:opsworks][:stack][:name].squeeze.downcase.tr(" ", "_")
 
 template "/srv/fluentd-sso-nodes/fluent.conf" do
@@ -23,7 +24,7 @@ template "/srv/fluentd-sso-nodes/fluent.conf" do
   owner 'root'
   group 'root'
   variables({
-    :layer => node[:opsworks][:stack][:name].squeeze.downcase.tr(" ", "_"),
+    :layer => node[:opsworks][:stack][:name].downcase.tr(" ", "_"),
     :hostname => node[:opsworks][:instance][:hostname],
     :fluentd1 => node['loggers']['fluentd1'],
     :fluentd2 => node['loggers']['fluentd2']
