@@ -1,5 +1,0 @@
-check process <%= @application%>_unicorn_master
-with pidfile <%= @deploy[:deploy_to]%>/shared/pids/unicorn.pid
-start program = "/bin/su -c '<%= @deploy[:deploy_to]%>/shared/scripts/unicorn start'"
-stop program = "<%= @deploy[:deploy_to]%>/shared/scripts/unicorn stop"
-restart program = "<%= @deploy[:deploy_to]%>/shared/scripts/unicorn restart"
