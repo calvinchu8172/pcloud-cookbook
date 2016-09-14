@@ -69,6 +69,36 @@
   </store>
 </match>
 
+# -----------------------------
+#  Personal Cloud SSO <%= environment.capitalize %>
+# -----------------------------
+<match personal_cloud_sso_<%= environment %>.**>
+  type copy
+  <store>
+    type file
+    path /var/log/fluent/personal_cloud_sso_<%= environment %>
+    compress gz
+  </store>
+  <store>
+    type cloudwatch_logs
+    log_group_name personal_cloud
+    log_stream_name personal_cloud_sso_<%= environment %>
+    auto_create_stream true
+  </store>
+  <store>
+    type rewrite_tag_filter
+    rewriterule1 level (FATAL|ERROR) imnotify.__TAG__
+  </store>
+  <store>
+    type elasticsearch
+    host <%= @elasticsearch_host %>
+    index_name personal_cloud
+    type_name personal_cloud_sso_<%= environment %>
+    logstash_format true
+    include_tag_key true
+  </store>
+</match>
+
 <% end %>
 
 ## forward to instant messaging services
