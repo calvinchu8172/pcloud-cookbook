@@ -18,11 +18,11 @@ xmpp:
 environments:
   name: <%= @environments['name'] %>
   api_domain: <%= @environments['api_domain'] %>
-  portal_domain: <%= @environments['portal_domain'] %>
+  portal_domain: <%= @environments['portal_domain'] %> 
   paperclip:
     default:
       storage: <%= @environments['paperclip']['default']['storage'] %>
-      s3_credentials:
+      s3_credentials: 
         bucket: <%= @environments['paperclip']['default']['s3_credentials']['bucket'] %>
         access_key_id: <%= @environments['paperclip']['default']['s3_credentials']['access_key_id'] %>
         secret_access_key: <%= @environments['paperclip']['default']['s3_credentials']['secret_access_key'] %>
@@ -54,9 +54,6 @@ oauth:
   facebook_secret: <%= @oauth['facebook_secret'] %>
   google_app_id: <%= @oauth['google_app_id'] %>
   google_secret: <%= @oauth['google_secret'] %>
-  zyxel_app_id: <%= @oauth['zyxel_app_id'] %>
-  zyxel_secret: <%= @oauth['zyxel_secret'] %>
-  zyxel_app_url: <%= @oauth['zyxel_app_url'] %>
 recaptcha:
   config:
     public_key: <%= @recaptcha['config']['public_key'] %>
@@ -75,10 +72,3 @@ vendors:
     host: <%= @vendors['asi']['host'] %>
     account: <%= @vendors['asi']['account'] %>
     password: <%= @vendors['asi']['password'] %>
-unicorn:
-  portal:
-    pid_path: <%= @unicorn['portal']['pid_path'] %>
-  findme:
-    pid_path: <%= @unicorn['findme']['pid_path'] %>
-geoip:
-  db_path: <%= @geoip['db_path'] %>

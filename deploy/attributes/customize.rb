@@ -28,3 +28,9 @@ normal[:deploy]['personal_cloud_bots'][:symlink_before_migrate]['config/god_conf
 normal[:deploy]['personal_cloud_findme'][:symlink_before_migrate]['config/settings.production.yml'] = 'config/settings/production.yml'
 normal[:deploy]['personal_cloud_findme'][:symlink_before_migrate]['config/settings.development.yml'] = 'config/settings/development.yml'
 normal[:deploy]['personal_cloud_findme'][:symlink_before_migrate]['config/settings.staging.yml'] = 'config/settings/staging.yml'
+
+## Personal Cloud SSO
+normal[:deploy]['personal_cloud_sso'][:rake] = 'rake'
+normal[:deploy]['personal_cloud_sso'][:symlink_before_migrate]['config/mailer.yml'] = 'config/mailer.yml'
+normal[:deploy]['personal_cloud_sso'][:symlink_before_migrate]['config/settings.production.yml'] = 'config/settings/production.yml'
+normal[:deploy]['personal_cloud_sso'][:symlink_before_migrate]['config/settings.staging.yml'] = 'config/settings/staging.yml'
