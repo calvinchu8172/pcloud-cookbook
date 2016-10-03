@@ -26,6 +26,9 @@ environments:
         bucket: <%= @environments['paperclip']['default']['s3_credentials']['bucket'] %>
         access_key_id: <%= @environments['paperclip']['default']['s3_credentials']['access_key_id'] %>
         secret_access_key: <%= @environments['paperclip']['default']['s3_credentials']['secret_access_key'] %>
+      s3_protocol: <%= @environments['paperclip']['default']['s3_protocol'] %>
+      url: <%= @environments['paperclip']['default']['url'] %>
+      s3_host_alias: <%= @environments['paperclip']['default']['s3_host_alias'] %>
     attachment:
       default:
         s3_host_name: <%= @environments['paperclip']['attachment']['default']['s3_host_name'] %>
