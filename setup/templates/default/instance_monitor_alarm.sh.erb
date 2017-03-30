@@ -1,4 +1,4 @@
 
 
 
-aws sns publish --topic-arn <%= @sns_resource %> --message "This is a test for instance disk usage monitor."
+aws sns publish --topic-arn <%= @sns_resource %> --message "This is a test for instance disk usage monitor." > ./exec.log
