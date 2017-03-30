@@ -10,17 +10,18 @@ directory "/opt/bin" do
 end
 
 template "/opt/bin/instance_monitor_alarm.sh" do
-  mode '0400'
+  mode '0700'
   owner 'root'
   group 'root'
   source "instance_monitor_alarm.sh.erb"
   variables({
-    :sns_resource => instance_setup_alarm_settings['sns_resource']
+    :sns_resource => instance_setup_alarm_settings['sns_resource'],
+    :region => instance_setup_alarm_settings['region']
   })
 end
 
 template "/etc/monit/conf.d/instance.monitrc" do
-  mode '0400'
+  mode '0700'
   owner 'root'
   group 'root'
   source "instance.monitrc.erb"
