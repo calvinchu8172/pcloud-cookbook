@@ -9,7 +9,7 @@ directory "/opt/bin" do
   recursive true
 end
 
-template "/opt/bin/instance.monitrc" do
+template "/opt/bin/send_alert_message.sh" do
   mode '0400'
   owner 'root'
   group 'root'
