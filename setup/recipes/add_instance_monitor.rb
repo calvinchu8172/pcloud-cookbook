@@ -9,11 +9,11 @@ directory "/opt/bin" do
   recursive true
 end
 
-template "/opt/bin/send_alert_message.sh" do
+template "/opt/bin/instance_monitor_alarm.sh" do
   mode '0400'
   owner 'root'
   group 'root'
-  source "send_alert_message.sh.erb"
+  source "instance_monitor_alarm.sh.erb"
   variables({
     :sns_resource => instance_setup_alarm_settings['sns_resource']
   })
