@@ -9,7 +9,7 @@ ruby_block "get instance id" do
     Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
     command = 'curl http://169.254.169.254/latest/meta-data/instance-id'
     command_out = shell_out(command)
-    puts "command_out: #{command_out}"
+    puts "command_out: #{command_out.stdout}"
     node.set['instance_id'] = command_out.stdout
   end
   action :create
