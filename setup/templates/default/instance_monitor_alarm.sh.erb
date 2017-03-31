@@ -1,3 +1,17 @@
 #!/bin/sh
 
-aws sns publish --region <%= @region %> --topic-arn <%= @sns_resource %> --message "This is a test for instance disk usage monitor." > ./exec.log
+read -d '' msg <<- "_EOF_"
+  Alarm Details: 
+    - Name:   Disk Usage Exceeds 80% 
+    - Stack:  <%= @stack %>
+    - Instance:  <%= @hostname %>
+    - Instance Id:  <%= @aws_instance_id %>
+    - Path:   /dev/xvda1
+_EOF_
+
+aws sns publish  \
+  --region <%= @region %>  \
+  --topic-arn <%= @sns_resource %>  \
+  --message $msg  \
+  --subject "ALARM: \"Disk Usage Exceeds 80%\" in <%= @region %>"  \
+  > ./exec.log

@@ -2,21 +2,9 @@
 
 instance_setup_alarm_settings = node['ec2_instance_settings']['setup_alarm']
 
-stack    = node[:opsworks][:stack][:name].squeeze.downcase.tr(' ', '_')
+stack    = node[:opsworks][:stack][:name]
 hostname = node[:opsworks][:instance][:hostname]
-layers = node[:opsworks][:instance][:layers]
-
-
-puts "stack: #{stack}"
-
-layers.each do |layer|
-  puts "layer: #{layer['name']}"
-end
-
-puts "hostname: #{hostname}"
-puts "instance_id: #{node["opsworks"]["instance"]["id"]}"
-puts "aws_instance_id: #{node["opsworks"]["instance"]["aws_instance_id"]}"
-
+aws_instance_id = node["opsworks"]["instance"]["aws_instance_id"]
 
 directory "/opt/bin" do
   owner 'root'
@@ -32,7 +20,10 @@ template "/opt/bin/instance_monitor_alarm.sh" do
   source "instance_monitor_alarm.sh.erb"
   variables({
     :sns_resource => instance_setup_alarm_settings['sns_resource'],
-    :region => instance_setup_alarm_settings['region']
+    :region => instance_setup_alarm_settings['region'],
+    :stack => stack,
+    :hostname => hostname,
+    :aws_instance_id => aws_instance_id
   })
 end
 
