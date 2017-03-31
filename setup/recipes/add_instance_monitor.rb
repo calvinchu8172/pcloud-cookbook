@@ -2,10 +2,17 @@
 
 instance_setup_alarm_settings = node['ec2_instance_settings']['setup_alarm']
 
-layer    = node[:opsworks][:stack][:name].squeeze.downcase.tr(' ', '_')
+stack    = node[:opsworks][:stack][:name].squeeze.downcase.tr(' ', '_')
 hostname = node[:opsworks][:instance][:hostname]
+layers = node[:opsworks][:instance][:layers]
 
-puts "layer: #{layer}"
+
+puts "stack: #{stack}"
+
+layers.each do |layer|
+  puts "layer: #{layer['name']}"
+end
+
 puts "hostname: #{hostname}"
 puts "instance_id: #{node["opsworks"]["instance"]["id"]}"
 puts "aws_instance_id: #{node["opsworks"]["instance"]["aws_instance_id"]}"
