@@ -12,6 +12,6 @@ _EOF_
 aws sns publish  \
   --region <%= @region %>  \
   --topic-arn <%= @sns_resource %>  \
-  --message $msg  \
+  --message "$msg"  \
   --subject "ALARM: \"Disk Usage Exceeds 80%\" in <%= @region %>"  \
   > ./exec.log
