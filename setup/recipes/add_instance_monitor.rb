@@ -2,20 +2,13 @@
 
 instance_setup_alarm_settings = node['ec2_instance_settings']['setup_alarm']
 
+layer    = node[:opsworks][:stack][:name].squeeze.downcase.tr(' ', '_')
+hostname = node[:opsworks][:instance][:hostname]
 
-ruby_block "get instance id" do
-  block do
-    #tricky way to load this Chef::Mixin::ShellOut utilities
-    Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
-    command = 'curl http://169.254.169.254/latest/meta-data/instance-id'
-    command_out = shell_out(command)
-    puts "command_out: #{command_out.stdout}"
-    node.set['instance_id'] = command_out.stdout
-  end
-  action :create
-end
-
-puts "instance_id: #{node['instance_id']}"
+puts "layer: #{layer}"
+puts "hostname: #{hostname}"
+puts "instance_id: #{node["opsworks"]["instance"]["id"]}"
+puts "aws_instance_id: #{node["opsworks"]["instance"]["aws_instance_id"]}"
 
 
 directory "/opt/bin" do
