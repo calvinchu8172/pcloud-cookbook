@@ -1,17 +1,20 @@
 #!/bin/sh
 
-read -d '' msg <<- "_EOF_"
+msg="
   Alarm Details: 
     - Name:   Disk Usage Exceeds 80% 
     - Stack:  <%= @stack %>
     - Instance:  <%= @hostname %>
     - Instance Id:  <%= @aws_instance_id %>
     - Path:   /dev/xvda1
-_EOF_
+    - Timestamp:   $(date)
+    - Account:   <%= @account %>
+"
+
+echo "msg: $msg"
 
 aws sns publish  \
   --region <%= @region %>  \
   --topic-arn <%= @sns_resource %>  \
   --message "$msg"  \
-  --subject "ALARM: \"Disk Usage Exceeds 80%\" in <%= @region %>"  \
-  > ./exec.log
+  --subject "ALARM: \"Disk Usage Exceeds 80%\" in <%= @region %>" 
