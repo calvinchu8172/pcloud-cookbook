@@ -1,0 +1,20 @@
+#!/bin/sh
+
+msg="
+  Alarm Details: 
+    - Name:   Disk Usage Exceeds 80% 
+    - Stack:  <%= @stack %>
+    - Hostname:  <%= @hostname %>
+    - Instance Id:  <%= @aws_instance_id %>
+    - Path:   /dev/xvda1
+    - Timestamp:   $(date)
+    - Account:   <%= @account %>
+"
+
+echo "msg: $msg"
+
+/usr/local/bin/aws sns publish  \
+  --region <%= @region %>  \
+  --topic-arn <%= @sns_resource %>  \
+  --message "$msg"  \
+  --subject "ALARM: \"Disk Usage Exceeds 80%\" in <%= @region %>" 
