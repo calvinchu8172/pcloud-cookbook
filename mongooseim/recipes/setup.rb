@@ -112,6 +112,7 @@ end
 # development packages for OTP module compilation
 ['erlang-base', 'erlang-base-hipe'].each do |package|
   package "#{package}" do
+    version '1:19.3-1'
     action :install
   end
 end
