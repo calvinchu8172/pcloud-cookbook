@@ -18,11 +18,11 @@ xmpp:
 environments:
   name: <%= @environments['name'] %>
   api_domain: <%= @environments['api_domain'] %>
-  portal_domain: <%= @environments['portal_domain'] %> 
+  portal_domain: <%= @environments['portal_domain'] %>
   paperclip:
     default:
       storage: <%= @environments['paperclip']['default']['storage'] %>
-      s3_credentials: 
+      s3_credentials:
         bucket: <%= @environments['paperclip']['default']['s3_credentials']['bucket'] %>
         access_key_id: <%= @environments['paperclip']['default']['s3_credentials']['access_key_id'] %>
         secret_access_key: <%= @environments['paperclip']['default']['s3_credentials']['secret_access_key'] %>
@@ -74,3 +74,6 @@ unicorn:
     pid_path: <%= @unicorn['rest_api']['pid_path'] %>
 geoip:
   db_path: <%= @geoip['db_path'] %>
+oss:
+  env: <%= @oss['env'] %>
+  service_name: <%= @oss['service_name'] %>
